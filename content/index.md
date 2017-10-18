@@ -4,8 +4,6 @@ type: index
 
 # Bootstrapping a Secure Infrastructure
 
-*testing*
-
 % Oliver Mussell
 % 2016-2017
 
