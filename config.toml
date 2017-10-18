@@ -1,4 +1,4 @@
-baseurl = "omussell.github.io/grim/"
+baseurl = "/"
 languageCode = "en-gb"
 title = "Bootstrapping a Secure Infrastructure"
 publishDir = "docs"
