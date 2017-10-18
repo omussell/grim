@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Designs on Bootstrapping a Secure Infrastructure</title>
-    <link>omussell.github.io/grim/design/</link>
+    <link>/design/</link>
     <description>Recent content in Designs on Bootstrapping a Secure Infrastructure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
     
-	<atom:link href="omussell.github.io/grim/design/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/design/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title></title>
-      <link>omussell.github.io/grim/design/</link>
+      <link>/design/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>omussell.github.io/grim/design/</guid>
+      <guid>/design/</guid>
       <description>% Bootstrapping a Secure Infrastructure % Oliver Mussell % 2016-2017
  Overview Design Implementation  Detailed Design IPv6 IPv6 is the latest version of the IP protocol, which offers significant advantages over IPv4.
 IPv6 uses a 128-bit address which allows a much larger address space, 2^128. A single /64 subnet has a size of 2^64 addresses which equates to the square of the entire IPv4 address space. An address is represented as eight groups of four hexadecimal digits with the groups separated by colons, e.</description>
