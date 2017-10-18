@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+  
+  
+  
+  
+   <html class="no-js"> 
+
+  <head lang="en-gb">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title> - Bootstrapping a Secure Infrastructure</title>
+    <meta name="generator" content="Hugo 0.30" />
+
+    
+    <meta name="description" content="Bootstrapping a Secure Infrastructure">
+    
+    <link rel="canonical" href="omussell.github.io/grim/implementation/">
+    
+    <meta name="author" content="Oliver Mussell">
+    
+
+    <meta property="og:url" content="omussell.github.io/grim/implementation/">
+    <meta property="og:title" content="Bootstrapping a Secure Infrastructure">
+    
+    <meta name="apple-mobile-web-app-title" content="Bootstrapping a Secure Infrastructure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="shortcut icon" type="image/x-icon" href="omussell.github.io/grim/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="omussell.github.io/grim/images/favicon.ico">
+
+    <style>
+      @font-face {
+        font-family: 'Icon';
+        src: url('omussell.github.io/grim/fonts/icon.eot');
+        src: url('omussell.github.io/grim/fonts/icon.eot')
+               format('embedded-opentype'),
+             url('omussell.github.io/grim/fonts/icon.woff')
+               format('woff'),
+             url('omussell.github.io/grim/fonts/icon.ttf')
+               format('truetype'),
+             url('omussell.github.io/grim/fonts/icon.svg')
+               format('svg');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+
+    <link rel="stylesheet" href="omussell.github.io/grim/stylesheets/application.css">
+    <link rel="stylesheet" href="omussell.github.io/grim/stylesheets/temporary.css">
+    <link rel="stylesheet" href="omussell.github.io/grim/stylesheets/palettes.css">
+    <link rel="stylesheet" href="omussell.github.io/grim/stylesheets/highlight/highlight.css">
+
+    
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,700|Roboto&#43;Mono">
+    <style>
+      body, input {
+        font-family: 'Roboto', Helvetica, Arial, sans-serif;
+      }
+      pre, code {
+        font-family: 'Roboto Mono', 'Courier New', 'Courier', monospace;
+      }
+    </style>
+
+    
+    <script src="omussell.github.io/grim/javascripts/modernizr.js"></script>
+
+    
+
+  </head>
+  <body class="palette-primary-grey palette-accent-dark purple">
+
+
+
+
+<div class="backdrop">
+	<div class="backdrop-paper"></div>
+</div>
+
+<input class="toggle" type="checkbox" id="toggle-drawer">
+<input class="toggle" type="checkbox" id="toggle-search">
+<label class="toggle-button overlay" for="toggle-drawer"></label>
+
+<header class="header">
+	<nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+      </div>
+    </div>
+
+    
+
+    
+    
+        
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+</header>
+
+<main class="main">
+	<div class="drawer">
+		<nav aria-label="Navigation">
+  <a href="omussell.github.io/grim/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>Bootstrapping a Secure Infrastructure </strong>
+        
+      </div>
+    </div>
+  </a>
+
+  <div class="scrollable">
+    <div class="wrapper">
+      
+
+      <div class="toc">
+        
+        <ul>
+          
+
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Overview" href="/omussell.github.io/grim/overview/">
+	
+	Overview
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Design" href="/omussell.github.io/grim/design/">
+	
+	Design
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a class="current" title="Implementation" href="/omussell.github.io/grim/implementation/">
+	
+	Implementation
+</a>
+
+
+<ul id="scrollspy">
+</ul>
+
+
+  
+</li>
+
+
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+
+	</div>
+
+	<article class="article">
+		<div class="wrapper">
+			<h1> </h1>
+
+			
+
+<h1 id="bootstrapping-a-secure-infrastructure">Bootstrapping a Secure Infrastructure</h1>
+
+<p>% Oliver Mussell
+% 2016-2017</p>
+
+<!---
+
+- Produced in Markdown with Vim, converted to HTML by Pandoc.
+- Graphics created with DOT
+- Hosted on Github Pages
+
+-->
+
+<ul>
+<li><a href="/homelab/design/overview.html">Overview</a></li>
+<li><a href="/homelab/design/design.html">Design</a></li>
+<li><a href="/homelab/design/implementation.html">Implementation</a></li>
+</ul>
+
+<h1 id="implementation">Implementation</h1>
+
+<p>The architecture described in the design is only aimed at the infrastructure setup, not application servers. Each of the services provided can be accessed by other architectures based on different operating systems. So for example, Windows and Linux infrastructures would still be able to query the DNS service without any extra configuration.</p>
+
+<h2 id="stricthostkeychecking-vs-verifyhostkeydns-problem">StrictHostKeyChecking vs VerifyHostKeyDNS Problem:</h2>
+
+<h3 id="problem-statement">Problem Statement</h3>
+
+<p>Do the StrictHostKeyChecking and VerifyHostKeyDNS options in ssh_config work together?</p>
+
+<ul>
+<li>StrictHostKeyChecking - If set to yes, ssh will never automatically add host keys to the known_hosts file and refuses to connect to hosts whose host key has changed(This is the preferred option). The host keys of known hosts will be verified automatically in all cases.</li>
+<li>VerifyHostKeyDNS - Specifies whether to verify the remote key using DNS and SSHFP resource records. If set to yes, the client implicitly trusts keys that match a secure fingerprint from DNS. Insecure fingerprints will be handled as if this option was set to ask. If this option is set to ask, information on fingerprint match will be displayed, but the user will still need to confirm new host keys according to the StrictHostKeyChecking option.</li>
+</ul>
+
+<p>So if the fingerprint is presented from insecure DNS (not DNSSEC validated), or if the SSHFP record does not exist, does it prompt the user? We don&rsquo;t want this to happen since these SSH connections are happening autonomously.</p>
+
+<p>Also need to check what happens if both options are set to yes.</p>
+
+<p>So the host key is verified via DNS. If the fingerprint is correct it will connect. If it is incorrect, it will follow the StrictHostKeyChecking option, which when set to yes will refuse to connect to a host if its host key has changed.</p>
+
+<p>If a host key is verified through DNS, is it still added to known_hosts?
+No, the host keys are only stored in the SSHFP records. This also means that when the host key is rotated, the SSHFP record needs to be updated once rather than having to amend the known_hosts file on every server that has ever connected.</p>
+
+<h2 id="ssh-host-key-rotation">SSH Host Key Rotation</h2>
+
+<p>How do you rotate SSH host keys and update the SSHFP records in DNS(SEC)?</p>
+
+<p>requirement for renewal is initiated every x days/weeks
+host generates new host keys
+host connects to control machine, provides the new SSHFP values and asks for hosts SSHFP records to be updated
+control machine updates DNS zone info with new SSHFP values
+if update is successful, remove old values and resign zone. Inform host to remove old host keys
+if update is unsuccessful, remove new values and report error.</p>
+
+<p>SSHFP records are available as puppet facts. So if the puppet master is using puppetdb to store fact data, the SSHFP record for every node is stored and is available to query. This could be queried and then used to build up zone record data and published in DNS. Host key rotation could then be achieved by the nodes generating a new key, syncing facts with the puppet master which then in turn updates the DNS records.</p>
+
+<h2 id="setting-up-ipsec-problem">Setting up IPsec Problem:</h2>
+
+<h3 id="problem-statement-1">Problem Statement</h3>
+
+<p>How do we set up IPsec between the control machine and machines it creates?</p>
+
+<p>How do we set up IPsec between the router and machines communicating with it?</p>
+
+<p>How do we set up IPsec between the router and other sites?</p>
+
+<h2 id="assigning-ip-addresses-to-jails">Assigning IP addresses to jails</h2>
+
+<p>It is not possible to assign IP addresses to jails using DHCP, they can only be assigned via jail.conf. This introduces the issue that a human would be required to find out a free address and manually enter it into the jail.conf, which becomes additionally complex with long and hard to remember IPv6 addresses. Some of this problem can be mitigated using variables for example by having the subnet prefix as a $PREFIX variable which can then be referenced as e.g. $PREFIX::d3d8.</p>
+
+<p>Another method available is the ip_hostname parameter in jail.conf which resolves the host.hostname parameters in DNS and all addresses returned by the resolver are added for the jail. So instead of entering the IP into jail.conf, a AAAA record would be manually entered into DNS and the jail would pick it up from there.</p>
+
+<p>Since only applications that require an external IP address are hosted inside jails, those applications should have a known IP address. This would be services like DNS, which needs a static and human-known IP address. These IP addresses could be hard coded into the DNS record available at the temporary DNS server (unbound) hosted on the control machine which is available during initial bootstrapping. The jails would then use the ip_hostname parameter to lookup their hostname in DNS, from which they would assign the jails IP address. Subsequent hosts would generate their IP address via SLAAC and DNS would be updated via puppet as normal.</p>
+
+<h2 id="giving-dns-server-information-to-clients">Giving DNS server information to clients</h2>
+
+<p>Rather than manually configuring /etc/resolv.conf for the location of the local DNS servers, this information can be provided either by the router or DHCP server. If you do not want to run a DHCP server and rely solely on SLAAC for address allocation, then you can have the router provide the DNS information. Otherwise, the DHCP server can provide the DNS information. <a href="https://tools.ietf.org/html/rfc8106">RFC8106</a></p>
+
+<p>The major benefit of this approach is that you do not have to make any manual configurations for the location of the DNS servers on any of your clients. However, one of the drawbacks is experienced during the initial bootstrap when the DNS servers do not yet exist. So the DNS servers will need to have their stub resolvers configured manually.</p>
+
+<p>Since we have a robust DNSSEC implementation available, it makes sense to store as much crypto/public keys in there as possible rather than having them spread over multiple mechanisms. So rather than TLS certs in 3rd party PKI, SMIME certs in LDAP, SSH host keys in known_hosts files and IPsec public keys distributed manually, you can have TLSA, SMIMEA, SSHFP and IPSECKEY Resource Records stored securely in DNS.</p>
+
+<p>It is also important for us to have this information in DNS so that it can potentially be referenced by other organisations. If another org needs to access a website, it needs to be secured with TLS which is validated by the TLSA record via DANE. Likewise, if a person in another organisation wants to send an email, they need to know the TLS cert to secure the TLS communication and also the SMIME certificate to encrypt the email itself. By publishing the TLSA record and SMIMEA records in DNS, the other organisation can access this information and be confident that the records are accurate.</p>
+
+<h2 id="ip-addresses-that-need-to-be-known-by-a-human">IP addresses that need to be known by a human</h2>
+
+<ul>
+<li>Router(s)</li>
+<li>Control Machine(s)</li>
+<li>DNS servers</li>
+</ul>
+
+<h2 id="resource-records-to-be-stored-in-dns-sec">Resource records to be stored in DNS(SEC):</h2>
+
+<p>Static:</p>
+
+<ul>
+<li>DNS servers</li>
+<li>Hostname to static IP for infrastructure servers</li>
+<li>CNAMES for standard services (auth.example.com, dns.example.com)</li>
+<li>MX records</li>
+</ul>
+
+<p>Dynamic:</p>
+
+<ul>
+<li>Hostname to dynamic IP for app/other servers</li>
+<li>SSHFP records</li>
+<li>IPSECKEY records</li>
+<li>TLSA records (for all web/app servers)</li>
+<li>SMIMEA (for each user)</li>
+</ul>
+
+<h1 id="bootstrap">Bootstrap</h1>
+
+<h2 id="version-control">Version Control</h2>
+
+<p>Version control is used to track OS configuration files, OS and application binaries/source code and configuration management tool files. The version control tools and repositories should be shared by both infrastructure and applications files.</p>
+
+<p>While third party hosted services are available, these options are unavailable to an infrastructure with limited internet access. There should also be no need for a dependency on third party infrastructure. In addition, it is often the case that company-confidential data is stored in version control, and the organisation should be encouraged to use version control as much as possible and this is a barrier.</p>
+
+<p>The other option is to self host. There are a number of options including git and subversion. choose the tool that is best suited to your organisation. git has been chosen as it is open source, familiar to most people and easy to pick up.</p>
+
+<p>Since Git is a collaborative tool, it is common to install a web version of git such as GitLab to give people a GUI. This is organisation specific, for our use case we will just have git repos stored on a specific server/storage area. All of the tools available to git are usable in the git package.</p>
+
+<p>Git is also a requirement for R10K, which is used by puppet for managing environments and automatically pushing changes when git commits are detected.</p>
+
+<p>The configuration for your infrastructure will be stored in git repos, in the form of a puppet control repository for managing puppet environments and also the repo for hosting your infrastructure hardware config. This might be in many different formats, due to the many different platforms available (bare-metal, virtual, cloud). Throughout this design, it assumed that the infrastructure is built on bare metal by default or virtual if deployed in existing environments. Cloud is not considered because they are inherently hosted externally which is not possible in a secure environment. While private cloud options are avaiable, this configuration is way overkill for this design. The design has been purposely built to be lightweight.</p>
+
+<p>The Hashicorp ecosystem is a well defined and supported method for managing the infrastructure code. The configuration is defined in Terraform, and can be tested using Vagrant provisioning local VMs or cloud instances. Immutable images can be built with the help of Packer.</p>
+
+<p>While NanoBSD was considered in the past, zfs boot environments are now used.</p>
+
+<h1 id="implementation-1">Implementation</h1>
+
+<h1 id="provisioning">Provisioning</h1>
+
+<h2 id="ipv6">IPv6</h2>
+
+<h3 id="address-autoconfiguration-slaac">Address Autoconfiguration (SLAAC)</h3>
+
+<h3 id="send">SEND</h3>
+
+<h3 id="send-savi">SEND SAVI</h3>
+
+<h3 id="dhcpv6">DHCPv6</h3>
+
+<h3 id="ipsec">IPsec</h3>
+
+<h2 id="os">OS</h2>
+
+<h3 id="freebsd">FreeBSD</h3>
+
+<h3 id="jails">Jails</h3>
+
+<h3 id="zfs">ZFS</h3>
+
+<h3 id="host-install-tools">Host Install Tools</h3>
+
+<h3 id="ad-hoc-change-tools">Ad-Hoc Change Tools</h3>
+
+<h1 id="configuration-management">Configuration Management</h1>
+
+<h2 id="dns">DNS</h2>
+
+<h3 id="dnssec">DNSSEC</h3>
+
+<h3 id="dane">DANE</h3>
+
+<h3 id="dane-smimea-for-email-security">DANE/SMIMEA for Email Security</h3>
+
+<h3 id="s-mime-or-pgp">S/MIME or PGP</h3>
+
+<h2 id="kerberos">Kerberos</h2>
+
+<h2 id="ntp">NTP</h2>
+
+<h3 id="ntpsec">NTPsec</h3>
+
+<h1 id="app-deployment">App Deployment</h1>
+
+<h2 id="application-servers">Application Servers</h2>
+
+<h3 id="nginx">NGINX</h3>
+
+<h1 id="security-and-compliance">Security and Compliance</h1>
+
+<h2 id="security-and-crypto">Security and Crypto</h2>
+
+<h3 id="tls">TLS</h3>
+
+<h3 id="ssh">SSH</h3>
+
+<h3 id="hsm">HSM</h3>
+
+<h3 id="passwords">Passwords</h3>
+
+<h3 id="tcp-wrapper">TCP Wrapper</h3>
+
+<h3 id="ids">IDS</h3>
+
+<h3 id="firewalls">Firewalls</h3>
+
+<h2 id="configuration-management-tools">Configuration Management Tools</h2>
+
+<h2 id="authorisation-access-control-lists">Authorisation / Access Control Lists</h2>
+
+<h2 id="role-based-access-control-shared-administration-sudo">Role-Based Access Control / Shared Administration (sudo)</h2>
+
+<h2 id="domain-naming-service">Domain Naming Service</h2>
+
+<h2 id="directory-service-ldap">Directory Service (LDAP)</h2>
+
+<h2 id="time-service">Time Service</h2>
+
+<h2 id="logging-auditing">Logging / Auditing</h2>
+
+<h2 id="rpc-admin-service">RPC / Admin service</h2>
+
+<h1 id="orchestration">Orchestration</h1>
+
+<h2 id="specific-operational-requirements">Specific Operational Requirements</h2>
+
+<h3 id="configuration">Configuration ###</h3>
+
+<h3 id="startup-and-shutdown">Startup and shutdown ###</h3>
+
+<h3 id="queue-draining">Queue draining</h3>
+
+<h3 id="software-upgrades">Software upgrades</h3>
+
+<h3 id="backups-and-restores">Backups and restores</h3>
+
+<h3 id="redundancy">Redundancy</h3>
+
+<h3 id="replicated-databases">Replicated databases</h3>
+
+<h3 id="hot-swaps">Hot swaps</h3>
+
+<h3 id="access-controls-and-rate-limits">Access controls and rate limits</h3>
+
+<h3 id="monitoring">Monitoring</h3>
+
+<h3 id="auditing">Auditing</h3>
+
+<h2 id="unspecific-operational-requirements">Unspecific Operational Requirements</h2>
+
+<h3 id="assigning-ipv6-addresses-to-clients">Assigning IPv6 Addresses to Clients ###</h3>
+
+<h3 id="static-or-dynamic-ipv6-addresses-dhcpv6-or-slaac">Static or Dynamic IPv6 Addresses (DHCPv6 or SLAAC)</h3>
+
+<h3 id="ipv6-security">IPv6 Security</h3>
+
+<h3 id="hostname-conventions">Hostname Conventions</h3>
+
+<h3 id="choosing-an-operating-system">Choosing an Operating System</h3>
+
+<h3 id="choosing-a-configuration-management-tool">Choosing a Configuration Management Tool</h3>
+
+<h3 id="scheduling-with-cron">Scheduling with cron</h3>
+
+<h1 id="scaling">Scaling</h1>
+
+<h1 id="user-access">User Access</h1>
+
+
+			<aside class="copyright" role="note">
+				
+				Documentation built with
+				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
+				using the
+				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
+			</aside>
+
+			<footer class="footer">
+				
+
+<nav class="pagination" aria-label="Footer">
+  <div class="previous">
+  
+      <a href="omussell.github.io/grim/design/" title="">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              
+            </div>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+
+  <div class="next">
+  
+      <a href="omussell.github.io/grim/" title="">
+        <span class="direction">
+          Next
+        </span>
+        <div class="page">
+          <div class="stretch">
+            <div class="title">
+              
+            </div>
+          </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+</nav>
+
+
+
+
+
+			</footer>
+		</div>
+	</article>
+
+	<div class="results" role="status" aria-live="polite">
+		<div class="scrollable">
+			<div class="wrapper">
+				<div class="meta"></div>
+				<div class="list"></div>
+			</div>
+		</div>
+	</div>
+</main>
+
+    <script>
+    
+      var base_url = '';
+      var repo_id  = '';
+    
+    </script>
+
+    <script src="omussell.github.io/grim/javascripts/application.js"></script>
+    
+
+    <script>
+      /* Add headers to scrollspy */
+      var headers   = document.getElementsByTagName("h2");
+      var scrollspy = document.getElementById('scrollspy');
+
+      if(scrollspy) {
+        if(headers.length > 0) {
+          for(var i = 0; i < headers.length; i++) {
+            var li = document.createElement("li");
+            li.setAttribute("class", "anchor");
+
+            var a  = document.createElement("a");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", headers[i].innerHTML);
+            a.innerHTML = headers[i].innerHTML;
+
+            li.appendChild(a)
+            scrollspy.appendChild(li);
+          }
+        } else {
+          scrollspy.parentElement.removeChild(scrollspy)
+        }
+
+
+        /* Add permanent link next to the headers */
+        var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+        for(var i = 0; i < headers.length; i++) {
+            var a = document.createElement("a");
+            a.setAttribute("class", "headerlink");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", "Permanent link")
+            a.innerHTML = "¶";
+            headers[i].appendChild(a);
+        }
+      }
+    </script>
+
+    
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+
