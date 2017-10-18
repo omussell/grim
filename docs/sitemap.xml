@@ -2,48 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>grim/design/</loc>
+    <loc>/grim/design/</loc>
   </url>
   
   <url>
-    <loc>grim/implementation/</loc>
+    <loc>/grim/implementation/</loc>
   </url>
   
   <url>
-    <loc>grim/</loc>
+    <loc>/grim/</loc>
   </url>
   
   <url>
-    <loc>grim/overview/</loc>
+    <loc>/grim/overview/</loc>
   </url>
   
   <url>
-    <loc>grim/</loc>
+    <loc>/grim/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>grim/categories/</loc>
+    <loc>/grim/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>grim/design/</loc>
+    <loc>/grim/design/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>grim/implementation/</loc>
+    <loc>/grim/implementation/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>grim/overview/</loc>
+    <loc>/grim/overview/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>grim/tags/</loc>
+    <loc>/grim/tags/</loc>
     <priority>0</priority>
   </url>
   

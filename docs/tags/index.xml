@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Bootstrapping a Secure Infrastructure</title>
-    <link>grim/tags/</link>
+    <link>/grim/tags/</link>
     <description>Recent content in Tags on Bootstrapping a Secure Infrastructure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
     
-	<atom:link href="grim/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/grim/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>
