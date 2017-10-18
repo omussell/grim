@@ -34,4 +34,4 @@ Organisations would likely still use the existing internet infrastructure in ord
 
 ## High-Level Design
 
-<img src="/images/secenv.svg">
+<img src="/static/images/secenv.svg">
