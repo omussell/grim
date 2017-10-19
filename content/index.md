@@ -4,8 +4,7 @@ type: index
 
 # Bootstrapping a Secure Infrastructure
 
-% Oliver Mussell
-% 2016-2017
+*Oliver Mussell - 2016-2017*
 
 
 Summary
@@ -19,7 +18,7 @@ Produce a working implementation of a secure, resilient and easy to maintain inf
 
 The documentation on this site is split into two sections, Design and Implementation. The Design documents what the infrastructure *should* look like in high level terms while never actually stating particular tools. The Implementation is a working version that follows the design.
 
-A secondary objective is to allow users to choose which software to use by having each component of the infrastructure being modular and interchangable. So while a particular tool may be used for a given task, the design will only 
+A secondary objective is to allow users to choose which software to use by having each component of the infrastructure being modular and interchangable. So while a particular tool may be used for a given task, the implementation should be seen as guidance only of what can be achieved using the design.
 
 
 ## Background

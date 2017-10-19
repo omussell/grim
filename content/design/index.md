@@ -2,21 +2,9 @@
 #type: index
 ---
 
-% Bootstrapping a Secure Infrastructure
-% Oliver Mussell
-% 2016-2017
+# Bootstrapping a Secure Infrastructure
 
-<!---
-
-- Produced in Markdown with Vim, converted to HTML by Pandoc.
-- Graphics created with DOT
-- Hosted on Github Pages
-
--->
-
-- [Overview](/homelab/design/overview.html)
-- [Design](/homelab/design/design.html)
-- [Implementation](/homelab/design/implementation.html)
+*Oliver Mussell - 2016-2017*
 
 Detailed Design
 ===
@@ -30,21 +18,21 @@ IPv6 uses a 128-bit address which allows a much larger address space, 2^128. A s
 
 IPv6 addresses can be assigned in two ways, stateful or stateless, via Stateless Address Autoconfiguration ([SLAAC]) and/or DHCPv6. The stateless approach is used when a site is not particularly concerned with the addresses hosts use, whereas stateful DHCPv6 is used when a site requires tighter control over addresses. Both SLAAC and DHCPv6 may be used simultaneously. 
 
-### Address Autoconfiguration (SLAAC) ###
+### Address Autoconfiguration (SLAAC)
 The autoconfiguration process includes generating a link-local address, generating global addresses via stateless address autoconfiguration, and the Duplicate Address Detection procedure to verify the uniqueness of the addresses on a link. The IPv6 stateless autoconfiguration mechanism requires no manual configuration of hosts, minimal configuration of routers, and no additional servers. The stateless mechanism allows a host to generate its own addresses using a combination of locally available information and information advertised by routers. Routers advertise prefixes that identify the subnet(s) associated with a link, while hosts generate an "interface identifier" that uniquely identifies an interface on a subnet. An address is formed by combining the two. In the absence of routers, a host can only generate link-local addresses. However, link-local addresses are sufficient for allowing communication among nodes attached to the same link.
 
 IPv6 nodes on the same link use the Neighbor Discovery protocol to discover each others presence, to determine each others link-layer addresses, to find routers, and to maintain reachability information about the paths to active neighbors.
 
 All interfaces of IPv6 hosts require a link-local address, which is derived from the MAC address of the interface and the prefix fe80::/10. The address space is filled with prefix bits left-justified to the most-significant bit, and filling the MAC address in EUI-64 format into the least-significant bits. Any remaining bits between the two parts are set to zero.
 
-	- The left-most 'prefix length' bits of the address are those of the link-local prefix
-	- The bits in the address to the right of the link-local prefix are set to all zeroes
-	- If the length of the interface identifier is Nbits, the right-most N bits of the address are replaced by the interface identifier
+- The left-most 'prefix length' bits of the address are those of the link-local prefix
+- The bits in the address to the right of the link-local prefix are set to all zeroes
+- If the length of the interface identifier is Nbits, the right-most N bits of the address are replaced by the interface identifier
 
 Global addresses are formed by appending an interface identifier to a prefix of appropriate length. Prefixes are obtained from Prefix Information options contained in Router Advertisements. RA's are sent periodically to the all-nodes multicast address. To obtain an advertisement quickly, a host send out Router Solicitations as described in [RFC4861].
 
-	- Routers advertise prefixes that identify the subnet(s) associated with a link
-	- Hosts generate an interface identifier that uniquely identifies an interface on a subnet
+- Routers advertise prefixes that identify the subnet(s) associated with a link
+- Hosts generate an interface identifier that uniquely identifies an interface on a subnet
 
 The Neighbor Discovery Protocol ([NDP]) is used by nodes to determine the link-layer addresses for neighbors known to reside on the same attached link, to find neighboring routers to forward packets, and to keep track of neighbors that are reachable or not.
 
@@ -57,14 +45,13 @@ IPv6 address are mapped to hostnames in DNS using [AAAA resource records]. Rever
 
 
 [SLAAC]: https://tools.ietf.org/html/rfc4862
-#[NDP]: https://tools.ietf.org/html/rfc4861
 [Duplicate Address Detection]: https://tools.ietf.org/html/rfc4862#section-5.4
 [Neighbor Unreachability Detection]: https://tools.ietf.org/html/rfc4861#section-7.3
 [AAAA resource records]: https://tools.ietf.org/html/rfc3596
 [RFC5952]: https://tools.ietf.org/html/rfc5952
 [RFC4861]: https://tools.ietf.org/html/rfc4861
 
-### SEND ###
+### SEND 
 The SEcure Neighbor Discovery ([SEND]) protocol is designed to counter threats to the Neighbor Discovery Protocol ([NDP]) used by IPv6 to discover the presence of nodes on the same link and to find routers. SEND does not apply to addresses generated by SLAAC.
 
 Components of SEND:
@@ -79,7 +66,7 @@ By default, a SEND-enabled node should use only CGAs for its own addresses. Cryp
 
 The purpose of CGAs is to prevent stealing and spoofing of existing IPv6 addresses. The public key of the address owner is bound cryptographically to the address. The address owner can use the corresponding private key to assert its ownership and to sign SEND messages sent from the address. An attacker can create a new address from an arbitrary subnet prefix and a public key because CGAs are not certified. Hwoever, the attacker cannot impersonate somebody else's address.
 
-### SEND SAVI ###
+### SEND SAVI
 The SEcure Neighbor Discovery (SEND) Source Address Validation Improvement ([SAVI]) is a mechanism to provide source address validation using the SEND protocol. SEND SAVI uses the Duplicate Address Detection and Neighbor Unreachability messages to validate the address ownership claim of a node. Using the information contained in these messages, host IPv6 addresses are associated to switch ports, so that data packets will be validated by checking for consistency in this binding. In addition, SEND SAVI prevents hosts from generating packets containing off-link IPv6 source addresses.
 
 SEND SAVI is limited to links and prefixes in which every IPv6 host and router uses the SEND protocol to protect the exchange of Neighbor Discovery information.
@@ -89,16 +76,12 @@ SEND SAVI is limited to links and prefixes in which every IPv6 host and router u
 [CGA]: https://tools.ietf.org/html/rfc3972
 [SAVI]: https://tools.ietf.org/html/rfc7219
 
-### DHCPv6 ###
+### DHCPv6
 DHCPv6 is the stateful counterpart to SLAAC. DHCPv6 enables DHCP servers to pass IPv6 network information to IPv6 nodes, such as addresses and configuration information carried in options.
 
 Clients transmit and receive DHCP messages over UDP using the autogenerated link-local address.
 
- 
-
-
-
-### IPsec ###
+### IPsec
 
 IPsec documentation seems a little sparse...
 
@@ -128,12 +111,7 @@ Decentralised:
 
 - Everyone has a copy of the history, backups are implicit
 
-
-
 Version control should be used to manage only one machine in each distinct infrastructure, the infrastructure master (puppet master, salt master, chef server etc.). Changes to any other machine in the infrastructure would be done from this server.
-
-
-
 
 Configuration Management
 ---
@@ -146,10 +124,10 @@ OS
 ---
 The general server design would be a generic NanoBSD image occupying a flash device such as SD card serving as the operating system. Physical drives (either spinning disk or SSD) will be formatted with ZFS, on top of which the base for the jails will reside. Data used by the applications such as databases are stored on discrete storage appliances.
 
-### FreeBSD ###
+### FreeBSD
 FreeBSD was chosen as the operating system due to the benefits of NanoBSD, Jails and ZFS. However, the tools and configurations are platform agnostic, and can be ported to other Unix-like operating systems. 
 
-### Jails ###
+### Jails
 
 - A process and all descendants are restricted to a chrooted directory tree
 - Does not rely on virtualisation, so performance penalty is mitigated
@@ -183,10 +161,7 @@ Configuring the jail:
 - Setup bindings to other services (or get them from SRV records in DNS?)
 - Setup SSH to jail environment, configure sshd_config 
 
-
-
-
-### ZFS ###
+### ZFS
 
 - Data integrity using checksums
 - Pooled storage, where all disks added to the pool are available to all filesystems
@@ -223,9 +198,9 @@ ZFS automatically manages mounting and unmounting file systems without the need 
 
 A zfs dataset can be attached to a jail. A dataset cannot be attached to one jail and the children of the same dataset to other jails. 
 
-### Host Install Tools ###
+### Host Install Tools
 
-### Ad-Hoc Change Tools ###
+### Ad-Hoc Change Tools
 rsync. zfs send/receive.
 
 
@@ -241,7 +216,7 @@ This also means that whatever method that is used to secure DNS must be verified
 
 
 
-### DNSSEC ###
+### DNSSEC
 DNSSEC creates a secure domain name system by adding cryptographic signatures to existing DNS records. These digital signatures are stored in DNS name servers alongside other record types like AAAA, MX etc. By checking the associated signature, you can verify that a DNS record comes from its authoritative name server and hasn't been altered. DNSSEC uses public key cryptography to sign and authenticate DNS resource record sets (RRsets). When requesting a DNS record, you can verify it comes from its authoritative name server and wasn't altered en-route by verifying its signature. 
 
 New DNS record types were added to support DNSSEC:
@@ -254,31 +229,31 @@ New DNS record types were added to support DNSSEC:
 
 Resource records of the same type are grouped together into a resource record set or RRset. The RRset is then digitally signed, rather than individual DNS records.
 
-<img src="/homelab/pic/rrsets.svg">
+<img src="/grim/images/rrsets.svg">
 
 The RRset is digitally signed by the private part of the zone signing key pair (ZSK). The digital signature is then stored in a RRSIG record. This proves that the data in the RRset originates from the zone.
 
-<img src="/homelab/pic/zsk.svg">
+<img src="/grim/images/zsk.svg">
 
 The signature can be verified by recording the public part of the zone signing key pair in a DNSKEY record. The RRset, RRSIG and DNSKEY (public ZSK) can then be used by a resolver to validate the response from a name server.
 
-<img src="/homelab/pic/zskverify.svg">
+<img src="/grim/images/zskverify.svg">
 
 The DNSKEY records containing the public zone signing keys are then organised into a RRset, and signed by the Key Signing Key (KSK), which is stored in a DNSKEY record as well. This creates a RRSIG for the DNSKEY RRset.
 
-<img src="/homelab/pic/ksk.svg">
+<img src="/grim/images/ksk.svg">
 
 The private key signing key signs a zone signing key which in turn will sign other zone data. The public key signing key is also signed by the private key signing key. The public KSK can then be used to validate the public ZSK.
 
-<img src="/homelab/pic/kskverify.svg">
+<img src="/grim/images/kskverify.svg">
 
 The DS RRset resides at a delegation point in a parent zone and indicates the public keys corresponding to the private keys used to self-sign the DNSKEY RRset at the delegated child zones apex. The public KSK in the child zone is hashed and stored in a DS record in the parent zone.
 
-<img src="/homelab/pic/ds.svg">
+<img src="/grim/images/ds.svg">
 
 Each time the child zone changes its KSK, the new public KSK needs to be transmitted to the parent zone in order to be stored in its DS record. In most cases this is a manual process, however, this can be mitigated by used CDS/CDNSKEY records. A CDS/CDNSKEY record contains the new information that the child zone would like to be published in the parent zone. These records only exist when the child zone wishes for the DS record in the parent zone to be changed. The parent zone should periodically check the child zone for the existence of CDS/CDNSKEY records, or can be prompted to do so.
 
-<img src="/homelab/pic/cds.svg">
+<img src="/grim/images/cds.svg">
 
 The above steps produce a trusted zone that connects to its parent, but the DS record in the parent zone also needs to be trusted. The signing process is repeated for the DS records in the DS RRset, and the process repeats up the parent zones in a chain up to the root zone. 
 
@@ -287,16 +262,16 @@ There are now two scenarios:
 - For public DNS servers, you are reliant on the trust given to the root zone owners that they have signed the root zone correctly and stored the private root signing key securely.
 - For internal-only domains, the island of security approach means that the signed zone does not have an authentication chain to its parent.
 
-<img src="/homelab/pic/chain.svg">
+<img src="/grim/images/chain.svg">
 
-### DANE ###
+### DANE
 DNS-Based Authentication of Named Entities or [DANE] allows certificates, used by TLS, to be bound to DNS names using DNSSEC. DANE allows you to authenticate the association of the server's certificate with the domain name without trusting an external certificate authority. Given that the DNS administrator is authoritative for the zone, it makes sense to allow the administrator to also be authoritative for the binding between the domain name and a certificate. This is done with DNS, and the security of the information is verified with DNSSEC.
 
 DANE is implemented by placing TLSA records in the DNS.
 
 TLS via DANE can be used to secure websites over HTTPS, email via the [OpenPGP] and [S/MIME] extensions, instant messaging (XMPP, IRC) and other applications via SRV records.
 
-### DANE for Email Security ###
+### DANE for Email Security
 Since SMTP was designed to be transmitted in plaintext, encryption in the form of [STARTTLS] or [Opportunistic TLS] was developed to secure email communication. However, [it is known] to be [vulnerable to downgrade attacks], since the initial handshake occurs in plain text. An attacker could perform a man-in-the-middle attack by preventing the handshake from taking place and thus make it appear that TLS is unavailable, so clients revert to plain text.  
 
 The Electronic Frontier Foundation ([EFF]) has created a project called [STARTTLS Everywhere] in an effort to enforce TLS between popular email domains, with the help of [Let's Encrypt] to serve certificates.
@@ -318,11 +293,8 @@ A guide to setting up DNSSEC+DANE to guarantee secure email between organisation
 - [Unbound]
 - [OpenDNSSEC]
 - [ISC BIND]
-
-	Further guides published by NIST:
-
-	- [Secure Domain Name System Deployment Guide]
-	- [Trustworthy Email]
+- [Secure Domain Name System Deployment Guide]
+- [Trustworthy Email]
 
 
 [STARTTLS]: https://tools.ietf.org/html/rfc3207
@@ -354,18 +326,18 @@ A guide to setting up DNSSEC+DANE to guarantee secure email between organisation
 NTP
 ---
 
-### NTPsec ###
+### NTPsec
 
 Application Servers
 ---
-### NGINX ###
-
+### NGINX
+### NGINX Unit
 
 Security and Crypto
 ---
-### TLS ###
+### TLS
 
-### SSH ###
+### SSH
 
 The Secure Shell ([SSH]) protocol is used for secure remote login and tunneling other network services over an insecure network. SSH consists of three main components:
 
@@ -495,11 +467,11 @@ The output is a list of SSHFP records in the format:
 	hostname.fqdn IN SSHFP 4 2 4893752075487258092758094
 
 
-### HSM ###
-### Passwords ###
-### TCP Wrapper ###
-### IDS ###
-### Firewalls ###
+### HSM
+### Passwords
+### TCP Wrapper
+### IDS
+### Firewalls
 
 Configuration Management
 ---
@@ -591,16 +563,16 @@ The configuration should be able to be backed up and restored. You should be abl
 	- Configuration Management
 	- NFS
 
-### Startup and shutdown ### 
+### Startup and shutdown
 Enter drain mode; Stop the applications (optional); Stop the jails (which should have scripts to stop the apps); Shutdown. Startup, start the jails on boot, mount and filesystems in jails; run apps check before saying ready; Exit drain mode.
 
-### Queue draining ###
+### Queue draining
 All requests are going through the load balancer, individual nodes can be put into drain mode.
 
-### Software upgrades ###
+### Software upgrades
 For app upgrades, snapshot current, update app, restart jail with new updated app jail. For OS upgrades, build new offline image, update slice 2, reboot. 
 
-### Backups and restores ###
+### Backups and restores
 Config files / OS files / data files
 
 How to backup and restore:
@@ -612,21 +584,21 @@ How to backup and restore:
 
 Calculate the latency/data limits required to perform above backups/restores
 
-### Redundancy ###
+### Redundancy
 OS, hard drive, zfs. Services are behind a load balancer
 
-### Replicated databases ###
+### Replicated databases
 
-### Hot swaps ###
+### Hot swaps
 Physical components should be hot swappable. Service components should also be hot swappable.
 
-### Access controls and rate limits ###
+### Access controls and rate limits
 If a service provides an API, that API should include an Access Control List
 
-### Monitoring ###
+### Monitoring
 Configuration management tools typically monitor the OS / Application code is correct. Use normal network monitoring tools to monitor up/down, latency etc...
 
-### Auditing ###
+### Auditing
 Logging to central servers
 
 Unspecific Operational Requirements

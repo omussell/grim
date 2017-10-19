@@ -16,8 +16,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/grim/implementation/</guid>
-      <description>Bootstrapping a Secure Infrastructure % Oliver Mussell % 2016-2017
- Overview Design Implementation  Implementation The architecture described in the design is only aimed at the infrastructure setup, not application servers. Each of the services provided can be accessed by other architectures based on different operating systems. So for example, Windows and Linux infrastructures would still be able to query the DNS service without any extra configuration.
+      <description>Bootstrapping a Secure Infrastructure Oliver Mussell - 2016-2017
+Implementation The architecture described in the design is only aimed at the infrastructure setup, not application servers. Each of the services provided can be accessed by other architectures based on different operating systems. So for example, Windows and Linux infrastructures would still be able to query the DNS service without any extra configuration.
 StrictHostKeyChecking vs VerifyHostKeyDNS Problem: Problem Statement Do the StrictHostKeyChecking and VerifyHostKeyDNS options in ssh_config work together?</description>
     </item>
     
