@@ -120,20 +120,13 @@ Version control is used to track OS configuration files, OS and application bina
 
 While third party hosted services are available, these options are unavailable to an infrastructure with limited internet access. There should also be no need for a dependency on third party infrastructure. In addition, it is often the case that company-confidential data is stored in version control, and the organisation should be encouraged to use version control as much as possible and this is a barrier. 
 
-The other option is to self host. There are a number of options including git and subversion. choose the tool that is best suited to your organisation. git has been chosen as it is open source, familiar to most people and easy to pick up.
+The other option is to self host. There are a number of options including git and subversion. Choose the tool that is best suited to your organisation. git has been chosen as it is open source, familiar to most people and easy to pick up.
 
+Since Git is a collaborative tool, it is common to install a web version of git such as GitLab or Gogs to give people a GUI. This is organisation specific, for our use case we will just have git repos stored on a specific server/storage area. All of the tools available to git are usable in the git package.
 
+Modern configuration management systems have the ability to use git repositories as backends for their configuration files. This allows a workflow of only ever updating files that exist in version control which means changes are entered into history and can be audited.
 
-Since Git is a collaborative tool, it is common to install a web version of git such as GitLab to give people a GUI. This is organisation specific, for our use case we will just have git repos stored on a specific server/storage area. All of the tools available to git are usable in the git package.
-
-Git is also a requirement for R10K, which is used by puppet for managing environments and automatically pushing changes when git commits are detected.
-
-The configuration for your infrastructure will be stored in git repos, in the form of a puppet control repository for managing puppet environments and also the repo for hosting your infrastructure hardware config. This might be in many different formats, due to the many different platforms available (bare-metal, virtual, cloud). Throughout this design, it assumed that the infrastructure is built on bare metal by default or virtual if deployed in existing environments. Cloud is not considered because they are inherently hosted externally which is not possible in a secure environment. While private cloud options are avaiable, this configuration is way overkill for this design. The design has been purposely built to be lightweight.
-
-The Hashicorp ecosystem is a well defined and supported method for managing the infrastructure code. The configuration is defined in Terraform, and can be tested using Vagrant provisioning local VMs or cloud instances. Immutable images can be built with the help of Packer.
-
-While NanoBSD was considered in the past, zfs boot environments are now used.
-
+Throughout this design it assumed that the infrastructure is built on bare metal by default, though it is acceptable that multiple services may be running on the same physical host and segregated using jails or virtual machines. Cloud infrastructures are not considered because they are inherently hosted externally which is not possible in a secure environment.
 
 Implementation
 ===
@@ -160,6 +153,12 @@ OS
 ---
 
 ### FreeBSD ###
+
+While NanoBSD was considered in the past, zfs boot environments are now used.
+
+With zfs boot environments, we can download the updated base files, create a new boot environment, start it in a jail, apply our configuration, test it, and then replicate the zfs dataset to other hosts using zfs send/recv over SSH. This gives us a reliable method of upgrading hosts and also minimises the amount of traffic over the internet. We would only need to download the base files once and then distrubute them locally rather than each host downloading updated versions. 
+
+Likewise, any packages that are required for our infrastructure to work should be download onto a local package mirror/cache. This means we can still function if the internet connection is unavailable and allows us to ensure we are using the latest versions of packages.
 
 ### Jails ###
 
