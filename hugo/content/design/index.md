@@ -99,26 +99,18 @@ While third party hosted services are available, these options are unavailable t
 
 Version control tools tend to be one of two models: centralised and decentralised. A centralised keeps one copy of the versioned code and admins will pull down a working copy of specific files to work on. The changes are then checked back in. With a DVCS the entire repository and its history are downloaded at once, worked on then the changes are checked in to some agreed upon location for collaboration.
 
-Centralised:
-
-- Easier to back up
-- One source of truth
-- One place for authentication and access control
-- Can perform tests/CI on code before/after it is merged
-
-
-Decentralised:
-
-- Everyone has a copy of the history, backups are implicit
-
 Version control should be used to manage only one machine in each distinct infrastructure, the infrastructure master (puppet master, salt master, chef server etc.). Changes to any other machine in the infrastructure would be done from this server.
+
+Many tools depend on version controlled files and need to be notified when changes occur. They may do this by polling the repository for changes, using post-commit scripts or augmented by continuous integration tools.
 
 Configuration Management
 ---
 
 By using configuration management tools, we can codify our infrastructure which allows us to follow the same deployment pipeline as the applications we host, are able to perform disaster recovery quicker and have a history of the changes to the infrastructure.
 
+Configuration management tools would be used to manage both server provisioning and the configuration. Some configuration management tools can perform both roles which is preferable.
 
+Also, the server provisioning process is only for applying the base files onto a machine. It is likely that the newly provisioned server will need software installed in order to communicate with version control and configuration management servers. It is useful to include a step in the provisioning process to install this needed software, and also to pre-seed any authentication keys required to secure the connection between the provisioned server and any infrastucture masters.
 
 OS
 ---
