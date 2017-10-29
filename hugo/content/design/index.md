@@ -93,7 +93,7 @@ StrongSWAN seems to be more popular.
 Version Control
 ---
 
-Version control is used to track OS configuration files, OS and application binaries/source code and configuration management tool files. The version control tools and repositories should be shared by both infrastructure and application files. 
+Version control software is used to track changes to OS configuration files, OS and application binaries/source code and configuration management tool files over time. The changes to these files are timestamped, authored and a specific set of changes exists in an atomic transaction. By tracking these changes we can audit the entire history of the codebase and revert to previous versions if necessary.
 
 While third party hosted services are available, these options are unavailable to an infrastructure with limited internet access. There should also be no need for a dependency on third party infrastructure. In addition, it is often the case that company-confidential data is stored in version control, and the organisation should be encouraged to use version control as much as possible and this is a barrier. 
 
@@ -107,6 +107,8 @@ Configuration Management
 ---
 
 By using configuration management tools, we can codify our infrastructure which allows us to follow the same deployment pipeline as the applications we host, are able to perform disaster recovery quicker and have a history of the changes to the infrastructure.
+
+All changes to the infrastructure should be performed by the configuration management tools with the changed files being stored in version control.
 
 Configuration management tools would be used to manage both server provisioning and the configuration. Some configuration management tools can perform both roles which is preferable.
 
@@ -194,6 +196,8 @@ A zfs dataset can be attached to a jail. A dataset cannot be attached to one jai
 
 ### Ad-Hoc Change Tools
 rsync. zfs send/receive.
+
+Ad-hoc changes should never need to happen, but realistically, they are sometimes required. In order to facilitate ad-hoc changes, the administrators should have the ability to connect to the servers to perform changes. This should be done following the same SSH infrastructure as that used by the other applications, with the exception that the administrators would need to initially connect to a bastion host first. This includes SSH key rotation, validation of host keys using SSHFP records and having dedicated user accounts on each of the servers. 
 
 
 DNS
