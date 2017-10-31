@@ -197,20 +197,16 @@ A zfs dataset can be attached to a jail. A dataset cannot be attached to one jai
 ### Ad-Hoc Change Tools
 rsync. zfs send/receive.
 
-Ad-hoc changes should never need to happen, but realistically, they are sometimes required. In order to facilitate ad-hoc changes, the administrators should have the ability to connect to the servers to perform changes. This should be done following the same SSH infrastructure as that used by the other applications, with the exception that the administrators would need to initially connect to a bastion host first. This includes SSH key rotation, validation of host keys using SSHFP records and having dedicated user accounts on each of the servers. 
+Ad-hoc changes should never need to happen, but realistically, they are sometimes required. In order to facilitate ad-hoc changes, the administrators should have the ability to connect to the servers to perform changes. This should be done using the same SSH infrastructure as that used by the other applications, with the exception that the administrators would need to initially connect to a bastion host first. This includes SSH key rotation, validation of host keys using SSHFP records and having dedicated user accounts on each of the servers. 
 
 
 DNS
 ---
-DNS is required to provide hostname to IP mapping. 
-
-Querying the DNS for the IP address is a mechanism employed by almost all applications, therefore it is imperative that it is secured correctly. There are a few different options, namely, DNSSEC, DNSCrypt and DNSCurve.
+DNS is required to provide hostname to IP mapping. Querying the DNS for the IP address is a mechanism employed by almost all applications, therefore it is imperative that it is secured correctly.
 
 In addition, a high emphasis on DNS security is required given that other security protocols are dependant upon it. For example, when a client connects to a server using SSH and the public key of the server is not known to the client, a fingerprint of the key is presented to the user for verification. This fingerprint can be stored in the DNS using SSHFP records so that the fingerprint can be verified out-of-band. TLS, which is commonly used for securing websites, can also use the DNS by storing certificates using TLSA records with DANE. 
 
 This also means that whatever method that is used to secure DNS must be verified to be secure since the DNS is considered authoritative for the security of the domain. So in DNSSEC, the security of the domain is only as secure as the KSK, so it should be stored in a HSM.
-
-
 
 ### DNSSEC
 DNSSEC creates a secure domain name system by adding cryptographic signatures to existing DNS records. These digital signatures are stored in DNS name servers alongside other record types like AAAA, MX etc. By checking the associated signature, you can verify that a DNS record comes from its authoritative name server and hasn't been altered. DNSSEC uses public key cryptography to sign and authenticate DNS resource record sets (RRsets). When requesting a DNS record, you can verify it comes from its authoritative name server and wasn't altered en-route by verifying its signature. 
@@ -276,7 +272,7 @@ However, this is only to serve as an [intermediate solution] until [DNSSEC and D
 
 Our implementation includes DNSSEC and DANE, and so email protection will be available. However, since the infrastructure is not designed to be publicly accessible, some unique challenges surrounding maintenance of the DNS and CA root domains require solutions and also how to securely send between organisations needs to be determined.
 
-While DANE can be used to validate the connection between mail exchangers, the emails themselves are still unencrypted. S/MIME and OpenPGP allow emails to be encrypted. There are also standards in place to store DANE bind
+While DANE can be used to validate the connection between mail exchangers, the emails themselves are still unencrypted. S/MIME allows email messages to be encrypted. Combining DANE transport security with S/MIME encrypted messages allows secure email between organisations.
 
 A guide to setting up DNSSEC+DANE to guarantee secure email between organisations is [published by NIST]. It shows the experiments carried out by Microsoft Corporation, NLnet Laboratories, Secure64, Internet Systems Consortium and Fraunhofer IAO, and includes the configuration required for their respective MUA, MTA and DNS services, including: 
 
@@ -318,11 +314,14 @@ A guide to setting up DNSSEC+DANE to guarantee secure email between organisation
 [Secure Domain Name System Deployment Guide]: http://dx.doi.org/10.6028/NIST.SP.800-81-2
 [Trustworthy Email]: http://dx.doi.org/10.6028/NIST.SP.800-177
 
+### DANE for Website Security
+
 
 NTP
 ---
 
 ### NTPsec
+### OpenNTPD
 
 Application Servers
 ---
@@ -474,7 +473,7 @@ Configuration Management
 
 Traditional system administration follows the "waterfall" method, where each step: gather requirements, design, implement, test, verify, deploy; is performed by a different team, and often conducted by hand. Each step or team has an end goal after which the product is handed over to the new team. The methodology documented in the papers at infrastructures.org, now referred to as DevOps, adds a layer of abstraction to the administration of services. By describing the infrastructure in structured configuration files, you leave the implementation up to the configuration management tool. So rather than specifying how to install a package for multiple operating systems, you say that you want the package installed, and leave the implementation up to the configuration management tool. 
 
-Also, the idea of idempotency is important. Rather than having a script that says "service $SERVICE start" which doesn't check if the service is already started, you instead say that you want a service to be in a started state. The configuration management tool then periodically checks the state of the service, and changes it to the desired state if necessary.
+Also, the concept of idempotency is important. Rather than having a script that says "service $SERVICE start" which doesn't check if the service is already started, you instead say that you want a service to be in a started state. The configuration management tool then periodically checks the state of the service, and changes it to the desired state if necessary.
 
 Features of this method include:
 
@@ -593,9 +592,12 @@ If a service provides an API, that API should include an Access Control List
 
 ### Monitoring
 Configuration management tools typically monitor the OS / Application code is correct. Use normal network monitoring tools to monitor up/down, latency etc...
+icinga
+tick stack
 
 ### Auditing
 Logging to central servers
+Auditd / openbsm
 
 Unspecific Operational Requirements
 ---
