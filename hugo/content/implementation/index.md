@@ -35,7 +35,7 @@ SSH Host Key Rotation
 
 How do you rotate SSH host keys and update the SSHFP records in DNS(SEC)?
 
-requirement for renewal is initiated every x days/weeks
+Requirement for renewal is initiated every x days/weeks
 host generates new host keys
 host connects to control machine, provides the new SSHFP values and asks for hosts SSHFP records to be updated
 control machine updates DNS zone info with new SSHFP values
