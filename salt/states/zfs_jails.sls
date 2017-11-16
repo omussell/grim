@@ -1,5 +1,15 @@
+/usr/local/jails:
+  file.directory
+
 tank/template:
-  zfs.filesystem_present
+  zfs.filesystem_present:
+    - properties:
+      - mountpoint: /usr/local/jails/template_11_1
+
+/usr/local/jails/template_11_1:
+  archive.extracted:
+    - source: ftp://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/11.1-RELEASE/base.txz
+  - skip_verify: True
 
 tank/template@1:
   zfs.snapshot_present
@@ -7,11 +17,8 @@ tank/template@1:
 tank/testjail1:
   zfs.filesystem_present:
     - cloned_from: tank/template@1
-
-/tank/testjail1:
-  archive.extracted:
-    - source: ftp://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/11.0-RELEASE/base.txz
-  - skip_verify: True
+    - properties:
+      - mountpoint: /usr/local/jails/testjail1
 
 start_jails:
   module.run:
