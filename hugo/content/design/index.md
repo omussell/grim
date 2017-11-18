@@ -320,7 +320,6 @@ A guide to setting up DNSSEC+DANE to guarantee secure email between organisation
 NTP
 ---
 
-### NTPsec
 ### OpenNTPD
 
 Application Servers
