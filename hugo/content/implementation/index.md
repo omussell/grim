@@ -120,7 +120,7 @@ Very often, you can subscribe to mailing lists which announce when OS or package
 Likewise if a new major version is released, an email is received, Buildbot then runs through the process of creating a new zfs boot environment on servers in the test environment and applies the new major version to the new BE. After rebooting into the new environment, tests are performed to check that the application still works ok. If so, the major version is rolled out to other environments. This ties in with the need for redundancy, because we would need to take a server out from the load balancer to perform the upgrade and put it back once tested and working. 
 
 
-By creating infrastructure acceptance tests using tools like testinfra, we can easily validate that packages, services and configuration files 
+By creating infrastructure acceptance tests using tools like testinfra, we can easily validate that packages, services and configuration files continue to work in the same way before and after upgrades take place. It also gives us the opportunity to practice test-driven infrastructure, by first creating the test then the code to actually implement the change. These tests will also contribute to cross OS compatibility because the same tests can be run on different OSes.
 
 Cross OS init/service compatibility
 ---

@@ -114,6 +114,11 @@ Configuration management tools would be used to manage both server provisioning 
 
 Also, the server provisioning process is only for applying the base files onto a machine. It is likely that the newly provisioned server will need software installed in order to communicate with version control and configuration management servers. It is useful to include a step in the provisioning process to install this needed software, and also to pre-seed any authentication keys required to secure the connection between the provisioned server and any infrastucture masters.
 
+
+There are multiple facets to configuration management tools. First is in keeping the configuration of a node in sync. This is integral to a congruent infrastructure, in that the desired state and actual state are aligned. Second is orchestration. There isn't an easy way of describing for a server to be patched as a static state, except in an immutable infrastructure. So you need to be able to perform ad-hoc changes to the infrastructure in a way that is similar to normal configuration management tools. Thirdly, is event driven architecture by responding to events that happen. The IP of a node may change when it reboots, so its corresponding resource records in DNS need updating. The event triggers the requisite orchestration tools to run which would update the records on the DNS servers.
+
+
+
 OS
 ---
 The general server design would be a generic NanoBSD image occupying a flash device such as SD card serving as the operating system. Physical drives (either spinning disk or SSD) will be formatted with ZFS, on top of which the base for the jails will reside. Data used by the applications such as databases are stored on discrete storage appliances.
