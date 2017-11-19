@@ -108,6 +108,27 @@ Dynamic:
 - SMIMEA (for each user)
 
 
+Ensure packages and services continue working after OS / package updates
+---
+
+It would be preferable to have updates to the OS and packages to be downloaded, tested, and applied automatically. Usually this is one of the tasks of systems administrators, and is often carried out at regular intervals and applying updates all at once. This also goes against the immutable infrastructure paradigm that is often employed in cloud infrastructures. 
+
+Using continuous integration tools and configuration management tools in parrallel will allow us to perform these actions autonomously. 
+
+Very often, you can subscribe to mailing lists which announce when OS or package updates are released. CI tools like Builtbot can listen for these emails, and run specific actions based on the content. For example, when new security updates for the kernel or base are released, an email would be sent and received by Buildbot which would then kick off the patching of  servers in the test environment. Once tested and the applications are confirmed to be working ok, then the patches can be applied to other environments. 
+
+Likewise if a new major version is released, an email is received, Buildbot then runs through the process of creating a new zfs boot environment on servers in the test environment and applies the new major version to the new BE. After rebooting into the new environment, tests are performed to check that the application still works ok. If so, the major version is rolled out to other environments. This ties in with the need for redundancy, because we would need to take a server out from the load balancer to perform the upgrade and put it back once tested and working. 
+
+
+By creating infrastructure acceptance tests using tools like testinfra, we can easily validate that packages, services and configuration files 
+
+Cross OS init/service compatibility
+---
+
+Init systems vary wildly across different operating systems. FreeBSD has a sane init system based on shell scripts that is incredibly easy to port to other OSes, but this is not true for systemd and the like. One option is to use daemontools by djb which has packages on most OSes and is designed specifically to be cross-OS compatible. 
+
+It can also use shell scripts, so it may be possible to just copy the FreeBSD service scripts and use them with daemontools but this needs testing.
+
 
 Bootstrap
 ===
