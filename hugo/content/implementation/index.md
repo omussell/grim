@@ -143,11 +143,26 @@ Since Git is a collaborative tool, it is common to install a web version of git 
 
 Modern configuration management systems have the ability to use git repositories as backends for their configuration files. This allows a workflow of only ever updating files that exist in version control which means changes are entered into history and can be audited.
 
-Throughout this design it assumed that the infrastructure is built on bare metal by default, though it is acceptable that multiple services may be running on the same physical host and segregated using jails or virtual machines. Cloud infrastructures are not considered because they are inherently hosted externally which is not possible in a secure environment.
+
+
+
+git package installed
+/usr/local/git ? contains repos
+depends on ssh infrastructure
+separate user accounts are used for specific projects
+machines access these accounts with their specifically generated ssh key pair, with the public key put into the authorized keys of the user for the project
+
+salt-repo authorized_keys:
+  salt-knotdns01 key pair
+  salt-web01 key pair
+
+These service account users have git-shell as their shell, which means they can only push/pull.
+
 
 Implementation
 ===
 
+Throughout this design it assumed that the infrastructure is built on bare metal by default, though it is acceptable that multiple services may be running on the same physical host and segregated using jails or virtual machines. Cloud infrastructures are not considered because they are inherently hosted externally which is not possible in a secure environment.
 
 
 Provisioning
