@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
     <title> - Bootstrapping a Secure Infrastructure</title>
-    <meta name="generator" content="Hugo 0.30.2" />
+    <meta name="generator" content="Hugo 0.31" />
 
     
     <meta name="description" content="Bootstrapping a Secure Infrastructure">
@@ -342,9 +342,21 @@ if update is unsuccessful, remove new values and report error.</p>
 
 <p>Modern configuration management systems have the ability to use git repositories as backends for their configuration files. This allows a workflow of only ever updating files that exist in version control which means changes are entered into history and can be audited.</p>
 
-<p>Throughout this design it assumed that the infrastructure is built on bare metal by default, though it is acceptable that multiple services may be running on the same physical host and segregated using jails or virtual machines. Cloud infrastructures are not considered because they are inherently hosted externally which is not possible in a secure environment.</p>
+<p>git package installed
+/usr/local/git ? contains repos
+depends on ssh infrastructure
+separate user accounts are used for specific projects
+machines access these accounts with their specifically generated ssh key pair, with the public key put into the authorized keys of the user for the project</p>
+
+<p>salt-repo authorized_keys:
+  salt-knotdns01 key pair
+  salt-web01 key pair</p>
+
+<p>These service account users have git-shell as their shell, which means they can only push/pull.</p>
 
 <h1 id="implementation-1">Implementation</h1>
+
+<p>Throughout this design it assumed that the infrastructure is built on bare metal by default, though it is acceptable that multiple services may be running on the same physical host and segregated using jails or virtual machines. Cloud infrastructures are not considered because they are inherently hosted externally which is not possible in a secure environment.</p>
 
 <h1 id="provisioning">Provisioning</h1>
 
