@@ -1,7 +1,6 @@
 def test_daemontools_is_installed(host):
     daemontools = host.package("daemontools")
     assert daemontools.is_installed
-    assert daemontools.version.startswith("0.76")
 
 def test_service_dir(host):
     service = host.file("/var/service")

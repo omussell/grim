@@ -1,7 +1,6 @@
 def test_knot_is_installed(host):
     knot = host.package("knot2")
     assert knot.is_installed
-    assert knot.version.startswith("2.5.3")
 
        sysrc knot_enable=YES                                                                                                   
            sysrc knot_config=/usr/local/etc/knot/knot.conf                                            

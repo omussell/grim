@@ -3,7 +3,6 @@
 def test_git_is_installed(host):
     git = host.package("git")
     assert git.is_installed
-    assert git.version.startswith("2.13.5")
 
 def test_git_remote_user_exists(host):
     git_remote = host.user("git_remote")
