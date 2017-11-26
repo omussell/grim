@@ -153,10 +153,70 @@ separate user accounts are used for specific projects
 machines access these accounts with their specifically generated ssh key pair, with the public key put into the authorized keys of the user for the project
 
 salt-repo authorized_keys:
-  salt-knotdns01 key pair
-  salt-web01 key pair
+  salt-master01 public key 
+  salt-master02 public key 
+
+hugo-repo authorized_keys:
+  hugo-master01 public key
+  hugo-master02 public key
 
 These service account users have git-shell as their shell, which means they can only push/pull.
+
+SSH
+---
+
+The default for HostKey is to accept RSA, DSA, ECDSA and ED25519 host keys. We only want to use ED25519, which can be enabled with:
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+We need to have the capability to rotate the host key. The old and new keys both need to be accepted until the new keys SSHFP resource record has been published into DNS.
+
+So to rotate the host key:
+
+- Generate a new host key
+- Update the /etc/ssh/sshd_config file to specify the name of the new host key, while keeping the existing host key defined as well
+- Calculate the SSHFP resource record of the new host key
+- Update the zone file with the SSHFP record
+- Resign the zone 
+- Publish the zone
+- Update the /etc/ssh/sshd_config file to remove the old host key
+
+he node itself should be responsible for generating the new host keys so that the private keys are not transported across the network. Using Saltstack's [Event-Driven Infrastructure] model we can detect when a new host key is generated and automatically perform the steps required to update the zone with the new SSHFP record. 
+
+[Event-Driven Infrastructure]: https://docs.saltstack.com/en/getstarted/event
+
+The default for AuthorizedKeysFile is to use the .ssh/authorized_keys file in the users home directory. 
+AuthorizedKeysFile .ssh/authorized_keys
+
+Like host keys, user keys should be rotated regularly. For service accounts, the rotation can follow a similar process to host key rotation.
+
+- Generate a new user key
+- Update ssh_config to use the new key, while keeping the existing user key defined as well
+- Grab the public key, and update the authorized_keys files on machines as necessary
+- Once updated, update the ssh_config file to remove the old user key
+
+We will keep this default, but the way that users connect may be slightly different than what is normally expected. For example, on a git server we may have a particular user account created to allow access to a repository. It is likely that this same repository would be accessed by many different machines to pull down their configuration. Rather than creating a separate user account per machine on the git server, we would create one account called git-repo or something, then the authorized_keys file for that user would contain the public keys of multiple machine users. So the master01 machine would have a git-repo user as well, but its SSH keys would be different to the git-repo users SSH keys on the master02 machine. But the public keys of the git-repo user of both master01 and master02 would exist in the authorized_keys file on the git server.
+
+!! none of that makes sense and needs rewriting !!
+
+
+machines access these accounts with their specifically generated ssh key pair, with the public key put into the authorized keys of the user for the project
+
+salt-repo authorized_keys:
+  salt-master01 public key 
+  salt-master02 public key 
+
+hugo-repo authorized_keys:
+  hugo-master01 public key
+  hugo-master02 public key
+
+The SSH keys used by humans to directly connect to servers are harder to manage, since we would probably want the private keys to be encrypted and require a password or preferably include two-factor authentication as well. So its harder to automate the rotation. It may be best to instead have a MOTD that encourages the user to update their SSH key. It could give a time period that the user needs to have changed their keys by, and dynamically update the MOTD to say if the keys are "expired". If we were really strict, we could block log in at this point. However, the infrastructure is supposed to be hands-off and there should only be a requirement for a human to log into a server directly if things have gone wrong. So we dont really want to block human access.
+
+Required SSH accounts / connections
+
+- git pull/push - config management and application repos
+- zfs send/recv - upgrading zfs boot environments. application deploys via zfs/jails
+- human user accounts - human access to servers
+
 
 
 Implementation
