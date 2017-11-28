@@ -180,7 +180,7 @@ So to rotate the host key:
 - Publish the zone
 - Update the /etc/ssh/sshd_config file to remove the old host key
 
-he node itself should be responsible for generating the new host keys so that the private keys are not transported across the network. Using Saltstack's [Event-Driven Infrastructure] model we can detect when a new host key is generated and automatically perform the steps required to update the zone with the new SSHFP record. 
+The node itself should be responsible for generating the new host keys so that the private keys are not transported across the network. Using Saltstack's [Event-Driven Infrastructure] model we can detect when a new host key is generated and automatically perform the steps required to update the zone with the new SSHFP record. 
 
 [Event-Driven Infrastructure]: https://docs.saltstack.com/en/getstarted/event
 

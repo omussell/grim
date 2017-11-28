@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
     <title> - Bootstrapping a Secure Infrastructure</title>
-    <meta name="generator" content="Hugo 0.31" />
+    <meta name="generator" content="Hugo 0.31.1" />
 
     
     <meta name="description" content="Bootstrapping a Secure Infrastructure">
@@ -98,10 +98,6 @@
       </div>
     </div>
 
-    
-
-    
-    
         
   </div>
   <div class="bar search">
@@ -118,6 +114,7 @@
     </div>
   </div>
 </nav>
+
 </header>
 
 <main class="main">
@@ -377,7 +374,7 @@ HostKey /etc/ssh/ssh_host_ed25519_key</p>
 <li>Update the /etc/ssh/sshd_config file to remove the old host key</li>
 </ul>
 
-<p>he node itself should be responsible for generating the new host keys so that the private keys are not transported across the network. Using Saltstack&rsquo;s <a href="https://docs.saltstack.com/en/getstarted/event">Event-Driven Infrastructure</a> model we can detect when a new host key is generated and automatically perform the steps required to update the zone with the new SSHFP record.</p>
+<p>The node itself should be responsible for generating the new host keys so that the private keys are not transported across the network. Using Saltstack&rsquo;s <a href="https://docs.saltstack.com/en/getstarted/event">Event-Driven Infrastructure</a> model we can detect when a new host key is generated and automatically perform the steps required to update the zone with the new SSHFP record.</p>
 
 <p>The default for AuthorizedKeysFile is to use the .ssh/authorized_keys file in the users home directory.
 AuthorizedKeysFile .ssh/authorized_keys</p>
@@ -669,15 +666,13 @@ AuthorizedKeysFile .ssh/authorized_keys</p>
             a.setAttribute("class", "headerlink");
             a.setAttribute("href", "#" + headers[i].id);
             a.setAttribute("title", "Permanent link")
-            a.innerHTML = "¶";
+            a.innerHTML = "#";
             headers[i].appendChild(a);
         }
       }
     </script>
 
-    
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <script src="/grim/javascripts/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
   </body>
 </html>
