@@ -22,3 +22,6 @@ done
 for file in $(grep -Rl "/grim/implementation" ./docs); do
 	sed -i "s/\/grim\/implementation/\/implementation/" $file
 done
+
+sudo /usr/local/bin/quark -d ~/grim/docs -p 80 &
+surf localhost:80 &
