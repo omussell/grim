@@ -217,6 +217,38 @@ Required SSH accounts / connections
 - zfs send/recv - upgrading zfs boot environments. application deploys via zfs/jails
 - human user accounts - human access to servers
 
+Config files were based on https://wiki.mozilla.org/Security/Guidelines/OpenSSH
+
+In FreeBSD, the sshd_config and ssh_config files are used to determine the behaviour of the ssh daemon and client respectively. By default, the options are declared in the file but are commented out so that it is easy to see what the default value of a particular option is. Uncommented options are then used to override behaviour. 
+
+For clarity, we can remove all of the commented lines in this file. Any lines that remain would then be only those options that override behaviours.
+
+```
+sshd_config
+
+HostKey /etc/ssh/ssh_host_ed25519_key
+KexAlgorithms curve25519-sha256@libssh.org
+Ciphers chacha20-poly1305@openssh.com
+AuthenticationMethods publickey
+LogLevel VERBOSE
+PermitRootLogin No
+UsePrivilegeSeparation sandbox
+```
+
+There are some options that are currently not shown in the below ssh_config. These would include the IdentityFile option, to determine the key pair to be used with a specific account. 
+
+The below example would reside at /etc/ssh/ssh_config to set the standard default options, and the IdentityFile and any other user specific options would be specified in the users ~/.ssh/ssh_config file.
+
+```
+ssh_config
+
+HashKnownHosts yes
+HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
+KexAlgorithms curve25519-sha256@libssh.org
+Ciphers chacha20-poly1305@openssh.com
+```
+
+
 
 
 Implementation
