@@ -198,6 +198,24 @@ We will keep this default, but the way that users connect may be slightly differ
 
 !! none of that makes sense and needs rewriting !!
 
+It is a standard practice to use service accounts where an account is required to carry out a particular process with restricted permissions and without human intervention. One of the common issues however, is that often the amount of such accounts increases dramatically as every application and workflow requires a new service account. This quickly becomes unmanageable and you end up with lots of unused accounts that have access to many different things and no way of knowing what they are doing. 
+
+To combat this, we want to standardise the accounts as much as possible while also limiting access permissions and auditing actions that are taken. 
+
+For example, a common action is to pull and push code to remote git repositories. In order to do this, a user account with the correct SSH key pair needs to connect to the server hosting the repository and have access to the directories containing the repositories. Rather than having a specific account for each application or host and splitting up the permissions for push and pull, we can instead have one account 'git_remote' which is an account which exists on every server. Its home directory is /usr/local/git, and only this user can access it. The shell for the 'git_remote' user is set to 'git-shell' which  allows git push and pull operations only.
+
+Though the 'git_remote' account exists on every server the SSH key pair is unique per server. In order to allow a server to access a repo on another server, the public key of the 'git_remote' user can be added to the authorized_keys file of the 'git_remote' user on the machine hosting the repositories. So access control is maintained using normal SSH keys and there is a standard maintainable way of performing this common task that works in the same way across the whole infrastructure.
+
+In addition, the SSH keys of the accounts can be rotated regularly as per normal.
+
+Each of the components that are required to maintain this approach are simple and common:
+
+- Managing standard Unix user accounts
+- Managing directory permissions
+- Managing SSH keys
+- Managing authorized_keys files
+
+
 
 machines access these accounts with their specifically generated ssh key pair, with the public key put into the authorized keys of the user for the project
 
