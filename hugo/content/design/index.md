@@ -520,6 +520,10 @@ Time Service
 Logging / Auditing
 ---
 
+Logs should remain on the server itself for a defined period of time, or defined file size, whichever occurs sooner. The logs should be rotated to ensure that they do not fill the disk. Ideally the logs should be stored in a separate disk/filesystem so that if the logs do fill the disk its doesn't affect the rest of the system.
+
+The logs should also be sent to some centralised place in the event that the server is tampered with or dies for whatever reason. The central logging server itself should also rotate logs and archive off old logs after a defined period of time. 
+
 RPC / Admin service
 ---
 

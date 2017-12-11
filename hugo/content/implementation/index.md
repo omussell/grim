@@ -306,6 +306,10 @@ Likewise, any packages that are required for our infrastructure to work should b
 
 ### ZFS ###
 
+https://www.freebsd.org/cgi/man.cgi?query=zfsd
+
+zfsd will detect if a disk becomes degraded or unavailable and will automatically activate a hot spare if available.
+
 ### Host Install Tools ###
 
 ### Ad-Hoc Change Tools ###
@@ -379,6 +383,16 @@ Time Service
 
 Logging / Auditing
 ---
+
+FreeBSD includes syslog in base. Newsyslog is the equivalent of logrotate, and is used to rotate logs.
+
+/etc/newsyslog.conf
+
+```
+# logfilename          [owner:group]    mode count size when  flags [/pid_file] [sig_num]
+/path/logs/*.log    644  7     100  $D0   G
+/path/logs/*/*.log  644  7     100  $D0   G
+```
 
 RPC / Admin service
 ---
