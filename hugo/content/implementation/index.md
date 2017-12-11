@@ -296,12 +296,6 @@ OS
 
 ### FreeBSD ###
 
-While NanoBSD was considered in the past, zfs boot environments are now used.
-
-With zfs boot environments, we can download the updated base files, create a new boot environment, start it in a jail, apply our configuration, test it, and then replicate the zfs dataset to other hosts using zfs send/recv over SSH. This gives us a reliable method of upgrading hosts and also minimises the amount of traffic over the internet. We would only need to download the base files once and then distrubute them locally rather than each host downloading updated versions. 
-
-Likewise, any packages that are required for our infrastructure to work should be download onto a local package mirror/cache. This means we can still function if the internet connection is unavailable and allows us to ensure we are using the latest versions of packages.
-
 ### Jails ###
 
 ### ZFS ###
@@ -311,6 +305,21 @@ https://www.freebsd.org/cgi/man.cgi?query=zfsd
 zfsd will detect if a disk becomes degraded or unavailable and will automatically activate a hot spare if available.
 
 ### Host Install Tools ###
+
+Download the updates 
+
+
+More testing with pkgbase needs to be carried out, but ideally if it works, we could build a new zfs boot environment, install the requisite packages and boot into it. 
+
+While NanoBSD was considered in the past, zfs boot environments are now used.
+
+With zfs boot environments, we can download the updated base files, create a new boot environment, start it in a jail, apply our configuration, test it, and then replicate the zfs dataset to other hosts using zfs send/recv over SSH. This gives us a reliable method of upgrading hosts and also minimises the amount of traffic over the internet. We would only need to download the base files once and then distrubute them locally rather than each host downloading updated versions. 
+
+Likewise, any packages that are required for our infrastructure to work should be download onto a local package mirror/cache. This means we can still function if the internet connection is unavailable and allows us to ensure we are using the latest versions of packages.
+
+
+
+Until pkgbase becomes a reality, we can just download the images or kernel.txz/base.txz files from the freebsd ftp sites. One alternative is to download the source code via subversion, then compile it yourself. This takes about one and a half hours though. Security patches can be applied by downloading the patch, running the diff through `patch` and then recompiling. Again, compilation takes ages, so it would be better to just use the images or precompiled binaries.
 
 ### Ad-Hoc Change Tools ###
 
