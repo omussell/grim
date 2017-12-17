@@ -460,6 +460,11 @@ KexAlgorithms curve25519-sha256@libssh.org
 Ciphers chacha20-poly1305@openssh.com
 </code></pre>
 
+<pre><code>su -m git_remote -c 'ssh-keygen -t ed25519 -N &quot;&quot; -f /usr/local/git/.ssh/id_ed25519 -C git_remote@testjail1'
+</code></pre>
+
+<p>also need to disable interactive login as per <code>man git-shell</code></p>
+
 <h1 id="implementation-1">Implementation</h1>
 
 <p>Throughout this design it assumed that the infrastructure is built on bare metal by default, though it is acceptable that multiple services may be running on the same physical host and segregated using jails or virtual machines. Cloud infrastructures are not considered because they are inherently hosted externally which is not possible in a secure environment.</p>
