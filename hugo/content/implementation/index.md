@@ -266,6 +266,12 @@ KexAlgorithms curve25519-sha256@libssh.org
 Ciphers chacha20-poly1305@openssh.com
 ```
 
+```
+su -m git_remote -c 'ssh-keygen -t ed25519 -N "" -f /usr/local/git/.ssh/id_ed25519 -C git_remote@testjail1'
+```
+
+also need to disable interactive login as per `man git-shell`
+
 
 
 
