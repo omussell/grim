@@ -1,3 +1,4 @@
-base:
+#base:
+{{ saltenv }}:
   '*':
     - states/examples
