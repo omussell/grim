@@ -1,3 +1,3 @@
 master:
   '*':
-    - examples
+    - states/examples
