@@ -6,7 +6,7 @@
   file.exists
 
 ssh_config_template:
-  file.managed
+  file.managed:
     - name: /etc/ssh/ssh_config
     - source: salt://templates/ssh_config
 
