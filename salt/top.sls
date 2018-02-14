@@ -2,3 +2,4 @@
 {{ saltenv }}:
   '*':
     - states/examples
+    - states/git
