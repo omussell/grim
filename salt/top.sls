@@ -3,3 +3,4 @@
   '*':
     - states/examples
     - states/git
+    - states/ssh
