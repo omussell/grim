@@ -1,0 +1,4 @@
+HashKnownHosts yes
+HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
+KexAlgorithms curve25519-sha256@libssh.org
+Ciphers chacha20-poly1305@openssh.com

@@ -5,6 +5,11 @@
 /etc/ssh/sshd_config:
   file.exists
 
+ssh_config_template:
+  file.managed
+    - name: /etc/ssh/ssh_config
+    - source: salt://templates/ssh_config
+
 sshd:
   service.running:
     - enable: True
