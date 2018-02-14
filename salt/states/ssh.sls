@@ -10,12 +10,18 @@ ssh_config_template:
     - name: /etc/ssh/ssh_config
     - source: salt://templates/ssh_config
 
+sshd_config_template:
+  file.managed:
+    - name: /etc/ssh/sshd_config
+    - source: salt://templates/sshd_config
+
 sshd:
   service.running:
     - enable: True
     - require:
       - file: /etc/ssh/sshd_config
-      - file: /etc/ssh/ssh_config
+    - watch:
+      - file: /etc/ssh/sshd_config
 
 sshd_enable:
   sysrc.managed:
