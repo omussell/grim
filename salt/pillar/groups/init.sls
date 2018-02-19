@@ -1,2 +1,3 @@
 groups:
-  wheel
+  wheel:
+    gid: 0
