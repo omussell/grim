@@ -1,4 +1,4 @@
-{% for group, args in pillar['groups'].iteritems() %}
+{% for group, args in pillar['groups'].items() %}
 {{ group }}:
   group.present:
     - name: {{ group }}

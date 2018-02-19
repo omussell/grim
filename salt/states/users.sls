@@ -5,7 +5,7 @@ git_remote:
     - home: "/usr/local/git"
     - shell: "/usr/local/bin/git-shell"
 
-{% for user, args in pillar['users'].iteritems() %}
+{% for user, args in pillar['users'].items() %}
 {{ user }}:
   user.present:
     - home: {{ args['home'] }}
