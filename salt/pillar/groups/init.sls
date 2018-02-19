@@ -1,4 +1,4 @@
 groups:
-  wheel:
+  - wheel:
     gid: 0
-  oliver
+  - oliver
