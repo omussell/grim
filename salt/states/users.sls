@@ -5,6 +5,15 @@ git_remote:
     - home: "/usr/local/git"
     - shell: "/usr/local/bin/git-shell"
 
+{% for group, args in pillar['groups'].items() %}
+{{ group }}:
+  group.present:
+    - name: {{ group }}
+{% if 'gid' in args %}
+    - gid: {{ args['gid'] }}
+{% endif %}
+{% endfor %}
+
 {% for user, args in pillar['users'].items() %}
 {{ user }}:
   user.present:
