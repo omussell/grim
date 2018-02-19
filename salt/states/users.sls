@@ -16,7 +16,6 @@ git_remote:
     - enforce_password: {{ args['enforce_password'] }}
 {% endif %}
 {% endif %}
-#    - fullname: {{ args['fullname'] }}
 {% if 'groups' in args %}
     - groups: {{ args['groups'] }}
 {% endif %}
