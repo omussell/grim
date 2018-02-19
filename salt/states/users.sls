@@ -6,7 +6,7 @@ git_remote:
     - shell: "/usr/local/bin/git-shell"
 
 {% for group, args in pillar['groups'].items() %}
-{{ group }}:
+group-{{ group }}:
   group.present:
     - name: {{ group }}
 {% if 'gid' in args %}
@@ -15,7 +15,7 @@ git_remote:
 {% endfor %}
 
 {% for user, args in pillar['users'].items() %}
-{{ user }}:
+user-{{ user }}:
   user.present:
     - home: {{ args['home'] }}
     - shell: {{ args['shell'] }}
