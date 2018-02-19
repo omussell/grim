@@ -4,4 +4,3 @@ users:
     home: /home/oliver
     groups: 
       - wheel
-      - oliver
