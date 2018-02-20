@@ -14,13 +14,16 @@ tank/template:
 tank/template@1:
   zfs.snapshot_present
 
-tank/testjail1:
+{% for jail, args in pillar['jails_present'].items() %}
+tank/{{ jail }}:
   zfs.filesystem_present:
     - cloned_from: tank/template@1
     - properties:
-      - mountpoint: /usr/local/jails/testjail1
+      - mountpoint: /usr/local/jails/{{ jail }}
 
 start_jails:
   module.run:
     - name: jail.start
-    - jail: testjail1
+    - jail: {{ jail }}
+
+{% endfor %}

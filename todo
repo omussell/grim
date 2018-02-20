@@ -22,3 +22,10 @@ Buildbot - Create a state for buildbot master creation.
 TICK stack - monitoring
 Netdata and prometheus - monitoring
 openntpd - replace base system ntpd
+
+
+sendmail on base system? should it be replaced with postfix or can it just be disabled?
+set roots password
+remove src from freebsd-update.conf
+salt_minion config
+sudo
