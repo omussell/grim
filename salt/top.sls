@@ -6,3 +6,4 @@
     - states/ssh
     - states/users
 #    - states/groups
+    - states/openntpd
