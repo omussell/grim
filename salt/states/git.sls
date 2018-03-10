@@ -3,7 +3,7 @@
 git:
   pkg.installed
 
-/usr/local/git:
+/var/git:
   file.directory:
     - makedirs: True
 
