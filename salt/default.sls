@@ -1,1 +1,1 @@
-editor: vim-lite
+editor: vim-console

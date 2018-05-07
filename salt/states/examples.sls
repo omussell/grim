@@ -1,7 +1,7 @@
 install_packages:
   pkg.installed:
     - pkgs:
-      - vim-lite
+      - vim-console
 
 #Clone homelab repo for testing:
 #  pkg.installed:
