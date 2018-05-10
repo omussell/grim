@@ -7,6 +7,7 @@
     - states/users
 #    - states/groups
     - states/openntpd
+    - states/build
 
 develop:
   '*':
