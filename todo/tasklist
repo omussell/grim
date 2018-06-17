@@ -91,6 +91,12 @@ For each objective above, the following non-functional requirements must be adhe
 - All config exists in version control backed config management
 - All data should be backed up somewhere
 - Documentation exists for the specified config
+- Tests have been written to confirm the config management code works as expected, and to provide a way of checking hosts for compliance
+
+
+
+Password / secrets management? root account password are needed for local access but should not be easily accessible. Use `pass`, password-store is the package name
+Netbox for device/datacentre management?
 
 
 
