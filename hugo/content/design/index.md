@@ -457,7 +457,7 @@ SSHFP records consist of three properties:
 - Fingerprint type
 - Fingerprint in hexadecimal
 
-The algorithm property we require is 4, which equates to ed25519. The fingerprint type we require is 2, which is SHA256, since it is preferred over SHA1. We can filter the output of "ssh-keygen -r" so that we only see SSHFP records with these properties. 
+The algorithm property we require is 4, which maps to ed25519. The fingerprint type we require is 2, which is SHA256, since it is preferred over SHA1. We can filter the output of "ssh-keygen -r" so that we only see SSHFP records with these properties. 
 
 ssh-keygen -r $(hostname) | awk '$4 == 4 && $5 == 2 {print $0}'
 
@@ -505,8 +505,21 @@ Authorisation / Access Control Lists
 ---
 You can control access to objects using the ACL authorisation mechanism. 
 
+NFSv4 ACLs allow more fine grained control
+
+
+
 Role-Based Access Control / Shared Administration (sudo)
 ---
+
+# RBAC
+Maintaining the fine-grained control of files can be arduous and is difficult to maintain at scale.
+
+One way to bring control over this is through role-based access control (RBAC). Instead of applying permissions to individual users and groups, you create roles which are applied to users and are collections of groups. A role might be HR staff, which have read/write access to the HR folder but only read to the Sales folder. 
+
+
+# sudo
+Access to the root account is restricted. Instead, sysadmins have a regular unix account which is given permission to perform administrative tasks with sudo. 
 
 Domain Naming Service
 ---

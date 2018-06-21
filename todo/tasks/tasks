@@ -1,4 +1,5 @@
 Update docs to use hugo classic theme | id:4a578bccd9c1ddbeed512c55cb0bc419321a5777
+Investigate using sudo to restrict admin permissions | id:54702792c761ef268565c50074b5c0fe0d508850
 Migrate codebase from Github to Gitlab for public access | id:791a2e792dfaa5c45d16fe4a362ee3b7b0b9eb2c
 Create tests for git server | id:79ad240baaa359218feb26e56ba9651e8f6e9a93
 Investigate using NFSv4 ACLs for managing access to files and git repos | id:af7fc2e0a2d929759024feb47ded46160f92615f
