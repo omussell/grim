@@ -480,4 +480,4 @@ testinfra is being used because its based on python. Other tools are serverspec/
 
 tests can be run with: `py.test -v testinfra/ssh.py`
 
-
+Tests can be run from the salt master and use the salt API for running tests on minions. In this way we are not reliant on services like SSH which we cant guarantee will be working. If the salt connection is also down, either the server is off, removed or is otherwise unresponsive and requires admin intervention. Although it is more likely that you would be alerted to this by the monitoring infrastructure.
