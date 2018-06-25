@@ -374,8 +374,16 @@ Security and Crypto
 
 ### HSM ###
 ### Passwords ###
+Use one time passwords generator with `pass`
+
+freebsd package is password-store
+
 ### TCP Wrapper ###
+TCP wrapper provides host access controls to inetd daemons. It should be used in conjunction with a firewall
+
 ### IDS ###
+mtree
+
 ### Firewalls ###
 
 Configuration Management Tools
@@ -462,3 +470,14 @@ Scaling
 
 User Access
 ===
+
+Infrastructure Testing
+===
+
+To check that the infrastructure is working as desired a infra testing tool should be used in combination with the configuration management tool. You can use these to validate that the config management config has been applied correctly, to provide test cases to validate any updates to the infra code still work, 
+
+testinfra is being used because its based on python. Other tools are serverspec/inspec. They are based on ruby. I'm trying to stick to python because it is much more sane than ruby.
+
+tests can be run with: `py.test -v testinfra/ssh.py`
+
+
