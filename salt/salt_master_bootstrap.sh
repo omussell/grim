@@ -2,7 +2,7 @@
 
 fetch https://bootstrap.saltstack.com -o salt_bootstrap.sh
 chmod +x salt_bootstrap.sh
-./salt_bootstrap.sh
+./salt_bootstrap.sh -M
 
 #py36-salt:
 #  pkg.installed
