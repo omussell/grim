@@ -2,6 +2,9 @@
 
 fetch https://bootstrap.saltstack.com -o salt_bootstrap.sh
 chmod +x salt_bootstrap.sh
+sysrc salt_master_enable=YES
+sysrc salt_minion_enable=YES
+./salt_bootstrap.sh
 ./salt_bootstrap.sh -M
 
 #py36-salt:
