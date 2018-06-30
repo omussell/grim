@@ -1,5 +1,6 @@
 #! /bin/sh
 
+pkg install -y ca_root_nss
 fetch https://bootstrap.saltstack.com -o salt_bootstrap.sh
 chmod +x salt_bootstrap.sh
 sysrc salt_master_enable=YES
