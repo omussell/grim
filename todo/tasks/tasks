@@ -3,6 +3,8 @@ Investigate using sudo to restrict admin permissions | id:54702792c761ef268565c5
 Testinfra parametrisation - create tool to scan salt state and generate a parametrised test for it | id:769ff2fa16cf2415b35aee7bd2d0a78266dde6f8
 Migrate codebase from Github to Gitlab for public access | id:791a2e792dfaa5c45d16fe4a362ee3b7b0b9eb2c
 Create tests for git server | id:79ad240baaa359218feb26e56ba9651e8f6e9a93
+Create salt state for managing jails | id:8733a32ac4d38ff5439fe3d55f00975d550d06f6
+Create salt state for managing bhyve VMS | id:91ec38af236912ee50fdd89c71df5dddd6bc3fa0
 Investigate using NFSv4 ACLs for managing access to files and git repos | id:af7fc2e0a2d929759024feb47ded46160f92615f
 Create salt state for install salt minion | id:e71677b665926d9e5a3de7f06c02887681cb8b6d
 Create git server state | id:eff1f0561856150ad4620ca2b8ada0c0444cec86
