@@ -1,4 +1,3 @@
-Create salt state for bringing up a salt master | id:01a2ba03c8653909a6ae483ece41879400bfdad6
 Update docs to use hugo classic theme | id:4a578bccd9c1ddbeed512c55cb0bc419321a5777
 Investigate using sudo to restrict admin permissions | id:54702792c761ef268565c50074b5c0fe0d508850
 Testinfra parametrisation - create tool to scan salt state and generate a parametrised test for it | id:769ff2fa16cf2415b35aee7bd2d0a78266dde6f8
