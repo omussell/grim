@@ -4,7 +4,7 @@
 
 # Bootstrapping a Secure Infrastructure
 
-*Oliver Mussell - 2016-2017*
+*Oliver Mussell - 2016-2018*
 
 Implementation
 ===
@@ -41,10 +41,6 @@ host connects to control machine, provides the new SSHFP values and asks for hos
 control machine updates DNS zone info with new SSHFP values
 if update is successful, remove old values and resign zone. Inform host to remove old host keys
 if update is unsuccessful, remove new values and report error.
-
-
-SSHFP records are available as puppet facts. So if the puppet master is using puppetdb to store fact data, the SSHFP record for every node is stored and is available to query. This could be queried and then used to build up zone record data and published in DNS. Host key rotation could then be achieved by the nodes generating a new key, syncing facts with the puppet master which then in turn updates the DNS records.
-
 
 
 Setting up IPsec Problem:

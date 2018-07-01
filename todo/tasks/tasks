@@ -4,7 +4,5 @@ Testinfra parametrisation - create tool to scan salt state and generate a parame
 Migrate codebase from Github to Gitlab for public access | id:791a2e792dfaa5c45d16fe4a362ee3b7b0b9eb2c
 Create tests for git server | id:79ad240baaa359218feb26e56ba9651e8f6e9a93
 Investigate using NFSv4 ACLs for managing access to files and git repos | id:af7fc2e0a2d929759024feb47ded46160f92615f
-Create tests for SSHD server | id:beb695bd581dba59daf3cddd303380513a289b02
 Create salt state for install salt minion | id:e71677b665926d9e5a3de7f06c02887681cb8b6d
 Create git server state | id:eff1f0561856150ad4620ca2b8ada0c0444cec86
-Create SSH client and server config state | id:f70ee305ef6fd7b11d71e413ed949dbee7c4d721

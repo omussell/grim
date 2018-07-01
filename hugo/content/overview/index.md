@@ -4,7 +4,7 @@ type: index
 
 # Bootstrapping a Secure Infrastructure
 
-*Oliver Mussell - 2016-2017*
+*Oliver Mussell - 2016-2018*
 
 
 Summary
