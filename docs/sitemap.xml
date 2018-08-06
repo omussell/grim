@@ -3,19 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/grim/design/</loc>
-  </url>
-  
-  <url>
-    <loc>/grim/implementation/</loc>
-  </url>
-  
-  <url>
     <loc>/grim/</loc>
-  </url>
-  
-  <url>
-    <loc>/grim/overview/</loc>
   </url>
   
   <url>
@@ -25,21 +13,6 @@
   
   <url>
     <loc>/grim/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/grim/design/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/grim/implementation/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/grim/overview/</loc>
     <priority>0</priority>
   </url>
   
