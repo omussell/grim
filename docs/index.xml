@@ -16,8 +16,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/grim/</guid>
-      <description>Bootstrapping a Secure Infrastructure Oliver Mussell - 2016-2017
-Summary Create an infrastructure with an emphasis on security, resiliency and ease of maintenance.
+      <description>_____/\\\\\\\\\\\\____/\\\\\\\\\______/\\\\\\\\\\\__/\\\\____________/\\\\_ ___/\\\//////////___/\\\///////\\\___\/////\\\///__\/\\\\\\________/\\\\\\_ __/\\\_____________\/\\\_____\/\\\_______\/\\\_____\/\\\//\\\____/\\\//\\\_ _\/\\\____/\\\\\\\_\/\\\\\\\\\\\/________\/\\\_____\/\\\\///\\\/\\\/_\/\\\_ _\/\\\___\/////\\\_\/\\\//////\\\________\/\\\_____\/\\\__\///\\\/___\/\\\_ _\/\\\_______\/\\\_\/\\\____\//\\\_______\/\\\_____\/\\\____\///_____\/\\\_ _\/\\\_______\/\\\_\/\\\_____\//\\\______\/\\\_____\/\\\_____________\/\\\_ _\//\\\\\\\\\\\\/__\/\\\______\//\\\__/\\\\\\\\\\\_\/\\\_____________\/\\\_ __\////////////____\///________\///__\///////////__\///______________\///__   Summary Create an infrastructure with an emphasis on security, resiliency and ease of maintenance.
 End Goal Produce a working implementation of a secure, resilient and easy to maintain infrastructure. This will be published in the form of version-controlled configuration documents, with the philosophy and background of the chosen configuration documented here. Anyone should be able to download the base operating system, and the configuration documents should convert that base OS into the desired state.</description>
     </item>
     
