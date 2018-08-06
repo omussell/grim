@@ -49,6 +49,11 @@ publishDir = "../docs"
 	url    = "implementation/"
 	weight = 30
 
+[[menu.main]]
+	name   = "Homelab"
+	url    = "test/"
+	weight = 40
+
 [blackfriday]
 	smartypants    = true
 	fractions      = true
