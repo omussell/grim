@@ -22,12 +22,12 @@ IPv6 uses a 128-bit address which allows a much larger address space, 2^128. A s
     </item>
     
     <item>
-      <title>Handling Go Dependencies</title>
+      <title>Homelab</title>
       <link>/grim/homelab/</link>
       <pubDate>Wed, 14 Mar 2018 21:47:09 +0000</pubDate>
       
       <guid>/grim/homelab/</guid>
-      <description>During development, you will often use go get to download libraries for import into the program which is useful for development but not so useful when building the finished product. Managing these dependencies over time is a hassle as they change frequently and can sometimes disappear entirely.
+      <description>Handling Go Dependencies During development, you will often use go get to download libraries for import into the program which is useful for development but not so useful when building the finished product. Managing these dependencies over time is a hassle as they change frequently and can sometimes disappear entirely.
 The dep tool provides a way of automatically scanning your import statements and evaluating all of the dependencies. It create some files Gopkg.</description>
     </item>
     
