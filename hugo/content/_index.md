@@ -1,5 +1,8 @@
 ---
 type: index
+title: "Bootstrapping a Secure Infrastructure"
+date: 2018-03-14T21:47:09Z
+draft: false
 ---
 
 <pre>
@@ -17,8 +20,7 @@ type: index
 </pre>
 
 
-Summary
-===
+## Summary
 
 Create an infrastructure with an emphasis on security, resiliency and ease of maintenance. 
 
