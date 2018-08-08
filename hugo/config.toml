@@ -51,8 +51,8 @@ theme = "hugo-material-docs"
 	weight = 30
 
 [[menu.main]]
-	name   = "test"
-	url    = "test/"
+	name   = "Homelab"
+	url    = "homelab/"
 	weight = 40
 
 [blackfriday]
