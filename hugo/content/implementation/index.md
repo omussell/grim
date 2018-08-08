@@ -1,5 +1,8 @@
 ---
 type: index
+title: "Implementation"
+date: 2018-03-14T21:47:09Z
+draft: false
 ---
 
 # Bootstrapping a Secure Infrastructure
