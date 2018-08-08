@@ -9,18 +9,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title> - Bootstrapping a Secure Infrastructure</title>
+    <title>Handling Go Dependencies - Bootstrapping a Secure Infrastructure</title>
     <meta name="generator" content="Hugo 0.36.1" />
 
     
     <meta name="description" content="Bootstrapping a Secure Infrastructure">
     
-    <link rel="canonical" href="/grim/overview/">
+    <link rel="canonical" href="/grim/homelab/">
     
     <meta name="author" content="Oliver Mussell">
     
 
-    <meta property="og:url" content="/grim/overview/">
+    <meta property="og:url" content="/grim/homelab/">
     <meta property="og:title" content="Bootstrapping a Secure Infrastructure">
     <meta property="og:image" content="/grim/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Bootstrapping a Secure Infrastructure">
@@ -94,7 +94,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        
+        Handling Go Dependencies
       </div>
     </div>
 
@@ -152,14 +152,11 @@
 
 
 
-<a class="current" title="Overview" href="/grim/overview/">
+<a  title="Overview" href="/grim/overview/">
 	
 	Overview
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
 
   
@@ -231,35 +228,37 @@
 
 	<article class="article">
 		<div class="wrapper">
-			<h1> </h1>
+			<h1>Handling Go Dependencies </h1>
 
 			
 
-<h1 id="bootstrapping-a-secure-infrastructure">Bootstrapping a Secure Infrastructure</h1>
+<p>During development, you will often use <code>go get</code> to download libraries for import into the program which is useful for development but not so useful when building the finished product. Managing these dependencies over time is a hassle as they change frequently and can sometimes disappear entirely.</p>
 
-<p><em>Oliver Mussell - 2016-2018</em></p>
+<p>The <code>dep</code> tool provides a way of automatically scanning your import statements and evaluating all of the dependencies. It create some files <code>Gopkg.toml</code> and <code>Gopkg.lock</code> which contain the location and latest Git SHA of your dependencies.</p>
 
-<h1 id="summary">Summary</h1>
+<p><code>dep</code> is installed via <code>curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh</code></p>
 
-<p>Create an infrastructure with an emphasis on security, resiliency and ease of maintenance.</p>
+<p>Run <code>dep init</code> to create the initial files, then as your develop run <code>dep ensure</code> to update dependencies to the latest version.</p>
 
-<h2 id="end-goal">End Goal</h2>
+<p>The <code>dep</code> tool also downloads a copy of all dependencies into a <code>vendor</code> folder at the root of your project. This provides a backup in case a dependency disappears and provides the facility for reproducible builds.</p>
 
-<p>Produce a working implementation of a secure, resilient and easy to maintain infrastructure. This will be published in the form of version-controlled configuration documents, with the philosophy and background of the chosen configuration documented here. Anyone should be able to download the base operating system, and the configuration documents should convert that base OS into the desired state.</p>
+<h2 id="bazel-gazelle">Bazel / Gazelle</h2>
 
-<p>The documentation on this site is split into two sections, Design and Implementation. The Design documents what the infrastructure <em>should</em> look like in high level terms while never actually stating particular tools. The Implementation is a working version that follows the design.</p>
+<p>With our dependencies being updated, we would also need to update the WORKSPACE file so that Bazel/Gazelle knows about them as well. Gazelle requires the location and git commit hash in order to pull down the correct dependencies, but this is laborious to perform manually.</p>
 
-<p>A secondary objective is to allow users to choose which software to use by having each component of the infrastructure being modular and interchangable. So while a particular tool may be used for a given task, the implementation should be seen as guidance only of what can be achieved using the design.</p>
+<p>Thankfully, we can run a command to have gazelle pull in all of the dependencies from the <code>Gopkg.lock</code> file and update the WORKSPACE file automatically. Bazel will then pull in all of the dependencies correctly without any manual intervention.</p>
 
-<h2 id="background">Background</h2>
+<p><code>gazelle update-repos -from_file Gopkg.lock</code></p>
 
-<p>The intent is for the infrastructure to work regardless of participating in the wider internet. The design is aimed at organisations that have strict security and uptime requirements (government/critical physical infrastructure), although there is nothing preventing other organisations from adopting this design and/or changing it to suit them.</p>
+<p>As part of ongoing development, you would periodically run</p>
 
-<p>Organisations would likely still use the existing internet infrastructure in order to connect between their sites, however, there is the option to not be dependent on the third-party PKI and DNS systems. By removing the dependencies between organisations, there is greater decentralisation which allows more freedom.</p>
+<p><code>dep ensure</code></p>
 
-<h2 id="high-level-design">High-Level Design</h2>
+<p>followed by</p>
 
-<p><img src="/grim/images/secenv.svg"></p>
+<p><code>gazelle update-repos -from_file Gopkg.lock</code></p>
+
+<p>to keep all of the dependencies up to date and generate the new WORKSPACE file.</p>
 
 
 			<aside class="copyright" role="note">
@@ -276,25 +275,25 @@
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
   
-      <a href="/grim/implementation/" title="">
+  </div>
+
+  <div class="next">
+  
+      <a href="/grim/design/" title="">
         <span class="direction">
-          Previous
+          Next
         </span>
         <div class="page">
-          <div class="button button-previous" role="button" aria-label="Previous">
-            <i class="icon icon-back"></i>
-          </div>
           <div class="stretch">
             <div class="title">
               
             </div>
           </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
         </div>
       </a>
-  
-  </div>
-
-  <div class="next">
   
   </div>
 </nav>

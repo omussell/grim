@@ -6,9 +6,20 @@
     <description>Recent content on Bootstrapping a Secure Infrastructure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
+    <lastBuildDate>Wed, 14 Mar 2018 21:47:09 +0000</lastBuildDate>
     
 	<atom:link href="/grim/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Handling Go Dependencies</title>
+      <link>/grim/homelab/</link>
+      <pubDate>Wed, 14 Mar 2018 21:47:09 +0000</pubDate>
+      
+      <guid>/grim/homelab/</guid>
+      <description>During development, you will often use go get to download libraries for import into the program which is useful for development but not so useful when building the finished product. Managing these dependencies over time is a hassle as they change frequently and can sometimes disappear entirely.
+The dep tool provides a way of automatically scanning your import statements and evaluating all of the dependencies. It create some files Gopkg.</description>
+    </item>
     
     <item>
       <title></title>
@@ -41,16 +52,6 @@ StrictHostKeyChecking vs VerifyHostKeyDNS Problem: Problem Statement Do the Stri
       <description>Bootstrapping a Secure Infrastructure Oliver Mussell - 2016-2018
 Summary Create an infrastructure with an emphasis on security, resiliency and ease of maintenance.
 End Goal Produce a working implementation of a secure, resilient and easy to maintain infrastructure. This will be published in the form of version-controlled configuration documents, with the philosophy and background of the chosen configuration documented here. Anyone should be able to download the base operating system, and the configuration documents should convert that base OS into the desired state.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/grim/test/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/grim/test/</guid>
-      <description>sadf
-asdf</description>
     </item>
     
   </channel>
