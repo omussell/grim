@@ -2,6 +2,7 @@ baseurl = "/grim/"
 languageCode = "en-gb"
 title = "Bootstrapping a Secure Infrastructure"
 publishDir = "../docs"
+theme = "hugo-material-docs"
 
 [params]
 	# General information
@@ -50,7 +51,7 @@ publishDir = "../docs"
 	weight = 30
 
 [[menu.main]]
-	name   = "Homelab"
+	name   = "test"
 	url    = "test/"
 	weight = 40
 

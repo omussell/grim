@@ -1,5 +1,5 @@
 ---
-#type: index
+type: index
 ---
 
 # Bootstrapping a Secure Infrastructure
