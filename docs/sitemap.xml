@@ -3,7 +3,17 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/grim/design/</loc>
+    <lastmod>2018-03-14T21:47:09+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/grim/homelab/</loc>
+    <lastmod>2018-03-14T21:47:09+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/grim/implementation/</loc>
     <lastmod>2018-03-14T21:47:09+00:00</lastmod>
   </url>
   
@@ -15,14 +25,6 @@
   <url>
     <loc>/grim/</loc>
     <lastmod>2018-03-14T21:47:09+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/grim/design/</loc>
-  </url>
-  
-  <url>
-    <loc>/grim/implementation/</loc>
   </url>
   
   <url>

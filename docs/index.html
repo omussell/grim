@@ -232,79 +232,7 @@
 	<article class="article">
 		<div class="wrapper">
 			
-				<h1>Overview </h1>
-
-				
-
-<h1 id="bootstrapping-a-secure-infrastructure">Bootstrapping a Secure Infrastructure</h1>
-
-<p><em>Oliver Mussell - 2016-2018</em></p>
-
-<h1 id="summary">Summary</h1>
-
-<p>Create an infrastructure with an emphasis on security, resiliency and ease of maintenance.</p>
-
-<h2 id="end-goal">End Goal</h2>
-
-<p>Produce a working implementation of a secure, resilient and easy to maintain infrastructure. This will be published in the form of version-controlled configuration documents, with the philosophy and background of the chosen configuration documented here. Anyone should be able to download the base operating system, and the configuration documents should convert that base OS into the desired state.</p>
-
-<p>The documentation on this site is split into two sections, Design and Implementation. The Design documents what the infrastructure <em>should</em> look like in high level terms while never actually stating particular tools. The Implementation is a working version that follows the design.</p>
-
-<p>A secondary objective is to allow users to choose which software to use by having each component of the infrastructure being modular and interchangable. So while a particular tool may be used for a given task, the implementation should be seen as guidance only of what can be achieved using the design.</p>
-
-<h2 id="background">Background</h2>
-
-<p>The intent is for the infrastructure to work regardless of participating in the wider internet. The design is aimed at organisations that have strict security and uptime requirements (government/critical physical infrastructure), although there is nothing preventing other organisations from adopting this design and/or changing it to suit them.</p>
-
-<p>Organisations would likely still use the existing internet infrastructure in order to connect between their sites, however, there is the option to not be dependent on the third-party PKI and DNS systems. By removing the dependencies between organisations, there is greater decentralisation which allows more freedom.</p>
-
-<h2 id="high-level-design">High-Level Design</h2>
-
-<p><img src="/grim/images/secenv.svg"></p>
-
-			
-				<h1> </h1>
-
-				
-
-<pre>
-<b>
-    <font color="#A9A9A9">_____</font><font color="#8B008B">/\\\\\\\\\\\\</font><font color="#A9A9A9">____</font><font color="#8B008B">/\\\\\\\\\</font><font color="#A9A9A9">______</font><font color="#8B008B">/\\\\\\\\\\\</font><font color="#A9A9A9">__</font><font color="#8B008B">/\\\\</font><font color="#A9A9A9">____________</font><font color="#8B008B">/\\\\</font><font color="#A9A9A9">_</font>        
-     <font color="#A9A9A9">___</font><font color="#8B008B">/\\\//////////</font><font color="#A9A9A9">___</font><font color="#8B008B">/\\\///////\\\</font><font color="#A9A9A9">___</font><font color="#8B008B">\/////\\\///</font><font color="#A9A9A9">__</font><font color="#8B008B">\/\\\\\\</font><font color="#A9A9A9">________</font><font color="#8B008B">/\\\\\\</font><font color="#A9A9A9">_</font>       
-      <font color="#A9A9A9">__</font><font color="#8B008B">/\\\</font><font color="#A9A9A9">_____________</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_______</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\//\\\</font><font color="#A9A9A9">____</font><font color="#8B008B">/\\\//\\\</font><font color="#A9A9A9">_</font>      
-       <font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">____</font><font color="#8B008B">/\\\\\\\</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\\\\\\\\\/</font><font color="#A9A9A9">________</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\\///\\\/\\\/</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font>     
-        <font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">___</font><font color="#8B008B">\/////\\\</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\//////\\\</font><font color="#A9A9A9">________</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">__</font><font color="#8B008B">\///\\\/</font><font color="#A9A9A9">___</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font>    
-         <font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_______</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">____</font><font color="#8B008B">\//\\\</font><font color="#A9A9A9">_______</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">____</font><font color="#8B008B">\///</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font>   
-          <font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_______</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\//\\\</font><font color="#A9A9A9">______</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____________</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font>  
-           <font color="#A9A9A9">_</font><font color="#8B008B">\//\\\\\\\\\\\\/</font><font color="#A9A9A9">__</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">______</font><font color="#8B008B">\//\\\</font><font color="#A9A9A9">__</font><font color="#8B008B">/\\\\\\\\\\\</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____________</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font> 
-            <font color="#A9A9A9">__</font><font color="#8B008B">\////////////</font><font color="#A9A9A9">____</font><font color="#8B008B">\///</font><font color="#A9A9A9">________</font><font color="#8B008B">\///</font><font color="#A9A9A9">__</font><font color="#8B008B">\///////////</font><font color="#A9A9A9">__</font><font color="#8B008B">\///</font><font color="#A9A9A9">______________</font><font color="#8B008B">\///</font><font color="#A9A9A9">__</font>
-</b>    
-</pre>
-
-<h1 id="summary">Summary</h1>
-
-<p>Create an infrastructure with an emphasis on security, resiliency and ease of maintenance.</p>
-
-<h2 id="end-goal">End Goal</h2>
-
-<p>Produce a working implementation of a secure, resilient and easy to maintain infrastructure. This will be published in the form of version-controlled configuration documents, with the philosophy and background of the chosen configuration documented here. Anyone should be able to download the base operating system, and the configuration documents should convert that base OS into the desired state.</p>
-
-<p>The documentation on this site is split into two sections, Design and Implementation. The Design documents what the infrastructure <em>should</em> look like in high level terms while never actually stating particular tools. The Implementation is a working version that follows the design.</p>
-
-<p>A secondary objective is to allow users to choose which software to use by having each component of the infrastructure being modular and interchangable. So while a particular tool may be used for a given task, the implementation should be seen as guidance only of what can be achieved using the design.</p>
-
-<h2 id="background">Background</h2>
-
-<p>The intent is for the infrastructure to work regardless of participating in the wider internet. The design is aimed at organisations that have strict security and uptime requirements (government/critical physical infrastructure), although there is nothing preventing other organisations from adopting this design and/or changing it to suit them.</p>
-
-<p>Organisations would likely still use the existing internet infrastructure in order to connect between their sites, however, there is the option to not be dependent on the third-party PKI and DNS systems. By removing the dependencies between organisations, there is greater decentralisation which allows more freedom.</p>
-
-<h2 id="high-level-design">High-Level Design</h2>
-
-<p><img src="/grim/images/secenv.svg"></p>
-
-			
-				<h1> </h1>
+				<h1>Design </h1>
 
 				
 
@@ -950,7 +878,40 @@ Auditd / openbsm</p>
 </ul>
 
 			
-				<h1> </h1>
+				<h1>Handling Go Dependencies </h1>
+
+				
+
+<p>During development, you will often use <code>go get</code> to download libraries for import into the program which is useful for development but not so useful when building the finished product. Managing these dependencies over time is a hassle as they change frequently and can sometimes disappear entirely.</p>
+
+<p>The <code>dep</code> tool provides a way of automatically scanning your import statements and evaluating all of the dependencies. It create some files <code>Gopkg.toml</code> and <code>Gopkg.lock</code> which contain the location and latest Git SHA of your dependencies.</p>
+
+<p><code>dep</code> is installed via <code>curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh</code></p>
+
+<p>Run <code>dep init</code> to create the initial files, then as your develop run <code>dep ensure</code> to update dependencies to the latest version.</p>
+
+<p>The <code>dep</code> tool also downloads a copy of all dependencies into a <code>vendor</code> folder at the root of your project. This provides a backup in case a dependency disappears and provides the facility for reproducible builds.</p>
+
+<h2 id="bazel-gazelle">Bazel / Gazelle</h2>
+
+<p>With our dependencies being updated, we would also need to update the WORKSPACE file so that Bazel/Gazelle knows about them as well. Gazelle requires the location and git commit hash in order to pull down the correct dependencies, but this is laborious to perform manually.</p>
+
+<p>Thankfully, we can run a command to have gazelle pull in all of the dependencies from the <code>Gopkg.lock</code> file and update the WORKSPACE file automatically. Bazel will then pull in all of the dependencies correctly without any manual intervention.</p>
+
+<p><code>gazelle update-repos -from_file Gopkg.lock</code></p>
+
+<p>As part of ongoing development, you would periodically run</p>
+
+<p><code>dep ensure</code></p>
+
+<p>followed by</p>
+
+<p><code>gazelle update-repos -from_file Gopkg.lock</code></p>
+
+<p>to keep all of the dependencies up to date and generate the new WORKSPACE file.</p>
+
+			
+				<h1>Implementation </h1>
 
 				
 
@@ -1384,6 +1345,78 @@ Ciphers chacha20-poly1305@openssh.com
 <p>Alternatively the ssh transport can be used which uses the ssh command available on $PATH, which should be used by default.</p>
 
 			
+				<h1>Overview </h1>
+
+				
+
+<h1 id="bootstrapping-a-secure-infrastructure">Bootstrapping a Secure Infrastructure</h1>
+
+<p><em>Oliver Mussell - 2016-2018</em></p>
+
+<h1 id="summary">Summary</h1>
+
+<p>Create an infrastructure with an emphasis on security, resiliency and ease of maintenance.</p>
+
+<h2 id="end-goal">End Goal</h2>
+
+<p>Produce a working implementation of a secure, resilient and easy to maintain infrastructure. This will be published in the form of version-controlled configuration documents, with the philosophy and background of the chosen configuration documented here. Anyone should be able to download the base operating system, and the configuration documents should convert that base OS into the desired state.</p>
+
+<p>The documentation on this site is split into two sections, Design and Implementation. The Design documents what the infrastructure <em>should</em> look like in high level terms while never actually stating particular tools. The Implementation is a working version that follows the design.</p>
+
+<p>A secondary objective is to allow users to choose which software to use by having each component of the infrastructure being modular and interchangable. So while a particular tool may be used for a given task, the implementation should be seen as guidance only of what can be achieved using the design.</p>
+
+<h2 id="background">Background</h2>
+
+<p>The intent is for the infrastructure to work regardless of participating in the wider internet. The design is aimed at organisations that have strict security and uptime requirements (government/critical physical infrastructure), although there is nothing preventing other organisations from adopting this design and/or changing it to suit them.</p>
+
+<p>Organisations would likely still use the existing internet infrastructure in order to connect between their sites, however, there is the option to not be dependent on the third-party PKI and DNS systems. By removing the dependencies between organisations, there is greater decentralisation which allows more freedom.</p>
+
+<h2 id="high-level-design">High-Level Design</h2>
+
+<p><img src="/grim/images/secenv.svg"></p>
+
+			
+				<h1> </h1>
+
+				
+
+<pre>
+<b>
+    <font color="#A9A9A9">_____</font><font color="#8B008B">/\\\\\\\\\\\\</font><font color="#A9A9A9">____</font><font color="#8B008B">/\\\\\\\\\</font><font color="#A9A9A9">______</font><font color="#8B008B">/\\\\\\\\\\\</font><font color="#A9A9A9">__</font><font color="#8B008B">/\\\\</font><font color="#A9A9A9">____________</font><font color="#8B008B">/\\\\</font><font color="#A9A9A9">_</font>        
+     <font color="#A9A9A9">___</font><font color="#8B008B">/\\\//////////</font><font color="#A9A9A9">___</font><font color="#8B008B">/\\\///////\\\</font><font color="#A9A9A9">___</font><font color="#8B008B">\/////\\\///</font><font color="#A9A9A9">__</font><font color="#8B008B">\/\\\\\\</font><font color="#A9A9A9">________</font><font color="#8B008B">/\\\\\\</font><font color="#A9A9A9">_</font>       
+      <font color="#A9A9A9">__</font><font color="#8B008B">/\\\</font><font color="#A9A9A9">_____________</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_______</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\//\\\</font><font color="#A9A9A9">____</font><font color="#8B008B">/\\\//\\\</font><font color="#A9A9A9">_</font>      
+       <font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">____</font><font color="#8B008B">/\\\\\\\</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\\\\\\\\\/</font><font color="#A9A9A9">________</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\\///\\\/\\\/</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font>     
+        <font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">___</font><font color="#8B008B">\/////\\\</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\//////\\\</font><font color="#A9A9A9">________</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">__</font><font color="#8B008B">\///\\\/</font><font color="#A9A9A9">___</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font>    
+         <font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_______</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">____</font><font color="#8B008B">\//\\\</font><font color="#A9A9A9">_______</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">____</font><font color="#8B008B">\///</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font>   
+          <font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_______</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\//\\\</font><font color="#A9A9A9">______</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____________</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font>  
+           <font color="#A9A9A9">_</font><font color="#8B008B">\//\\\\\\\\\\\\/</font><font color="#A9A9A9">__</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">______</font><font color="#8B008B">\//\\\</font><font color="#A9A9A9">__</font><font color="#8B008B">/\\\\\\\\\\\</font><font color="#A9A9A9">_</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_____________</font><font color="#8B008B">\/\\\</font><font color="#A9A9A9">_</font> 
+            <font color="#A9A9A9">__</font><font color="#8B008B">\////////////</font><font color="#A9A9A9">____</font><font color="#8B008B">\///</font><font color="#A9A9A9">________</font><font color="#8B008B">\///</font><font color="#A9A9A9">__</font><font color="#8B008B">\///////////</font><font color="#A9A9A9">__</font><font color="#8B008B">\///</font><font color="#A9A9A9">______________</font><font color="#8B008B">\///</font><font color="#A9A9A9">__</font>
+</b>    
+</pre>
+
+<h1 id="summary">Summary</h1>
+
+<p>Create an infrastructure with an emphasis on security, resiliency and ease of maintenance.</p>
+
+<h2 id="end-goal">End Goal</h2>
+
+<p>Produce a working implementation of a secure, resilient and easy to maintain infrastructure. This will be published in the form of version-controlled configuration documents, with the philosophy and background of the chosen configuration documented here. Anyone should be able to download the base operating system, and the configuration documents should convert that base OS into the desired state.</p>
+
+<p>The documentation on this site is split into two sections, Design and Implementation. The Design documents what the infrastructure <em>should</em> look like in high level terms while never actually stating particular tools. The Implementation is a working version that follows the design.</p>
+
+<p>A secondary objective is to allow users to choose which software to use by having each component of the infrastructure being modular and interchangable. So while a particular tool may be used for a given task, the implementation should be seen as guidance only of what can be achieved using the design.</p>
+
+<h2 id="background">Background</h2>
+
+<p>The intent is for the infrastructure to work regardless of participating in the wider internet. The design is aimed at organisations that have strict security and uptime requirements (government/critical physical infrastructure), although there is nothing preventing other organisations from adopting this design and/or changing it to suit them.</p>
+
+<p>Organisations would likely still use the existing internet infrastructure in order to connect between their sites, however, there is the option to not be dependent on the third-party PKI and DNS systems. By removing the dependencies between organisations, there is greater decentralisation which allows more freedom.</p>
+
+<h2 id="high-level-design">High-Level Design</h2>
+
+<p><img src="/grim/images/secenv.svg"></p>
+
+			
 
 			<aside class="copyright" role="note">
 				
@@ -1405,14 +1438,14 @@ Ciphers chacha20-poly1305@openssh.com
   
   
   <div class="next">
-      <a href="/grim/implementation/" title="">
+      <a href="/grim/tags/" title="Tags">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              
+              Tags
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">
