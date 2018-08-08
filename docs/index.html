@@ -1994,8 +1994,6 @@ testjail {
 
 				
 
-<h1 id="implementation">Implementation</h1>
-
 <p>The architecture described in the design is only aimed at the infrastructure setup, not application servers. Each of the services provided can be accessed by other architectures based on different operating systems. So for example, Windows and Linux infrastructures would still be able to query the DNS service without any extra configuration.</p>
 
 <h2 id="stricthostkeychecking-vs-verifyhostkeydns-problem">StrictHostKeyChecking vs VerifyHostKeyDNS Problem:</h2>
@@ -2240,7 +2238,7 @@ Ciphers chacha20-poly1305@openssh.com
 
 <p>also need to disable interactive login as per <code>man git-shell</code></p>
 
-<h1 id="implementation-1">Implementation</h1>
+<h1 id="implementation">Implementation</h1>
 
 <p>Throughout this design it assumed that the infrastructure is built on bare metal by default, though it is acceptable that multiple services may be running on the same physical host and segregated using jails or virtual machines. Cloud infrastructures are not considered because they are inherently hosted externally which is not possible in a secure environment.</p>
 

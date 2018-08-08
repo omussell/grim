@@ -5,9 +5,6 @@ date: 2018-03-14T21:47:09Z
 draft: false
 ---
 
-Implementation
-===
-
 The architecture described in the design is only aimed at the infrastructure setup, not application servers. Each of the services provided can be accessed by other architectures based on different operating systems. So for example, Windows and Linux infrastructures would still be able to query the DNS service without any extra configuration.
 
 StrictHostKeyChecking vs VerifyHostKeyDNS Problem:
