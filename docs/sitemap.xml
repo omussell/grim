@@ -7,8 +7,19 @@
   </url>
   
   <url>
-    <loc>/grim/</loc>
-    <priority>0</priority>
+    <loc>/grim/design/</loc>
+  </url>
+  
+  <url>
+    <loc>/grim/implementation/</loc>
+  </url>
+  
+  <url>
+    <loc>/grim/overview/</loc>
+  </url>
+  
+  <url>
+    <loc>/grim/test/</loc>
   </url>
   
   <url>

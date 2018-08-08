@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
     <title> - Bootstrapping a Secure Infrastructure</title>
-    <meta name="generator" content="Hugo 0.31.1" />
+    <meta name="generator" content="Hugo 0.46" />
 
     
     <meta name="description" content="Bootstrapping a Secure Infrastructure">
@@ -22,7 +22,7 @@
 
     <meta property="og:url" content="/grim/design/">
     <meta property="og:title" content="Bootstrapping a Secure Infrastructure">
-    
+    <meta property="og:image" content="/grim/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Bootstrapping a Secure Infrastructure">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -123,6 +123,10 @@
   <a href="/grim/" class="project">
     <div class="banner">
       
+        <div class="logo">
+          <img src="/grim/images/logo.png">
+        </div>
+      
       <div class="name">
         <strong>Bootstrapping a Secure Infrastructure </strong>
         
@@ -198,6 +202,24 @@
 </li>
 
 
+
+<li>
+  
+    
+
+
+
+<a  title="test" href="/grim/test/">
+	
+	test
+</a>
+
+
+
+  
+</li>
+
+
         </ul>
         
       </div>
@@ -215,7 +237,7 @@
 
 <h1 id="bootstrapping-a-secure-infrastructure">Bootstrapping a Secure Infrastructure</h1>
 
-<p><em>Oliver Mussell - 2016-2017</em></p>
+<p><em>Oliver Mussell - 2016-2018</em></p>
 
 <h1 id="detailed-design">Detailed Design</h1>
 
@@ -668,7 +690,7 @@
 <li>Fingerprint in hexadecimal</li>
 </ul>
 
-<p>The algorithm property we require is 4, which equates to ed25519. The fingerprint type we require is 2, which is SHA256, since it is preferred over SHA1. We can filter the output of &ldquo;ssh-keygen -r&rdquo; so that we only see SSHFP records with these properties.</p>
+<p>The algorithm property we require is 4, which maps to ed25519. The fingerprint type we require is 2, which is SHA256, since it is preferred over SHA1. We can filter the output of &ldquo;ssh-keygen -r&rdquo; so that we only see SSHFP records with these properties.</p>
 
 <p>ssh-keygen -r $(hostname) | awk &lsquo;$4 == 4 &amp;&amp; $5 == 2 {print $0}&rsquo;</p>
 
@@ -723,7 +745,19 @@
 
 <p>You can control access to objects using the ACL authorisation mechanism.</p>
 
+<p>NFSv4 ACLs allow more fine grained control</p>
+
 <h2 id="role-based-access-control-shared-administration-sudo">Role-Based Access Control / Shared Administration (sudo)</h2>
+
+<h1 id="rbac">RBAC</h1>
+
+<p>Maintaining the fine-grained control of files can be arduous and is difficult to maintain at scale.</p>
+
+<p>One way to bring control over this is through role-based access control (RBAC). Instead of applying permissions to individual users and groups, you create roles which are applied to users and are collections of groups. A role might be HR staff, which have read/write access to the HR folder but only read to the Sales folder.</p>
+
+<h1 id="sudo">sudo</h1>
+
+<p>Access to the root account is restricted. Instead, sysadmins have a regular unix account which is given permission to perform administrative tasks with sudo.</p>
 
 <h2 id="domain-naming-service">Domain Naming Service</h2>
 

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
     <title> - Bootstrapping a Secure Infrastructure</title>
-    <meta name="generator" content="Hugo 0.31.1" />
+    <meta name="generator" content="Hugo 0.46" />
 
     
     <meta name="description" content="Bootstrapping a Secure Infrastructure">
@@ -22,7 +22,7 @@
 
     <meta property="og:url" content="/grim/implementation/">
     <meta property="og:title" content="Bootstrapping a Secure Infrastructure">
-    
+    <meta property="og:image" content="/grim/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Bootstrapping a Secure Infrastructure">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -123,6 +123,10 @@
   <a href="/grim/" class="project">
     <div class="banner">
       
+        <div class="logo">
+          <img src="/grim/images/logo.png">
+        </div>
+      
       <div class="name">
         <strong>Bootstrapping a Secure Infrastructure </strong>
         
@@ -198,6 +202,24 @@
 </li>
 
 
+
+<li>
+  
+    
+
+
+
+<a  title="test" href="/grim/test/">
+	
+	test
+</a>
+
+
+
+  
+</li>
+
+
         </ul>
         
       </div>
@@ -215,7 +237,7 @@
 
 <h1 id="bootstrapping-a-secure-infrastructure">Bootstrapping a Secure Infrastructure</h1>
 
-<p><em>Oliver Mussell - 2016-2017</em></p>
+<p><em>Oliver Mussell - 2016-2018</em></p>
 
 <h1 id="implementation">Implementation</h1>
 
@@ -251,8 +273,6 @@ host connects to control machine, provides the new SSHFP values and asks for hos
 control machine updates DNS zone info with new SSHFP values
 if update is successful, remove old values and resign zone. Inform host to remove old host keys
 if update is unsuccessful, remove new values and report error.</p>
-
-<p>SSHFP records are available as puppet facts. So if the puppet master is using puppetdb to store fact data, the SSHFP record for every node is stored and is available to query. This could be queried and then used to build up zone record data and published in DNS. Host key rotation could then be achieved by the nodes generating a new key, syncing facts with the puppet master which then in turn updates the DNS records.</p>
 
 <h2 id="setting-up-ipsec-problem">Setting up IPsec Problem:</h2>
 
@@ -547,9 +567,17 @@ Ciphers chacha20-poly1305@openssh.com
 
 <h3 id="passwords">Passwords</h3>
 
+<p>Use one time passwords generator with <code>pass</code></p>
+
+<p>freebsd package is password-store</p>
+
 <h3 id="tcp-wrapper">TCP Wrapper</h3>
 
+<p>TCP wrapper provides host access controls to inetd daemons. It should be used in conjunction with a firewall</p>
+
 <h3 id="ids">IDS</h3>
+
+<p>mtree</p>
 
 <h3 id="firewalls">Firewalls</h3>
 
@@ -624,6 +652,18 @@ Ciphers chacha20-poly1305@openssh.com
 
 <h1 id="user-access">User Access</h1>
 
+<h1 id="infrastructure-testing">Infrastructure Testing</h1>
+
+<p>To check that the infrastructure is working as desired a infra testing tool should be used in combination with the configuration management tool. You can use these to validate that the config management config has been applied correctly, to provide test cases to validate any updates to the infra code still work,</p>
+
+<p>testinfra is being used because its based on python. Other tools are serverspec/inspec. They are based on ruby. I&rsquo;m trying to stick to python because it is much more sane than ruby.</p>
+
+<p>tests can be run with: <code>py.test -v testinfra/ssh.py</code></p>
+
+<p>Tests can be run from the salt master and use the salt API for running tests on minions. In this way we are not reliant on services like SSH which we cant guarantee will be working. If the salt connection is also down, either the server is off, removed or is otherwise unresponsive and requires admin intervention. Although it is more likely that you would be alerted to this by the monitoring infrastructure.</p>
+
+<p>Alternatively the ssh transport can be used which uses the ssh command available on $PATH, which should be used by default.</p>
+
 
 			<aside class="copyright" role="note">
 				
@@ -659,7 +699,7 @@ Ciphers chacha20-poly1305@openssh.com
 
   <div class="next">
   
-      <a href="/grim/" title="">
+      <a href="/grim/overview/" title="">
         <span class="direction">
           Next
         </span>
