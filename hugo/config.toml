@@ -55,12 +55,6 @@ theme = "hugo-material-docs"
 	url    = "homelab/"
 	weight = 40
 
-[[menu.main]]
-	name   = "godeps"
-	url    = "homelab/go-deps/"
-	weight = 50
-        parent = "Homelab"
-
 [blackfriday]
 	smartypants    = true
 	fractions      = true

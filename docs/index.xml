@@ -17,8 +17,8 @@
       <pubDate>Wed, 14 Mar 2018 21:47:09 +0000</pubDate>
       
       <guid>/grim/design/</guid>
-      <description>Detailed Design IPv6 IPv6 is the latest version of the IP protocol, which offers significant advantages over IPv4.
-IPv6 uses a 128-bit address which allows a much larger address space, 2^128. A single /64 subnet has a size of 2^64 addresses which equates to the square of the entire IPv4 address space. An address is represented as eight groups of four hexadecimal digits with the groups separated by colons, e.</description>
+      <description>IPv6 IPv6 is the latest version of the IP protocol, which offers significant advantages over IPv4.
+IPv6 uses a 128-bit address which allows a much larger address space, 2^128. A single /64 subnet has a size of 2^64 addresses which equates to the square of the entire IPv4 address space. An address is represented as eight groups of four hexadecimal digits with the groups separated by colons, e.g. 2001:0db8:0000:0042:0000:8a2e:0370:7334. Guidance for representing IPv6 addresses in text is shown in RFC5952.</description>
     </item>
     
     <item>
@@ -47,8 +47,7 @@ StrictHostKeyChecking vs VerifyHostKeyDNS Problem: Problem Statement Do the Stri
       <pubDate>Wed, 14 Mar 2018 21:47:09 +0000</pubDate>
       
       <guid>/grim/overview/</guid>
-      <description>Bootstrapping a Secure Infrastructure Oliver Mussell - 2016-2018
-Summary Create an infrastructure with an emphasis on security, resiliency and ease of maintenance.
+      <description>Create an infrastructure with an emphasis on security, resiliency and ease of maintenance.
 End Goal Produce a working implementation of a secure, resilient and easy to maintain infrastructure. This will be published in the form of version-controlled configuration documents, with the philosophy and background of the chosen configuration documented here. Anyone should be able to download the base operating system, and the configuration documents should convert that base OS into the desired state.</description>
     </item>
     

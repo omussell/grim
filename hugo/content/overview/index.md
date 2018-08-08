@@ -5,14 +5,6 @@ date: 2018-03-14T21:47:09Z
 draft: false
 ---
 
-# Bootstrapping a Secure Infrastructure
-
-*Oliver Mussell - 2016-2018*
-
-
-Summary
-===
-
 Create an infrastructure with an emphasis on security, resiliency and ease of maintenance. 
 
 ## End Goal
