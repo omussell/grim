@@ -5,6 +5,27 @@ date: 2018-03-14T21:47:09Z
 draft: false
 ---
 
+## ZFS BE + PkgBase
+
+### ZFS Boot Environments
+
+With a standard zfs on root set up, you have one zpool with all the mount points on a ZFS dataset within the pool. With ZFS boot environments, you have a zpool with one or more ZFS datasets, where each dataset contains the whole kernel+base. The bootfs value of the zpool can be changed between the different ZFS datasets to change which is booted into. 
+
+An incredibly simple ZFS BE can be created by creating a new ZFS dataset, extracting the kernel/base tarballs to it and then setting the bootfs property to that dataset. 
+
+ZFS BE's can be started as a jail, or even as a bhyve VM if the kernel also needs to be tested. Once the BE has been tested and confirmed to be working, you can use zfs send/recv to distribute the dataset to other machines.
+
+### PkgBase
+
+Packaging the FreeBSD base system (including kernel). At the moment the entirety of the kernel or base are compiled and distributed as single tarballs. Coming in the 12.0 release is the ability to have a packaged base system using the pkg tool. This means that both base and third party software are managed by pkg instead of having freebsd-update et al plus pkg. 
+
+With PkgBase we can specify what base packages to include in our installation rather than having to compile it manually or use something like NanoBSD. This leads to smaller and specialised images with reduced attack surface.
+
+### ZFS BE + PkgBase working together
+
+So if a ZFS BE is just a dataset with kernel/base files and PkgBase lets us control the base system with packages, we can instead create a ZFS dataset and install the packages as needed into the dataset instead. In this way we can have a specialised ZFS BE that is easy to control with pkg.
+
+
 ## Handling Go Dependencies
 
 During development, you will often use `go get` to download libraries for import into the program which is useful for development but not so useful when building the finished product. Managing these dependencies over time is a hassle as they change frequently and can sometimes disappear entirely.
@@ -20,7 +41,7 @@ The `dep` tool also downloads a copy of all dependencies into a `vendor` folder 
 
 ### Bazel / Gazelle
 
-With our dependencies being updated, we would also need to update the WORKSPACE file so that Bazel/Gazelle knows about them as well. Gazelle requires the location and git commit hash in order to pull down the correct dependencies, but this is laborious to perform manually.
+With our dependencies being updated, we would also need to update the WORKSPACE file so that Bazel/Gazelle knows about them as well. Gazelle requires the location and git commit hash in order to pull down the correct dependencies, but this is laborious to update manually.
 
 Thankfully, we can run a command to have gazelle pull in all of the dependencies from the `Gopkg.lock` file and update the WORKSPACE file automatically. Bazel will then pull in all of the dependencies correctly without any manual intervention.
 
@@ -898,11 +919,6 @@ http {
 
 }
 ```
----
-title: "Bhyve VM Creation"
-date: 2018-01-25T21:14:11Z
-draft: false
----
 
 ## Bhyve VM creation
 

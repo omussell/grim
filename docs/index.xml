@@ -27,8 +27,7 @@ IPv6 uses a 128-bit address which allows a much larger address space, 2^128. A s
       <pubDate>Wed, 14 Mar 2018 21:47:09 +0000</pubDate>
       
       <guid>/grim/homelab/</guid>
-      <description>Handling Go Dependencies During development, you will often use go get to download libraries for import into the program which is useful for development but not so useful when building the finished product. Managing these dependencies over time is a hassle as they change frequently and can sometimes disappear entirely.
-The dep tool provides a way of automatically scanning your import statements and evaluating all of the dependencies. It create some files Gopkg.</description>
+      <description>ZFS BE + PkgBase ZFS Boot Environments With a standard zfs on root set up, you have one zpool with all the mount points on a ZFS dataset within the pool. With ZFS boot environments, you have a zpool with one or more ZFS datasets, where each dataset contains the whole kernel+base. The bootfs value of the zpool can be changed between the different ZFS datasets to change which is booted into.</description>
     </item>
     
     <item>

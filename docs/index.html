@@ -918,6 +918,26 @@ Auditd / openbsm</p>
 
 				
 
+<h2 id="zfs-be-pkgbase">ZFS BE + PkgBase</h2>
+
+<h3 id="zfs-boot-environments">ZFS Boot Environments</h3>
+
+<p>With a standard zfs on root set up, you have one zpool with all the mount points on a ZFS dataset within the pool. With ZFS boot environments, you have a zpool with one or more ZFS datasets, where each dataset contains the whole kernel+base. The bootfs value of the zpool can be changed between the different ZFS datasets to change which is booted into.</p>
+
+<p>An incredibly simple ZFS BE can be created by creating a new ZFS dataset, extracting the kernel/base tarballs to it and then setting the bootfs property to that dataset.</p>
+
+<p>ZFS BE&rsquo;s can be started as a jail, or even as a bhyve VM if the kernel also needs to be tested. Once the BE has been tested and confirmed to be working, you can use zfs send/recv to distribute the dataset to other machines.</p>
+
+<h3 id="pkgbase">PkgBase</h3>
+
+<p>Packaging the FreeBSD base system (including kernel). At the moment the entirety of the kernel or base are compiled and distributed as single tarballs. Coming in the 12.0 release is the ability to have a packaged base system using the pkg tool. This means that both base and third party software are managed by pkg instead of having freebsd-update et al plus pkg.</p>
+
+<p>With PkgBase we can specify what base packages to include in our installation rather than having to compile it manually or use something like NanoBSD. This leads to smaller and specialised images with reduced attack surface.</p>
+
+<h3 id="zfs-be-pkgbase-working-together">ZFS BE + PkgBase working together</h3>
+
+<p>So if a ZFS BE is just a dataset with kernel/base files and PkgBase lets us control the base system with packages, we can instead create a ZFS dataset and install the packages as needed into the dataset instead. In this way we can have a specialised ZFS BE that is easy to control with pkg.</p>
+
 <h2 id="handling-go-dependencies">Handling Go Dependencies</h2>
 
 <p>During development, you will often use <code>go get</code> to download libraries for import into the program which is useful for development but not so useful when building the finished product. Managing these dependencies over time is a hassle as they change frequently and can sometimes disappear entirely.</p>
@@ -932,7 +952,7 @@ Auditd / openbsm</p>
 
 <h3 id="bazel-gazelle">Bazel / Gazelle</h3>
 
-<p>With our dependencies being updated, we would also need to update the WORKSPACE file so that Bazel/Gazelle knows about them as well. Gazelle requires the location and git commit hash in order to pull down the correct dependencies, but this is laborious to perform manually.</p>
+<p>With our dependencies being updated, we would also need to update the WORKSPACE file so that Bazel/Gazelle knows about them as well. Gazelle requires the location and git commit hash in order to pull down the correct dependencies, but this is laborious to update manually.</p>
 
 <p>Thankfully, we can run a command to have gazelle pull in all of the dependencies from the <code>Gopkg.lock</code> file and update the WORKSPACE file automatically. Bazel will then pull in all of the dependencies correctly without any manual intervention.</p>
 
@@ -1732,13 +1752,6 @@ http {
 
 }
 </code></pre>
-
-<hr />
-
-<p>title: &ldquo;Bhyve VM Creation&rdquo;
-date: 2018-01-25T21:14:11Z</p>
-
-<h2 id="draft-false">draft: false</h2>
 
 <h2 id="bhyve-vm-creation">Bhyve VM creation</h2>
 
