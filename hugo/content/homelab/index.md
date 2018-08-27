@@ -5,6 +5,82 @@ date: 2018-03-14T21:47:09Z
 draft: false
 ---
 
+
+## Odoo ERP/CRM
+
+[Odoo](https://www.odoo.com) is an open source ERP/CRM solution. It uses Python and PostgreSQL for the backend and simply Less CSS for the frontend.
+
+Download the source code
+
+`git clone https://github.com/odoo/odoo.git --branch 11.0 --depth 1`
+
+Install the dependencies
+
+```
+pkg install -y git python35 postgresql10-server postgresql10-client
+
+#Pillow deps: 
+pkg install -y jpeg-turbo tiff webp lcms2 freetype2 libxslt
+
+#LDAP install doesnt work out of the box:
+pkg install -y openldap-client
+cp -v /usr/local/include/lber.h $venv/include
+```
+
+Install requirements
+
+`pip install -r requirements.txt`
+
+Create the default database and role
+
+```
+create role odoo with password 'odoo';
+alter role odoo with login;
+alter role odoo with createdb;
+create database odoo with owner odoo;
+```
+
+Frontend setup
+
+```
+pkg install -y npm node-npm8
+
+#For some reason npm kept crashing but installing a previous version of npm works?
+
+npm install -g npm@5.6.0
+
+npm install less
+```
+
+Run the service:
+
+`./odoo-bin --config ./local.cfg`
+
+A rc.d script does not exist, so that would need to be created manually, which shouldn't be too difficult.
+
+Default admin login didnt work so not sure what admin_password in the config file is doing, it doesnt work...
+
+Click on the manage databases button and create a database
+This creates a new database in postgresql, hence the createdb perms required on the role
+
+You also need to change the dbfilter setting to allow access to that database
+
+Attachments appear to be stored in the database by default (wow...). 
+
+Set data_dir = $filepath to store documents / attachments on the filesystem rather than in the database. It stores binary files with long random strings for the names. The file information is stored in the ir_attachment table. If you inspect the web page via Chrome devtools, look at the network tab and click on the file download, you can see in the form data the id and filename which can be queried in the database for the correct info.
+
+Otherwise just `select * from ir_attachment where name like '%Williams%';`
+
+```
+test=# select * from ir_attachment where id = 441;
+ id  |      name       |   datas_fname   | description |  res_name  |  res_model   | res_field | res_id |        create_date         | create_uid | company_id |  type  | url | public | access_token | db_datas |                 store_fname                 | file_size |                 checksum                 |      mimetype      | index_content | write_uid |         write_date
+-----+-----------------+-----------------+-------------+------------+--------------+-----------+--------+----------------------------+------------+------------+--------+-----+--------+--------------+----------+---------------------------------------------+-----------+------------------------------------------+--------------------+---------------+-----------+----------------------------
+ 441 | Williams_CV.doc | Williams_CV.doc |             | Programmer | hr.applicant |           |      8 | 2018-08-27 14:44:24.955914 |          1 |          1 | binary |     | f      |              |          | f8/f82ead4ee74f14d9bdecdb38272c17cfd732fd7a |     10240 | f82ead4ee74f14d9bdecdb38272c17cfd732fd7a | application/msword | application   |         1 | 2018-08-27 14:44:24.955914
+(1 row)
+
+```
+
+
 ## ZFS BE + PkgBase
 
 ### ZFS Boot Environments

@@ -27,7 +27,11 @@ IPv6 uses a 128-bit address which allows a much larger address space, 2^128. A s
       <pubDate>Wed, 14 Mar 2018 21:47:09 +0000</pubDate>
       
       <guid>/grim/homelab/</guid>
-      <description>ZFS BE + PkgBase ZFS Boot Environments With a standard zfs on root set up, you have one zpool with all the mount points on a ZFS dataset within the pool. With ZFS boot environments, you have a zpool with one or more ZFS datasets, where each dataset contains the whole kernel+base. The bootfs value of the zpool can be changed between the different ZFS datasets to change which is booted into.</description>
+      <description>Odoo ERP/CRM Odoo is an open source ERP/CRM solution. It uses Python and PostgreSQL for the backend and simply Less CSS for the frontend.
+Download the source code
+git clone https://github.com/odoo/odoo.git --branch 11.0 --depth 1
+Install the dependencies
+pkg install -y git python35 postgresql10-server postgresql10-client #Pillow deps: pkg install -y jpeg-turbo tiff webp lcms2 freetype2 libxslt #LDAP install doesnt work out of the box: pkg install -y openldap-client cp -v /usr/local/include/lber.</description>
     </item>
     
     <item>
