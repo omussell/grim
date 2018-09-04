@@ -85,6 +85,10 @@ FreeBSD has the IPsec kernel modules built into the kernel as of 11.0, but the d
 
 StrongSWAN seems to be more popular.
 
+	**USE WIREGUARD INSTEAD**
+
+
+
 
 Version Control
 ---
@@ -336,47 +340,27 @@ Security and Crypto
 
 The Secure Shell ([SSH]) protocol is used for secure remote login and tunneling other network services over an insecure network. SSH consists of three main components:
 
-- Transport Layer Protocol - Provides server authentication, confidentiality, and integrity with perfect forward secrecy. The transport layer will typicall be run over a TCP/IP connection.
+- Transport Layer Protocol - Provides server authentication, confidentiality, and integrity with perfect forward secrecy. The transport layer will typically be run over a TCP/IP connection.
 - User Authentication Protocol - Authenticates the client to the server. It runs over the transport layer protocol.
 - Connection Protocol - Multiplexes the encrypted tunnel into several logical channels. It runs over the user authentication protocol.
 
-Each server should have a host key. The host key is used during key exchange to verify that the client is talking to the correct server. The client must therefore have a priori knowledge of the servers host key. In order to accomplish this, two different methods are available, decentralised and centralised.
+There are two authentication processes that need to take place before a SSH connection is established, host key authentication and user authentication.
 
-- Decentralised - The client manages a local database, in the form of an authorized_keys file. While this allows a peer to peer architecture, it also requires manually updating and validating new/revoked host keys. Each client becomes responsible for validating the servers that it connects to. This allows you to scale arbitrarily, at the expense of manageability.
-- Centralised - The host keys are certified by a trusted third party, such as a certificate authority (CA) or via DNS(SEC). The client has knowledge of the CA root key or access to a validating DNS server. The validity of the host keys can be certified by accepted CAs or DNS servers. Consequently, each host key must be certified by the central authority before authorization is possible.
+Each server must have a host key pair. The host keys are used during key exchange to verify that the client is talking to the correct server. The client must therefore have a way of validating that the host keys are correct. 
 
-There is an option to defer checking the host key when connecting to host for the first time, however, this is not recommended and can be avoided by pre-seeding a public host key in the server build to allow connecting to the configuration management infrastructure and then changed at a later time.
+The usual way that this is achieved is manually by an administrator logging into the server. The client manages a local database, in the form of a known_hosts file. While this allows a peer to peer architecture, it also requires updating the known_hosts file on every client whenever host keys are rotated. Each client becomes responsible for validating the servers that it connects to. This allows you to scale at the expense of increased manageability. This is not the preferred option because when you have a lot of servers it becomes very hard to manage the known_hosts files on every server.
 
-**Transport Layer Protocol**
+The alternative and preferred option is to use SSHFP records stored in DNS, and secured with DNSSEC. The content of the public host key is used to generate a fingerprint in a specific layout which can then be stored in a specific type of DNS record called SSHFP or SSH FingerPrint. When the host key authentication takes place, the client checks DNS for the hostname of the server and will also check for the existence of a SSHFP record. If it exists, it will compare the fingerprint of the public host key provided by the server with the fingerprint of the SSHFP record. If they match the host key can be validated. We can be certain that the SSHFP record is correct because it is secured by DNSSEC. It is also much easier to manage because you only have to update the fingerprint of the host key in DNS once, then all clients can use it for validation. 
 
-Authentication at this layer is host based, it does not perform user authentication. The key exchange method, public key algorithm, symmetric encryption algorithm, message authentication algorithm, and hash algorithm are all negotiated.
+The downside of this approach is that you need to have DNSSEC enabled servers. However, we are using DNSSEC throughout this infrastructure so it is not a problem.
 
-The client initiates the connection, usually using TCP/IP. Port 22 is the officially recognized port number, however, servers that expose this port to the public internet should choose a different port since it is usually scanned for by automated bots.
+SSHFP records consist of three properties:
 
-!!
+- Algorithm (4)
+- Fingerprint type (2)
+- Fingerprint in hexadecimal (4893752075487258092758094)
 
-An encryption algorithm and a key will be negotiated during the key exchange. Since the ciphers on the client and server are independent, they may differ. The key exchange occurs in order for the client and server to find a common cipher available to both. Data integrity is provided by including a message authentication code or MAC with each packet that is created from a shared secret, packet sequence number and the contents of the packet.
-
-The key exchange algorithm decides the method which is used to perform the key exchange which specifies how one time session keys are generated for encryption and for authentication, and how the server authentication is done. 
-
-Public key format, encoding and algorithm (signature and/or encryption)
-
-!!
-
-Key exchange starts with each side sending their lists of supported algorithms. Each side has a preferred algorithm in each category. 
-
-**User Authentication Protocol**
-
-When user authentication starts, it receives the session identifier from the transport layer. The session identifier uniquely identifies this session and is suitable for signing in order to prove ownership of a private key. The server drives the authentication by telling the client which authentication methods can be used, such as public key or password authentication.
-
-In order to perform public key authentication, the client must be in possession of a private key. This method works by sending a signature created with a private key of the user. The server cheks that the key is a valid authenticator for the user, and checks that the signature is valid.
-
-**Connection Protocol**
-
-This layer provides interactive login sessions, remote execution of commands and forwarded TCP/IP connections, multiplexed into a single encrypted tunnel.
-
-All terminal sessions, forwarded connections etc. are channels. Either side may open a channel. Multiple channels are multiplexed into a single connection. 
-
+	hostname.fqdn IN SSHFP 4 2 4893752075487258092758094
 
 **First connection**
 
@@ -397,73 +381,41 @@ The client sends its chosen algorithm details and key exchange method to the hos
 - **Host** - restrict the following options (up to the next Host or Match) to be only used for those hosts matching the pattern.
 - **AddressFamily inet6** - Use IPv6 only when connecting
 - **CanonicalizeHostname** et al. - When an unqualified domain name is given as the SSH target, use the systems resolver to find the FQDN. The domain suffix is specified in CanonicalizeDomains. Can be set to strictly check so that if lookup fails within the specified domain, the SSH connection fails. This may be useful if unqualified names are used consistently, however, it adds another configuration file that is required to be maintained. !! Needs testing !!
-- **CheckHostIP yes** - SSH will also check the host IP address in the known_hosts file, which would detect if a host key changed due to DNS spoofing. This will add addresses of destination hosts to ~/.ssh/known_hosts regardless of the setting of StrictHostKeyChecking. !! Needs testing !! 
-- **Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com** - Prefer use of DJB's ciphers, fallback to AES GCM if necessary.
+- **Ciphers chacha20-poly1305@openssh.com**
 - **FingerprintHash sha256** - Prefer SHA256 over MD5 when displaying key fingerprints
 - **HashKnownHosts yes** - SSH will hash host names and addresses when they are added to ~/.ssh/known_hosts. Hashed names can be used normally by SSH, but are unreadable to humans.
-- **HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com** - Prefer use of DJB's cipher. 
+- **HostKeyAlgorithms ssh-ed25519** - Prefer use of DJB's cipher. 
 - **KexAlgorithms curve25519-sha256@libssh.org** - Prefer use of DJB's cipher. Key Exchange Algorithms
-- **MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com** - Encrypt then MAC, and SHA2 are preferred. When chacha20-poly1305@openssh.com is used, no MAC is used since Poly1305 is used as the MAC. The MAC algorithms listed here are used by AES GCM if available.
-- **Protocol 2** - Explicitly disable Protocol 1, which suffers from cryptographic weaknesses.
-- **PubkeyAcceptedKeyTypes ssh-ed25519-cert-v01@openssh.com** - Prefer use of DJB's cipher. Key types for public key authentication.
-- **PubkeyAuthentication yes** - Use public key authentication
-- GlobalKnownHostsFile /etc/ssh/known_hosts - Specifies the file containing known host keys. 
 
 **sshd_config**
 
 - **AddressFamily inet6** - Use IPv6 only when connecting
-- **AuthorizedKeysCommand** - Specifies a program to be used to look up the users public keys. !! We could use this to lookup users public keys stored in LDAP. !!
-- **AuthorizedKeysFile ".ssh/authorized_keys"** - Specifies the file that contains the users public keys.
 - **Banner none** - No banner message is displayed to the user before authentication.
-- **Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com** - Prefer use of DJB's ciphers, fallback to AES GCM if necessary.
+- **Ciphers chacha20-poly1305@openssh.com**
 - **FingerprintHash sha256** - Prefer SHA256 over MD5 when displaying key fingerprints
 - **HostKey /etc/ssh/ssh_host_ed25519_key** - Specifies the ed25519 host private key file.
-- **HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com** - Prefer use of DJB's cipher. 
+- **HostKeyAlgorithms ssh-ed25519** - Prefer use of DJB's cipher. 
 - **KexAlgorithms curve25519-sha256@libssh.org** - Prefer use of DJB's cipher. Key Exchange Algorithm.
-- **MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com** - Encrypt then MAC, and SHA2 are preferred. When chacha20-poly1305@openssh.com is used, no MAC is used since Poly1305 is used as the MAC. The MAC algorithms listed here are used by AES GCM if available.
 - **PasswordAuthentication no** - Disable password authentication
 - **PermitRootLogin no** - Do not allow root login over SSH
 - **PrintLastLog no** - Disables printing the date and time of the last user login. 
 - **PrintMotd no** - Disables printing the /etc/motd when a user logs in.
-- **PubkeyAcceptedKeyTypes ssh-ed25519-cert-v01@openssh.com** - Prefer use of DJB's cipher. Key types for public key authentication.
+- **PubkeyAcceptedKeyTypes ssh-ed25519@openssh.com** - Prefer use of DJB's cipher. Key types for public key authentication.
 - **PubkeyAuthentication yes** - Use public key authentication
-- **RevokedKeys KRL** - Specifies revoked public keys. Keys listed in this file will be refused for public key authentication. The KRL can be generated with ssh-keygen. !! Introduces complexity, as the KRL must be updated whenever the keys are changed. This may make host key rotation more difficult. This may be mitigated by storing host keys in DNS using SSHFP records, since removing the SSHFP RR from DNS is equivalent to revoking the key (this is specified in the VerifyHostKeyDNS setting below. !!
 - **UseDNS yes** - Tells sshd to look up the remote host name and check that the resolved host name for the remote IP address maps back to the same IP address.
-
-For host key checking, there are two options:
-
-1. 
-
-- **StrictHostKeyChecking yes** - SSH will never automatically add host keys to the ~/.ssh/known_hosts file, and refuses to connect to hosts whose host key has changed. This option forces the user to manually add all new hosts. !! This introduces additional complexity, as the known_hosts file must be managed manually. This option prevents connection to hosts that have had their host key changed, which is desirable, but it needs to be determined if this option works with automation. If a service account SSH's to a server, does it need to "accept" the key if it does not exist in the known_hosts file? The behaviour of this setting when used in conjunction with VerifyHostKeyDNS needs to be verified as well. Needs testing !!
-- **UpdateHostKeys yes** - SSH accepts notifications of additional host keys from the server sent after authentication has completed and add them to the known_hosts file. This allows the server to provide alternate host keys and key rotation by sending replacement host keys before the old ones are removed. The keys are specified in sshd_config as "HostKey ssh_host_ed25519_key", and the new keys would also be specified: "HostKey ssh_host_ed25519_key_new". The old keys would then be removed at a later time. However, this requires a user to connect during the grace period in order for the new keys to be added to the known_hosts file. After this period, the keys must be verified as if you were connecting for the first time. 
-
-These options would be preferred in a peer to peer / decentralised network, since it implies that each server manages its connections to other servers. This also requires users to regularly SSH to servers in order to maintain the known_hosts files.
-
-2.
-
-- **VerifyHostKeyDNS yes** - Specifies to verify the host key using DNS and SSHFP resource records. The client will implicitly trust keys that match a secure fingerprint from DNS. The integrity of the SSHFP resource records in DNS is provided by DNSSEC, since the SSHFP RRset is signed and the signature can be validated by resolvers. This option requires the servers to communicate their fingerprints to the DNS.
-
-Since this option is reliant on DNS and that DNSSEC is set up correctly, it would be preferred to be used in centralised networks. 
-
-SSHFP records are generated by running "ssh-keygen -r $(hostname)".  
-
-SSHFP records consist of three properties:
-
-- Algorithm
-- Fingerprint type
-- Fingerprint in hexadecimal
-
-The algorithm property we require is 4, which maps to ed25519. The fingerprint type we require is 2, which is SHA256, since it is preferred over SHA1. We can filter the output of "ssh-keygen -r" so that we only see SSHFP records with these properties. 
-
-ssh-keygen -r $(hostname) | awk '$4 == 4 && $5 == 2 {print $0}'
-
-The output is a list of SSHFP records in the format:
-
-	hostname.fqdn IN SSHFP 4 2 4893752075487258092758094
-
+- **StrictHostKeyChecking yes** - SSH refuses to connect to a host if the host key fingerprint differs from the SSHFP record. 
+- **VerifyHostKeyDNS yes** - Specifies to verify the host key using DNS and SSHFP resource records. The client will implicitly trust keys that match a secure fingerprint from DNS.
 
 ### HSM
+Will a HSM really be used? Preferable for DNSSEC root keys
+
 ### Passwords
+[Pass]
+
+
+[Pass]: https://www.passwordstore.org
+
+
 ### TCP Wrapper
 ### IDS
 ### Firewalls
@@ -496,6 +448,11 @@ Continuous Delivery:
 - Build quality in
 - Everybody has responsibility for the release process
 - Improve continuously
+
+
+
+
+Have buildbot create a new ZFS BE in response to the security notice email for a new release. 
 
 Authorisation / Access Control Lists
 ---
