@@ -123,8 +123,24 @@ OS
 ---
 The general server design would be a generic NanoBSD image occupying a flash device such as SD card serving as the operating system. Physical drives (either spinning disk or SSD) will be formatted with ZFS, on top of which the base for the jails will reside. Data used by the applications such as databases are stored on discrete storage appliances.
 
+
+Instead of the architecture described above, it would be preferred to use ZFS boot environments.
+
+Similarly, one of the features in the upcoming 12.0 release is PkgBase, where all of the base / kernel files are stored in packages managed by the pkg tool. This will be an improvement over the current management of the base system via freebsd-update. It will also mean that the base system can be streamlined to only include the packages you desire or are necessary on the hardware available. Along with ZFS boot environments, we can produce an immutable image similar to how NanoBSD works.
+
+
+
+
 ### FreeBSD
 FreeBSD was chosen as the operating system due to the benefits of NanoBSD, Jails and ZFS. However, the tools and configurations are platform agnostic, and can be ported to other Unix-like operating systems. 
+
+
+### ZFS Boot Environments
+With a standard zfs on root set up, you have one zpool with all the mount points on a ZFS dataset within the pool. With ZFS boot environments, you have a zpool with one or more ZFS datasets, where each dataset contains the whole kernel+base. The bootfs value of the zpool can be changed between the different ZFS datasets to change which is booted into.
+
+Each boot environment contains all of its packages and configuration. To upgrade a server, you would create a new ZFS BE and apply the updated kernel / base packages to it. Then you could use ZFS send / recv to distribute the ZFS BE to other servers. In this way you only ever need to download the updates once.
+
+Once the BE is created and distributed, you would still need to apply the final configuration with your configuration management tools. It just makes updating the OS and applying security patches much easier.
 
 ### Jails
 
