@@ -236,6 +236,53 @@
 
 			
 
+<h2 id="nginx-unit">NGINX Unit</h2>
+
+<p>NGINX Unit running a django app.</p>
+
+<pre><code>pkg install -y python36 py36-sqlite3 unit py36-unit
+sysrc unitd_enable=&quot;YES&quot;
+service unitd start
+</code></pre>
+
+<p>Unit is controlled by a sockfile, which by default is <code>/var/run/unit/control.unit.sock</code></p>
+
+<p>Get the current running config:</p>
+
+<pre><code>curl --unix-socket /var/run/unit/control.unit.sock http://localhost/config
+</code></pre>
+
+<p>Put a new config in place from a file:</p>
+
+<pre><code>curl -X PUT -d @/home/seagull/mysite/config.json --unix-socket /var/run/unit/control.unit.sock http://127.0.0.1/config
+</code></pre>
+
+<p>The config file:</p>
+
+<pre><code>{
+        &quot;listeners&quot;: {
+                &quot;127.0.0.1:8300&quot;: {
+                        &quot;application&quot;: &quot;mysite&quot;
+                }
+        },
+
+        &quot;applications&quot;: {
+                &quot;mysite&quot;: {
+                        &quot;type&quot;: &quot;python3.6&quot;,
+                        &quot;processes&quot;: 5,
+                        &quot;path&quot;: &quot;/home/seagull/mysite/&quot;,
+                        &quot;home&quot;: &quot;/home/seagull/venv/&quot;,
+                        &quot;module&quot;: &quot;mysite.wsgi&quot;,
+                        &quot;user&quot;: &quot;seagull&quot;,
+                        &quot;group&quot;: &quot;seagull&quot;
+                }
+        },
+
+        &quot;access_log&quot;: &quot;/var/log/unit/access.log&quot;
+}
+
+</code></pre>
+
 <h2 id="odoo-erp-crm">Odoo ERP/CRM</h2>
 
 <p><a href="https://www.odoo.com">Odoo</a> is an open source ERP/CRM solution. It uses Python and PostgreSQL for the backend and simply Less CSS for the frontend.</p>

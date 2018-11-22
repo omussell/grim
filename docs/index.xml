@@ -27,11 +27,12 @@ IPv6 uses a 128-bit address which allows a much larger address space, 2^128. A s
       <pubDate>Wed, 14 Mar 2018 21:47:09 +0000</pubDate>
       
       <guid>/grim/homelab/</guid>
-      <description>Odoo ERP/CRM Odoo is an open source ERP/CRM solution. It uses Python and PostgreSQL for the backend and simply Less CSS for the frontend.
-Download the source code
-git clone https://github.com/odoo/odoo.git --branch 11.0 --depth 1
-Install the dependencies
-pkg install -y git python35 postgresql10-server postgresql10-client #Pillow deps: pkg install -y jpeg-turbo tiff webp lcms2 freetype2 libxslt #LDAP install doesnt work out of the box: pkg install -y openldap-client cp -v /usr/local/include/lber.</description>
+      <description>NGINX Unit NGINX Unit running a django app.
+pkg install -y python36 py36-sqlite3 unit py36-unit sysrc unitd_enable=&amp;quot;YES&amp;quot; service unitd start  Unit is controlled by a sockfile, which by default is /var/run/unit/control.unit.sock
+Get the current running config:
+curl --unix-socket /var/run/unit/control.unit.sock http://localhost/config  Put a new config in place from a file:
+curl -X PUT -d @/home/seagull/mysite/config.json --unix-socket /var/run/unit/control.unit.sock http://127.0.0.1/config  The config file:
+{ &amp;quot;listeners&amp;quot;: { &amp;quot;127.0.0.1:8300&amp;quot;: { &amp;quot;application&amp;quot;: &amp;quot;mysite&amp;quot; } }, &amp;quot;applications&amp;quot;: { &amp;quot;mysite&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;python3.</description>
     </item>
     
     <item>
