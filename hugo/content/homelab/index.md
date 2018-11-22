@@ -5,6 +5,56 @@ date: 2018-03-14T21:47:09Z
 draft: false
 ---
 
+## NGINX Unit
+
+NGINX Unit running a django app. 
+
+```
+pkg install -y python36 py36-sqlite3 unit py36-unit
+sysrc unitd_enable="YES"
+service unitd start
+```
+
+Unit is controlled by a sockfile, which by default is `/var/run/unit/control.unit.sock`
+
+Get the current running config:
+
+```
+curl --unix-socket /var/run/unit/control.unit.sock http://localhost/config
+```
+
+Put a new config in place from a file:
+
+```
+curl -X PUT -d @/home/seagull/mysite/config.json --unix-socket /var/run/unit/control.unit.sock http://127.0.0.1/config
+```
+
+The config file:
+
+```
+{
+        "listeners": {
+                "127.0.0.1:8300": {
+                        "application": "mysite"
+                }
+        },
+
+        "applications": {
+                "mysite": {
+                        "type": "python3.6",
+                        "processes": 5,
+                        "path": "/home/seagull/mysite/",
+                        "home": "/home/seagull/venv/",
+                        "module": "mysite.wsgi",
+                        "user": "seagull",
+                        "group": "seagull"
+                }
+        },
+
+        "access_log": "/var/log/unit/access.log"
+}
+
+```
 
 ## Odoo ERP/CRM
 
