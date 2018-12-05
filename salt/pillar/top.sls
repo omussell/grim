@@ -1,5 +1,6 @@
-base:
-#{{ saltenv }}:
+#base:
+{{ saltenv }}:
   '*':
     - users
     - groups
+    - zfs_jails
