@@ -1,25 +1,25 @@
-/usr/local/jails:
+{{ pillar['zfs_jails_mount'] }}:
   file.directory
 
-tank/template:
+{{ pillar['zfs_jails_template_dataset'] }}:
   zfs.filesystem_present:
     - properties:
-      - mountpoint: /usr/local/jails/template_11_1
+      - mountpoint: {{ pillar['zfs_jails_mount'] }}/{{ pillar['zfs_jails_template_name'] }}
 
-/usr/local/jails/template_11_1:
+{{ pillar['zfs_jails_mount'] }}/{{ pillar['zfs_jails_template_name'] }}:
   archive.extracted:
-    - source: ftp://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/11.1-RELEASE/base.txz
+    - source: {{ pillar['base_ftp_file']
   - skip_verify: True
 
-tank/template@1:
+{{ pillar['zfs_jails_template_dataset'] }}@{{ pillar['zfs_jails_snapshot_name'] }}:
   zfs.snapshot_present
 
 {% for jail, args in pillar['jails_present'].items() %}
 tank/{{ jail }}:
   zfs.filesystem_present:
-    - cloned_from: tank/template@1
+    - cloned_from: {{ pillar['zfs_jails_template_dataset'] }}@{{ pillar['zfs_jails_snapshot_name'] }}
     - properties:
-      - mountpoint: /usr/local/jails/{{ jail }}
+      - mountpoint: {{ pillar['zfs_jails_mount'] }}/{{ jail }}
 
 start_jails:
   module.run:

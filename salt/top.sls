@@ -9,6 +9,6 @@
 #    - states/openntpd
 #    - states/build
 
-develop:
-  '*':
-    - states/daemontools
+#develop:
+#  '*':
+#    - states/daemontools
