@@ -7,7 +7,7 @@ git:
   file.directory:
     - makedirs: True
 
-for each git user, create the user, assign git-shell as login shell and make sure they cannot log in interactively
+#for each git user, create the user, assign git-shell as login shell and make sure they cannot log in interactively
 
 {% for user, args in pillar['users'].items() %}
 user-{{ user }}:
