@@ -1,13 +1,13 @@
 #base:
 {{ saltenv }}:
   '*':
-    - states/examples
-    - states/git
+#    - states/examples
+#    - states/git
     - states/ssh
-    - states/users
-#    - states/groups
-    - states/openntpd
-    - states/build
+#    - states/users
+##    - states/groups
+#    - states/openntpd
+#    - states/build
 
 develop:
   '*':
