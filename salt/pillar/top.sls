@@ -1,5 +1,5 @@
-base:
-#{{ saltenv }}:
+#base:
+{{ saltenv }}:
   '*':
     - users
     - groups
