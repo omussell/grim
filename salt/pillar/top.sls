@@ -3,7 +3,7 @@
   '*':
     - users
     - groups
-    - zfs_jails
+    - zfs_jails/init
 base:
   '*':
     - users
