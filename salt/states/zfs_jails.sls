@@ -1,4 +1,4 @@
-{{ pillar['zfs_jails_mount'] }}:
+{{ pillar['zfs_jails/zfs_jails_mount'] }}:
   file.directory
 
 {{ pillar['zfs_jails_template_dataset'] }}:
