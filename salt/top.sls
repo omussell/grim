@@ -3,7 +3,7 @@
   '*':
 #    - states/examples
 #    - states/git
-    - states/ssh
+#    - states/ssh
     - states/zfs_jails
 #    - states/users
 ##    - states/groups
