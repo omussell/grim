@@ -5,6 +5,37 @@ date: 2018-03-14T21:47:09Z
 draft: false
 ---
 
+## NGINX TCP/UDP proxy
+
+NGINX needs to be compiled with the --with-stream option. It can't be dynamic, which is the default. In the config file you need to add:
+
+```
+load_module /usr/local/libexec/nginx/ngx_stream_module.so;
+```
+
+Then in the config file:
+
+```
+stream {
+
+  server {
+
+    listen 80;
+    proxy_pass 192.168.1.15:80;
+
+  }
+
+  server {
+
+    # Override the default stream type of TCP with UDP
+    listen 53;
+    proxy_pass 192.168.1.15:53 udp;
+
+  }
+
+}
+```
+
 ## NGINX Unit
 
 NGINX Unit running a django app. 

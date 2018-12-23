@@ -27,12 +27,9 @@ IPv6 uses a 128-bit address which allows a much larger address space, 2^128. A s
       <pubDate>Wed, 14 Mar 2018 21:47:09 +0000</pubDate>
       
       <guid>/grim/homelab/</guid>
-      <description>NGINX Unit NGINX Unit running a django app.
-pkg install -y python36 py36-sqlite3 unit py36-unit sysrc unitd_enable=&amp;quot;YES&amp;quot; service unitd start  Unit is controlled by a sockfile, which by default is /var/run/unit/control.unit.sock
-Get the current running config:
-curl --unix-socket /var/run/unit/control.unit.sock http://localhost/config  Put a new config in place from a file:
-curl -X PUT -d @/home/seagull/mysite/config.json --unix-socket /var/run/unit/control.unit.sock http://127.0.0.1/config  The config file:
-{ &amp;quot;listeners&amp;quot;: { &amp;quot;127.0.0.1:8300&amp;quot;: { &amp;quot;application&amp;quot;: &amp;quot;mysite&amp;quot; } }, &amp;quot;applications&amp;quot;: { &amp;quot;mysite&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;python3.</description>
+      <description>NGINX TCP/UDP proxy NGINX needs to be compiled with the &amp;ndash;with-stream option. It can&amp;rsquo;t be dynamic, which is the default. In the config file you need to add:
+load_module /usr/local/libexec/nginx/ngx_stream_module.so;  Then in the config file:
+stream { server { listen 80; proxy_pass 192.168.1.15:80; } server { # Override the default stream type of TCP with UDP listen 53; proxy_pass 192.168.1.15:53 udp; } }  NGINX Unit NGINX Unit running a django app.</description>
     </item>
     
     <item>
