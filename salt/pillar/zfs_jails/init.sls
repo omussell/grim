@@ -1,5 +1,4 @@
-jails_present:
-  - testjail1:
+jails_present: [ 'testjail1' ]
 
 zfs_jails_root: 'tank/jails'
 zfs_jails_mount: '/usr/local/jails'
