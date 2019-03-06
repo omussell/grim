@@ -1,6 +1,5 @@
 jails_present:
   - testjail1:
-    ip: 192.168.1.25
 
 zfs_jails_root: 'tank/jails'
 zfs_jails_mount: '/usr/local/jails'
