@@ -4,7 +4,7 @@
 {{ salt['pillar.get']('zfs_jails_template_dataset') }}:
   zfs.filesystem_present:
     - properties:
-      - mountpoint: {{ salt['pillar.get']('zfs_jails_mount') }}/{{ salt['pillar.get']('zfs_jails_template_name') }}
+      mountpoint: {{ salt['pillar.get']('zfs_jails_mount') }}/{{ salt['pillar.get']('zfs_jails_template_name') }}
 
 {{ salt['pillar.get']('zfs_jails_mount') }}/{{ salt['pillar.get']('zfs_jails_template_name') }}:
   archive.extracted:
