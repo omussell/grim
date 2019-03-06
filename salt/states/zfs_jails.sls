@@ -8,7 +8,7 @@
 
 {{ salt['pillar.get']('zfs_jails_mount') }}/{{ salt['pillar.get']('zfs_jails_template_name') }}:
   archive.extracted:
-    - source: {{ salt['pill.get']('base_ftp_file') }}
+    - source: {{ salt['pillar.get']('base_ftp_file') }}
     - skip_verify: True
 
 {{ salt['pillar.get']('zfs_jails_template_dataset') }}@{{ salt['pillar.get']('zfs_jails_snapshot_name') }}:
