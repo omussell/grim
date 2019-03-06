@@ -14,7 +14,7 @@
 {{ salt['pillar.get']('zfs_jails_template_dataset') }}@{{ salt['pillar.get']('zfs_jails_snapshot_name') }}:
   zfs.snapshot_present
 
-{% for jail, args in salt['pillar.get']('jails_present').items() %}
+{% for jail in salt['pillar.get']('jails_present') %}
 tank/{{ jail }}:
   zfs.filesystem_present:
     - cloned_from: {{ salt['pillar.get']('zfs_jails_template_dataset') }}@{{ salt['pillar.get']('zfs_jails_snapshot_name') }}
