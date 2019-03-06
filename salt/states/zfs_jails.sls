@@ -1,25 +1,25 @@
 {{ salt['pillar.get']('zfs_jails_mount') }}:
   file.directory
 
-{{ pillar['zfs_jails_template_dataset'] }}:
+{{ salt['pillar.get']('zfs_jails_template_dataset') }}:
   zfs.filesystem_present:
     - properties:
-      - mountpoint: {{ pillar['zfs_jails_mount'] }}/{{ pillar['zfs_jails_template_name'] }}
+      - mountpoint: {{ salt['pillar.get']('zfs_jails_mount') }}/{{ salt['pillar.get']('zfs_jails_template_name') }}
 
-{{ pillar['zfs_jails_mount'] }}/{{ pillar['zfs_jails_template_name'] }}:
+{{ salt['pillar.get']('zfs_jails_mount') }}/{{ salt['pillar.get']('zfs_jails_template_name') }}:
   archive.extracted:
-    - source: {{ pillar['base_ftp_file'] }}
+    - source: {{ salt['pill.get']('base_ftp_file') }}
     - skip_verify: True
 
-{{ pillar['zfs_jails_template_dataset'] }}@{{ pillar['zfs_jails_snapshot_name'] }}:
+{{ salt['pillar.get']('zfs_jails_template_dataset') }}@{{ salt['pillar.get']('zfs_jails_snapshot_name') }}:
   zfs.snapshot_present
 
-{% for jail, args in pillar['jails_present'].items() %}
+{% for jail, args in salt['pillar.get']('jails_present').items() %}
 tank/{{ jail }}:
   zfs.filesystem_present:
-    - cloned_from: {{ pillar['zfs_jails_template_dataset'] }}@{{ pillar['zfs_jails_snapshot_name'] }}
+    - cloned_from: {{ salt['pillar.get']('zfs_jails_template_dataset') }}@{{ salt['pillar.get']('zfs_jails_snapshot_name') }}
     - properties:
-      - mountpoint: {{ pillar['zfs_jails_mount'] }}/{{ jail }}
+      - mountpoint: {{ salt['pillar.get']('zfs_jails_mount') }}/{{ jail }}
 
 start_jails:
   module.run:
