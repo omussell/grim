@@ -2,7 +2,7 @@ baseurl = "/grim/"
 languageCode = "en-gb"
 title = "Bootstrapping a Secure Infrastructure"
 publishDir = "../docs"
-theme = "hugo-material-docs"
+#theme = "hugo-material-docs"
 
 [params]
 	# General information
