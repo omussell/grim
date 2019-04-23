@@ -1,9 +1,12 @@
----
-type: index
-title: "Homelab"
-date: 2018-03-14T21:47:09Z
-draft: false
----
+## Massively scalable Web Applications
+
+HTTPS Request -> Hitch <-> Varnish <-> Varnish ESI <-> NGINX <-> NGINX Unit
+
+### TLS Termination - Hitch
+### Caching - Varnish
+### Dynamic Content - Varnish Edge Side Includes
+### Proxying and authentication - NGINX
+### Application server - NGINX Unit
 
 ## NGINX TCP/UDP proxy
 

@@ -1,7 +1,7 @@
 site_name: My Docs
 theme: readthedocs
 nav:
-        - Overview: overview.md
+        - Home: index.md
         - Design: design.md
         - Implementation: implementation.md
         - Homelab: homelab.md

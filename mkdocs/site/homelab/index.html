@@ -50,7 +50,7 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../overview/">Overview</a>
+    <a class="" href="..">Home</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -68,6 +68,23 @@
     <a class="current" href="./">Homelab</a>
     <ul class="subnav">
             
+    <li class="toctree-l2"><a href="#massively-scalable-web-applications">Massively scalable Web Applications</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#tls-termination-hitch">TLS Termination - Hitch</a></li>
+        
+            <li><a class="toctree-l3" href="#caching-varnish">Caching - Varnish</a></li>
+        
+            <li><a class="toctree-l3" href="#dynamic-content-varnish-edge-side-includes">Dynamic Content - Varnish Edge Side Includes</a></li>
+        
+            <li><a class="toctree-l3" href="#proxying-and-authentication-nginx">Proxying and authentication - NGINX</a></li>
+        
+            <li><a class="toctree-l3" href="#application-server-nginx-unit">Application server - NGINX Unit</a></li>
+        
+        </ul>
+    
+
     <li class="toctree-l2"><a href="#nginx-tcpudp-proxy">NGINX TCP/UDP proxy</a></li>
     
 
@@ -213,7 +230,14 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="nginx-tcpudp-proxy">NGINX TCP/UDP proxy</h2>
+                <h2 id="massively-scalable-web-applications">Massively scalable Web Applications</h2>
+<p>HTTPS Request -&gt; Hitch &lt;-&gt; Varnish &lt;-&gt; Varnish ESI &lt;-&gt; NGINX &lt;-&gt; NGINX Unit</p>
+<h3 id="tls-termination-hitch">TLS Termination - Hitch</h3>
+<h3 id="caching-varnish">Caching - Varnish</h3>
+<h3 id="dynamic-content-varnish-edge-side-includes">Dynamic Content - Varnish Edge Side Includes</h3>
+<h3 id="proxying-and-authentication-nginx">Proxying and authentication - NGINX</h3>
+<h3 id="application-server-nginx-unit">Application server - NGINX Unit</h3>
+<h2 id="nginx-tcpudp-proxy">NGINX TCP/UDP proxy</h2>
 <p>NGINX needs to be compiled with the --with-stream option. It can't be dynamic, which is the default. In the config file you need to add:</p>
 <pre><code>load_module /usr/local/libexec/nginx/ngx_stream_module.so;
 </code></pre>
