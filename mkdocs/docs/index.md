@@ -1,9 +1,23 @@
----
-type: index
-title: "Overview"
-date: 2018-03-14T21:47:09Z
-draft: false
----
+Bubo
+Crucible
+Minica service
+Ominous
+DNS service
+
+Boot:
+
+- Create bubo and crucible.
+- these build zfs images of all other services
+- built images are pulled down to the server
+
+DNSSEC is blocked by the root trust anchor generation. Everything seems to be assuming that we're going to use the IANA anchor. How do we generate our own?
+
+Blocked by pkgbase
+Blocked by ZFS BE, depends on ZFS on Linux getting released
+
+
+
+
 
 Create an infrastructure with an emphasis on security, resiliency and ease of maintenance. 
 
@@ -11,9 +25,7 @@ Create an infrastructure with an emphasis on security, resiliency and ease of ma
 
 Produce a working implementation of a secure, resilient and easy to maintain infrastructure. This will be published in the form of version-controlled configuration documents, with the philosophy and background of the chosen configuration documented here. Anyone should be able to download the base operating system, and the configuration documents should convert that base OS into the desired state. 
 
-The documentation on this site is split into two sections, Design and Implementation. The Design documents what the infrastructure *should* look like in high level terms while never actually stating particular tools. The Implementation is a working version that follows the design.
-
-A secondary objective is to allow users to choose which software to use by having each component of the infrastructure being modular and interchangable. So while a particular tool may be used for a given task, the implementation should be seen as guidance only of what can be achieved using the design.
+The documentation on this site is split into two sections, Design and Implementation. The Design documents what the infrastructure should look like in high level terms. The Implementation is a working version that follows the design.
 
 
 ## Background
@@ -28,4 +40,4 @@ Organisations would likely still use the existing internet infrastructure in ord
 
 ## High-Level Design
 
-<img src="/grim/images/secenv.svg">
+<img src="img/secenv.svg">

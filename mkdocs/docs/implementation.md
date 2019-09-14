@@ -4,6 +4,76 @@ title: "Implementation"
 date: 2018-03-14T21:47:09Z
 draft: false
 ---
+### ZFS
+
+- Data integrity using checksums
+- Pooled storage, where all disks added to the pool are available to all filesystems
+- High performance with multiple caching mechanisms
+- Snapshots
+
+A storage pool is a collection of devices that provides physical storage and data replication for ZFS datasets. All datasets within a storage pool share the same space.
+
+**Virtual Device (vdevs)**
+
+A virtual device or vdev is a device or collection of devices organised into groups:
+
+- Disk - A block device, under /dev.
+- File - A regular file
+- Mirror - A mirror of two or more devices. 
+- raidz - Data and parity is striped across all disks within a raidz group.
+- Spare - A special psuedo-vdev which keeps track of available hot spares in a pool.
+- Log - A separate-intent log device.
+- Cache - A device used to cache storage pool data.
+
+ZFS allows devices to be associated with pools as hot spares. These devices are not actively used in the pool, but when an active device fails, it is automatically replaced by a hot spare.
+
+There are zfs datasets in a zfs storage pool:
+
+- File system - Can be mounted within the standard system namespace and behaves like other file systems.
+- Volume - A logical volume exported as a raw or block device.
+- Snapshot - A read-only version of a file system or volume at a given point in time, *filesystem@name* or *volume@name*
+
+Snapshots can be created quickly, and initially do not consume any additional space. As data in the active dataset changes, the snapshot consumes data. Snapshots of volumes can be cloned or rolled back, but cannot be access independently. File system snapshots can be access under the .zfs/snapshot directory in the root of the file system.
+
+A clone is a writable volume or file system whose initial contents are the same as another dataset. Clones can only be created from a snapshot. When a snapshot is cloned, it creates a dependency between the parent and child, and the original cannot be destroyed as long as the clone exists. The clone can be promoted, which then allows the original to be destroyed.
+
+ZFS automatically manages mounting and unmounting file systems without the need to edit the /etc/fstab file. All automatically managed file systems are mounted by ZFS at boot time. 
+
+A zfs dataset can be attached to a jail. A dataset cannot be attached to one jail and the children of the same dataset to other jails. 
+
+### Jails
+
+- A process and all descendants are restricted to a chrooted directory tree
+- Does not rely on virtualisation, so performance penalty is mitigated
+- Easy to update or upgrade individual jails
+
+Jail parameters (jail.conf)
+
+- path - Directory which is the root of the jail
+- vnet - jail has its own virtual network stack with interfaces, addresses, routing table etc. - !! - Is this required to allow applications access to the network?
+- persist - allows a jail to exist without any processes, so it won't be removed when stopped.
+- allow.mount - allow users in jail to mount jail-friendly filesystems. May be required for NFS / home directory mounts?
+- exec.prestart - commands to run in the system environment before a jail is created
+- exec.start - commands to run in the jail environment when a jail is created
+- exec.poststart - commands to run in the system environment after a jail is created, and after any exec.start commands have completed
+- exec.prestop - commands to run in the system environment before a jail is removed
+- exec.stop - commands to run in the jail environment before a jail is removed, and after any exec.prestop commands have completed
+- exec.poststop - commands to run in the system environment after a jail is removed
+- ip_hostname - resolve the host.hostname parameter and add all IP addresses returned by the resolver to the list of addresses for this jail. - !! - Basically, rather than manually setting IP addresses, this setting means the IP is pulled from DNS (which is secured by DNSSEC). This introduces a bootstrap problem though, how do the DNS servers get IP addresses in the first place? (link-local addresses?)
+- mount or mount.fstab - filesystems to mount before creating the jail
+- depend - specify jails that this jail depends on. When this jail is to be created, any jails it depends on must already exist, otherwise they are created automatically up to the completion of the last exec.poststart command.
+ 
+Configuring the jail:
+
+- Setup /etc/resolv.conf so that name resolution works
+- Run newaliases to stop sendmail warnings
+- Set the root password
+- Set the timezone
+- Add accounts for users
+- Install packages
+ 
+- Setup bindings to other services (or get them from SRV records in DNS?)
+- Setup SSH to jail environment, configure sshd_config 
 
 The architecture described in the design is only aimed at the infrastructure setup, not application servers. Each of the services provided can be accessed by other architectures based on different operating systems. So for example, Windows and Linux infrastructures would still be able to query the DNS service without any extra configuration.
 
