@@ -629,6 +629,46 @@ Ciphers chacha20-poly1305@openssh.com
 
 <p>Alternatively the ssh transport can be used which uses the ssh command available on $PATH, which should be used by default.</p>
 
+<h1 id="inferno">Inferno</h1>
+
+<p>Firecracker microVMs + containers:</p>
+
+<ul>
+<li>Host - kernel + alpine base + hardening + jailer</li>
+<li>microVM - kernel + alpine base</li>
+<li>microVM runtime - kernel + alpine base + specific programming language</li>
+<li>microVM container - kernel + alpine base + docker</li>
+</ul>
+
+<p>Networking</p>
+
+<ul>
+<li>SDN - Open vSwitch</li>
+</ul>
+
+<p>Storage</p>
+
+<ul>
+<li>LVM + Ext4</li>
+<li>Minio</li>
+</ul>
+
+<p>Config</p>
+
+<ul>
+<li>Ansible?</li>
+<li>Use SSH</li>
+</ul>
+
+<p>CI/CD</p>
+
+<ul>
+<li>Concourse?</li>
+<li>Buildbot?</li>
+</ul>
+
+<p>Orchestrator like k8s, written in rust. Maybe use similar interface as fargate?</p>
+
 		</div>
 	</article>
 

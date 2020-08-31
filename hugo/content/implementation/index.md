@@ -475,3 +475,35 @@ tests can be run with: `py.test -v testinfra/ssh.py`
 Tests can be run from the salt master and use the salt API for running tests on minions. In this way we are not reliant on services like SSH which we cant guarantee will be working. If the salt connection is also down, either the server is off, removed or is otherwise unresponsive and requires admin intervention. Although it is more likely that you would be alerted to this by the monitoring infrastructure.
 
 Alternatively the ssh transport can be used which uses the ssh command available on $PATH, which should be used by default.
+
+
+Inferno
+===
+
+Firecracker microVMs + containers:
+
+- Host - kernel + alpine base + hardening + jailer
+- microVM - kernel + alpine base
+- microVM runtime - kernel + alpine base + specific programming language
+- microVM container - kernel + alpine base + docker
+
+Networking
+
+- SDN - Open vSwitch
+
+Storage
+
+- LVM + Ext4
+- Minio
+
+Config
+
+- Ansible?
+- Use SSH
+
+CI/CD
+
+- Concourse?
+- Buildbot?
+
+Orchestrator like k8s, written in rust. Maybe use similar interface as fargate?
