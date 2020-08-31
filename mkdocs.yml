@@ -2,6 +2,9 @@ site_name: "GRIM"
 theme:
   name: "material"
 
+docs_dir: 'mkdocs'
+site_dir: 'docs'
+
 nav:
   - Overview: index.md
   - Design: design.md
