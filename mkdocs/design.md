@@ -242,31 +242,31 @@ New DNS record types were added to support DNSSEC:
 
 Resource records of the same type are grouped together into a resource record set or RRset. The RRset is then digitally signed, rather than individual DNS records.
 
-<img src="/grim/images/rrsets.svg">
+<img src="/images/rrsets.svg">
 
 The RRset is digitally signed by the private part of the zone signing key pair (ZSK). The digital signature is then stored in a RRSIG record. This proves that the data in the RRset originates from the zone.
 
-<img src="/grim/images/zsk.svg">
+<img src="/images/zsk.svg">
 
 The signature can be verified by recording the public part of the zone signing key pair in a DNSKEY record. The RRset, RRSIG and DNSKEY (public ZSK) can then be used by a resolver to validate the response from a name server.
 
-<img src="/grim/images/zskverify.svg">
+<img src="/images/zskverify.svg">
 
 The DNSKEY records containing the public zone signing keys are then organised into a RRset, and signed by the Key Signing Key (KSK), which is stored in a DNSKEY record as well. This creates a RRSIG for the DNSKEY RRset.
 
-<img src="/grim/images/ksk.svg">
+<img src="/images/ksk.svg">
 
 The private key signing key signs a zone signing key which in turn will sign other zone data. The public key signing key is also signed by the private key signing key. The public KSK can then be used to validate the public ZSK.
 
-<img src="/grim/images/kskverify.svg">
+<img src="/images/kskverify.svg">
 
 The DS RRset resides at a delegation point in a parent zone and indicates the public keys corresponding to the private keys used to self-sign the DNSKEY RRset at the delegated child zones apex. The public KSK in the child zone is hashed and stored in a DS record in the parent zone.
 
-<img src="/grim/images/ds.svg">
+<img src="/images/ds.svg">
 
 Each time the child zone changes its KSK, the new public KSK needs to be transmitted to the parent zone in order to be stored in its DS record. In most cases this is a manual process, however, this can be mitigated by used CDS/CDNSKEY records. A CDS/CDNSKEY record contains the new information that the child zone would like to be published in the parent zone. These records only exist when the child zone wishes for the DS record in the parent zone to be changed. The parent zone should periodically check the child zone for the existence of CDS/CDNSKEY records, or can be prompted to do so.
 
-<img src="/grim/images/cds.svg">
+<img src="/images/cds.svg">
 
 The above steps produce a trusted zone that connects to its parent, but the DS record in the parent zone also needs to be trusted. The signing process is repeated for the DS records in the DS RRset, and the process repeats up the parent zones in a chain up to the root zone. 
 
@@ -275,7 +275,7 @@ There are now two scenarios:
 - For public DNS servers, you are reliant on the trust given to the root zone owners that they have signed the root zone correctly and stored the private root signing key securely.
 - For internal-only domains, the island of security approach means that the signed zone does not have an authentication chain to its parent.
 
-<img src="/grim/images/chain.svg">
+<img src="/images/chain.svg">
 
 ### DANE
 DNS-Based Authentication of Named Entities or [DANE] allows certificates, used by TLS, to be bound to DNS names using DNSSEC. DANE allows you to authenticate the association of the server's certificate with the domain name without trusting an external certificate authority. Given that the DNS administrator is authoritative for the zone, it makes sense to allow the administrator to also be authoritative for the binding between the domain name and a certificate. This is done with DNS, and the security of the information is verified with DNSSEC.
