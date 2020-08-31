@@ -1,7 +1,0 @@
-HostKey /etc/ssh/ssh_host_ed25519_key
-KexAlgorithms curve25519-sha256@libssh.org
-Ciphers chacha20-poly1305@openssh.com
-AuthenticationMethods publickey
-LogLevel VERBOSE
-PermitRootLogin No
-UsePrivilegeSeparation sandbox

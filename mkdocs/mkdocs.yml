@@ -1,7 +1,0 @@
-site_name: GRIM
-theme: readthedocs
-nav:
-        - Home: index.md
-        - Design: design.md
-        - Implementation: implementation.md
-        - Homelab: homelab.md

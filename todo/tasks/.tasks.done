@@ -1,5 +1,0 @@
-Create salt state for bringing up a salt master | id:01a2ba03c8653909a6ae483ece41879400bfdad6
-Initial commit | id:4a35387be739933f7c9e6486959ec1affb2c1648
-Create tests for SSHD server | id:beb695bd581dba59daf3cddd303380513a289b02
-b | id:e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98
-Create SSH client and server config state | id:f70ee305ef6fd7b11d71e413ed949dbee7c4d721

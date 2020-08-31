@@ -1,0 +1,15 @@
+site_name: "GRIM"
+theme:
+  name: "material"
+
+nav:
+  - Overview: index.md
+  - Design: design.md
+  - Implementation: implementation.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - toc:
+      permalink: True
