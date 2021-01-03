@@ -1,10 +1,4 @@
----
-type: index
-title: "Overview"
-date: 2018-03-14T21:47:09Z
-draft: false
----
-
+# Overview
 Create an infrastructure with an emphasis on security, resiliency and ease of maintenance. 
 
 ## End Goal
