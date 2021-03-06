@@ -1,6 +1,7 @@
 # Summary
 
-- [Overview](./overview.md)
-- [Design](./design.md)
-- [Implementation](./implementation.md)
+- [Overview](overview/README.md)
+- [Design](design/README.md)
+    - [IPv6](design/ipv6.md)
+- [Implementation](implementation/README.md)
 

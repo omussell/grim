@@ -1,0 +1,10 @@
+base_url = "https://omussell.github.io/grim"
+theme = "olla"
+
+compile_sass = false
+build_search_index = false
+
+[markdown]
+highlight_code = false
+
+[extra]

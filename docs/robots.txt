@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://omussell.github.io/grim/sitemap.xml
