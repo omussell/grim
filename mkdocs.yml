@@ -1,0 +1,22 @@
+site_name: "GRIM"
+theme:
+  name: "material"
+  font: false
+  palette:
+    primary: grey
+    accent: blue
+  icon:
+    logo: material/weather-lightning
+  favicon: images/leaf.svg
+  features:
+    - navigation.instant
+
+nav:
+    - Home: index.md
+
+plugins:
+  - mkdocstrings
+
+markdown_extensions:
+  - toc:
+      permalink: True
