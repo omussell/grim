@@ -48,4 +48,4 @@ metrics and monitoring
 grafana+loki+cortex+tempo
 
 vaultwarden for password management
-netbox for IPACreate an infrastructure with an emphasis on security, resiliency and ease of maintenance. 
+netbox for IPAM
