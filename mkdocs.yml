@@ -13,6 +13,7 @@ theme:
 
 nav:
     - Home: index.md
+    - Design: design.md
 
 plugins:
   - mkdocstrings
