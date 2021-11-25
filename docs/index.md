@@ -1,9 +1,3 @@
-Read about how fly.io is setup. Thats basically what GRIM wants to be.
-
-
-
-
-
 # GRIM
 
 Create an infrastructure with an emphasis on security, resiliency and ease of maintenance. 
@@ -19,9 +13,7 @@ A secondary objective is to allow users to choose which software to use by havin
 
 ## Background
 
-The intent is for the infrastructure to work regardless of participating in the wider internet. The design is aimed at organisations that have strict security and uptime requirements (government/critical physical infrastructure), although there is nothing preventing other organisations from adopting this design and/or changing it to suit them.
-
-Organisations would likely still use the existing internet infrastructure in order to connect between their sites, however, there is the option to not be dependent on the third-party PKI and DNS systems. By removing the dependencies between organisations, there is greater decentralisation which allows more freedom. 
+The intent is for the infrastructure to work well even without administrator intervention. The design is aimed at organisations that have strict security and uptime requirements (government/critical physical infrastructure), although there is nothing preventing other organisations from adopting this design and/or changing it to suit them.
 
 [infrastructures.org]: http://www.infrastructures.org
 [Bootstrapping an Infrastructure]: http://www.infrastructures.org/papers/bootstrap/bootstrap.html
