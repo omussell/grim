@@ -7,7 +7,7 @@ theme:
     accent: blue
   icon:
     logo: material/weather-lightning
-  favicon: images/leaf.svg
+  favicon: images/weather-lightning.svg
   features:
     - navigation.instant
 

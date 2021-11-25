@@ -1,3 +1,9 @@
+Read about how fly.io is setup. Thats basically what GRIM wants to be.
+
+
+
+
+
 # GRIM
 
 Create an infrastructure with an emphasis on security, resiliency and ease of maintenance. 

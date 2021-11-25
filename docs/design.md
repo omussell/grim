@@ -1,48 +1,109 @@
-cloud is great, but way overcomplicated and very expensive
-some infras just dont make sense being put in the cloud
-have to retrain all your staff all over again. everything they've learned over the past 2 decades is now irrelevant. New hires are expensive and hard to find.
-openstack is the closest on premises competitor. Its also very complicated and hard to set up.
-Some cloud services like heroku offer to take away the complexity, but again at higher cost.
-Small cloud services like deta which serve a small niche are a good idea, but again, high cost.
-
-kubernetes is great, but complicated, hard to do right, and YAML
+- Do proof of concept first by manually setting all this stuff and running through it all.
+- Do multipass on Gen10
 
 
 
 
 
 
-dont want to care about networking, dumb COTS switches. IPv4
 
-alpine linux for simplicity. can just use ubuntu/debian or any other well supported linux distro.
-
-
-compute nodes and storage nodes
-just regular servers. compute has lots of cpu+ram. storage has lots of drive storage.
-
-Central to all these nodes is the control node, which runs the grim app. it provides a web interface for managing the infra.
-When ad hoc commands are needed, the control node just ssh's to the node via fabric.
-Likewise if alpine updates are needed, just ssh and apply them.
-Can be one control node per env, or one for all envs.
+- cloud is great, but way overcomplicated and very expensive
+- some infras just dont make sense being put in the cloud
+- have to retrain all your staff all over again. everything they've learned over the past 2 decades is now irrelevant. New hires are expensive and hard to find.
+- openstack is the closest on premises competitor. Its also very complicated and hard to set up.
+- Some cloud services like heroku offer to take away the complexity, but again at higher cost.
+- Small cloud services like deta which serve a small niche are a good idea, but again, high cost.
+- kubernetes is great, but complicated, hard to do right, and YAML
+- dont want to care about networking, dumb COTS switches. IPv4
 
 
-storage nodes just pool the drives together into zpools. leave it up to the user to decide how.
-storage nodes are running something like seaweedfs to provide object storage and networked file storage.
+- compute nodes and storage nodes
+- just regular servers. compute has lots of cpu+ram. storage has lots of drive storage.
+- storage nodes just pool the drives together into zpools. leave it up to the user to decide how.
+
+
+- metrics and monitoring
+- grafana+loki+cortex+tempo
+- vaultwarden for password management
+- gitea for git repos
 
 
 
-kaniko for container building
-tekton for CI/CD
+# GRIM
+- Using Kubernetes on GCP+Azure at work, I keep running into common problems. Its difficult for app teams to run their apps locally. 
+- Its a lot of effort to get apps converted into Docker and getting them running locally, in CI for testing, and then deployed for production use. We need 3 different types of configuration which are very different from each other.
+- Its hard to take legacy apps and get them running on K8s and Docker. They keep getting shoehorned onto k8s.
+- Its difficult for us to scale the apps because its hard to monitor them.
 
-tanka for managing k8s resources
-can link to helm charts so dont need to reinvent wheel
+- Likewise Kubernetes only works for stateless apps. If you need any other software like redis, postgres, mysql etc you need to pay for a managed service because they wont work well on Kubernetes and its obviously so very difficult to run yourself.
 
-running k3s on each node
-storage nodes run k3s with seaweedsfs
+- Kubernetes itself is also so hard to manage that you are strongly recommended to use a managed/hosted version. You would be considered foolish to run a cluster yourself. So why are we using this crappy software again?
+
+- We are wholly dependent on these cloud services to manage this stuff, under the pretence that it is a lot of effort for us to manage. 
+- However, I reckon thats bullshit. Spinning up VMs on the cloud is very easy and they arent that hard to manage. Patching and updates etc, HA is a solved problem. They just need puppet modules writing, then everyone in the world can work the same way.
+
+- We keep running into problems with creating Terraform code, because we're creating so many resources for all sorts of different things. 
+- The Terraform HCL is a shit language which is just getting more and more stuff bolted on. Puppet can already do everything terraform providers do and more. Terraform can be kept simple, create X VMs with these different names.
+
+- Everyone seems to be obsessed with scale. Our apps are going to be used by thousands of people, and at the minute with our K8s apps we are struggling. We have stuff running on FreeBSD on VMs which is handling way more load with way less resources. If we were using Linux instead we would probably get even better performance.
+
+ 
+
+- Puppet for config management, app config and secrets
+- Puppet master helper services written in Go
+- Fabric (or Go tool called Fabric) for imperative management
+- Clear demarcation between what goes into Puppet, and what goes into Fabric.
+- BUBO (BU), build service for building app artifacts/packages, distributing them with SSH
+- BUBO2 (BO)/ automation engine, automation for doing regular tasks, but guided by humans. Like if new patches are released, BUBO2 has a page
+- to select groups of VMs and start rolling patching servers. Everything it does should be done via Fabric, so that either BUBO2 can do it, or a human can do it too.
+- Monitoring with Prometheus
+- Load balancer with NGINX. Configured with Puppet. Just a bunch of VMs, running NGINX, which proxy requests to the backends.
+- VMs created in cloud provider using Terraform. VMs should be regular standalone VMs, not in a Managed Instance Group, ScaleSet or other magic autoscaling group.
+- VMs arranged into different groups. So if I want to patch CMS prod app servers, its just changing some flags. If I want to instead patch everything in X prod, its the same with just flags. Fabric should respect certain groupings. Like if patching X prod, it should split varnish group, app group, db group etc so HA is maintained.
+- GOSS for infra testing, rather than serverspec
+- Puppet profiles for standalone PGSQL, Redis, RabbitMQ etc.
+- Puppet profiles for PGSQL with replication, Redis with Sentinel and HAProxy, RabbitMQ cluster, 
+- Fabric scripts for upgrading PGSQL, Redis, RabbitMQ without downtime.
+- PGSQL backup scripts
+- Can have container hosts which run firecracker VMs, and normal hosts where the app uses the whole VM and configured with Puppet
+- Stuff that is mainly machine driven, like autosigning and API stuff, should be in Go. If humans are touching it a lot, like Fabric, then it should be in Python since its easier to write.
+- Metadata server which runs NTP and DNS. Internal services can query this metadata server to get DNS info about other internal services
 
 
-metrics and monitoring
-grafana+loki+cortex+tempo
+- Works across many different OSes
+- Works for all software
+- Mature, battle tested for a decade
+- Easy to understand DSL
+- Can include secrets
 
-vaultwarden for password management
-gitea for git repos
+ 
+
+- Dont store stuff in puppet-control which shouldnt be, like which containers are running. That should be handled by Fabric exclusively.
+- Firecracker instead of LXD or chroot. Can firecracker only use alpine base? LXC without LXD? LXD needs snap, but can I just compile it myself? Otherwise, what about plain old systemd-nspawn and do it like jails?
+- Should include ability to run Docker containers on app hosts
+- Fabric could use PuppetDB for inventory
+- BUBO workers should be long running firecracker VMs configured with puppet and controlled via fabric
+- Dont run Puppet agent as a service. Only run it when the human wants to. The VMs should never change unless a human invokes changes to happen.
+
+
+- Jails on FreeBSD fit the problem perfectly, but pain in the arse. Need Linux equivalent.
+- Firecracker for containers. Dont need nomad or k8s or other orchestrator. Just let the human use Puppet+Fabric to decide. Set X VMs as the container hosts for X app. Run Fabric, it only deploys X app on X VMs. Easy.
+
+- Deploy process:
+    - bubo does build
+    - fabric connect to X container hosts, create new firecracker VM
+    - fabric connect into firecracker VMs, run puppet which downloads bubo built files, starts app under s6/supervisor/systemd
+    - fabric connects to X container hosts, reconfigure NGINX to point at new VMs
+    - update internal DNS on metdata server
+
+
+- Maybe have Hiera for Apps, DBs, Containers, Local
+
+ 
+
+- Sysadmins can spend less time hand holding developers and more time managing the infrastructure. The idea that with K8s you dont need Ops is ridiculous. Now you need Ops with even more experience who are even more expensive.
+- Local dev can work in the same way that you thought about with Skaffold. A VM with a ingress+certs set up already, then if you need different services like databases etc, you just cd into each folder which then sets up each service.
+
+ 
+
+
