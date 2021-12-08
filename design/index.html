@@ -311,6 +311,7 @@
 <p>The HPA only works on two metrics out of the box: CPU used, and packets per second. Most applications will lock up before ever hitting a certain CPU threshold. Likewise, who came up with packets per second as a metric? How many packets are in a HTTP request? Depends on the request. Why not requests per second? </p>
 <p>If you cant use either of those metrics, you are forced to have a custom metric.</p>
 <h1 id="possible-solutions">Possible solutions<a class="headerlink" href="#possible-solutions" title="Permanent link">&para;</a></h1>
+<h2 id="traditional-route">Traditional route<a class="headerlink" href="#traditional-route" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Puppet for config management, app config and secrets</li>
 <li>Puppet master helper services written in Go</li>
@@ -358,6 +359,36 @@
     - fabric connect into firecracker VMs, run puppet which downloads bubo built files, starts app under s6/supervisor/systemd
     - fabric connects to X container hosts, reconfigure NGINX to point at new VMs
     - update internal DNS on metdata server</p>
+<h2 id="firecracker-route">Firecracker route<a class="headerlink" href="#firecracker-route" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Alpine host, firecracker running Alpine VMs. Simpler than fly.io, similar to Fargate. Give it a config file / task definition, it figures out how and where to deploy it. Metrics and monitoring are baked in.</p>
+</li>
+<li>
+<p>The firecracker VMs can run one or more docker containers. Your task definition just says which docker images to use.</p>
+</li>
+<li>
+<p>Want to use Postgres, Redis or Rabbit, then just use those images.</p>
+</li>
+<li>
+<p>Need to look into secrets management</p>
+</li>
+<li>
+<p>Ansible for provisioning the hosts</p>
+</li>
+<li>
+<p>Managed by Go app, web interface for humans. Keeps track of which VM hosts are available. It handles deployments.</p>
+</li>
+<li>
+<p>Dont be like k8s with magical autoscaling. Hae it show how much CPU/RAM/Disk is available. Group hosts together for hosts with similar properties. Small number with low CPU/RAM, small number with high CPU/RAM, large number with low CPU etc. Then you can let the humans decide which Group they want the VMs to be running on. It figures out if there is capacity and distributes across nodes, and if over provisioned, warns but lets you do it if you want. </p>
+</li>
+<li>
+<p>Storage for VMs, dont use ZFS because it has its own problems. Look at Ext4 with LVM per VM.</p>
+</li>
+<li>
+<p>Networking and routing, Go app runs metadata service too, so VMs can query it via DNS and find other VMs. Firewall rules etc. needs figuring out.</p>
+</li>
+</ul>
 <h1 id="end-result">End result<a class="headerlink" href="#end-result" title="Permanent link">&para;</a></h1>
 <ul>
 <li>Sysadmins can spend less time hand holding developers and more time managing the infrastructure. The idea that with K8s you dont need Ops is ridiculous. Now you need Ops with even more experience who are even more expensive.</li>
