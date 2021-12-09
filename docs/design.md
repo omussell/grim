@@ -119,6 +119,8 @@ Deploy process:
 
 - Alpine host, firecracker running Alpine VMs. Simpler than fly.io, similar to Fargate. Give it a config file / task definition, it figures out how and where to deploy it. Metrics and monitoring are baked in.
 
+- Or ubuntu host and VMs, depends how it goes.
+
 - The firecracker VMs can run one or more docker containers. Your task definition just says which docker images to use.
 
 - Want to use Postgres, Redis or Rabbit, then just use those images.
@@ -129,11 +131,20 @@ Deploy process:
 
 - Managed by Go app, web interface for humans. Keeps track of which VM hosts are available. It handles deployments.
 
-- Dont be like k8s with magical autoscaling. Hae it show how much CPU/RAM/Disk is available. Group hosts together for hosts with similar properties. Small number with low CPU/RAM, small number with high CPU/RAM, large number with low CPU etc. Then you can let the humans decide which Group they want the VMs to be running on. It figures out if there is capacity and distributes across nodes, and if over provisioned, warns but lets you do it if you want. 
+- Dont be like k8s with magical autoscaling. Have it show how much CPU/RAM/Disk is available. Group hosts together for hosts with similar properties. Small number with low CPU/RAM, small number with high CPU/RAM, large number with low CPU etc. Then you can let the humans decide which Group they want the VMs to be running on. It figures out if there is capacity and distributes across nodes, and if over provisioned, warns but lets you do it if you want. 
 
 - Storage for VMs, dont use ZFS because it has its own problems. Look at Ext4 with LVM per VM.
 
 - Networking and routing, Go app runs metadata service too, so VMs can query it via DNS and find other VMs. Firewall rules etc. needs figuring out.
+
+I've got the basic firecracker setup figured out. Need to figure out how to get the jailer working. 
+
+Once jailer is working, you should have all the commands required to start/stop microVMs. Then need to figure out:
+
+- Running docker containers inside the VMs
+- Networking
+- Storage
+
 # End result
 
 - Sysadmins can spend less time hand holding developers and more time managing the infrastructure. The idea that with K8s you dont need Ops is ridiculous. Now you need Ops with even more experience who are even more expensive.
