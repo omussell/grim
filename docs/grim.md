@@ -30,3 +30,19 @@ Maybe a combination of both approaches. We use puppet etc. to manage the actual 
 Maybe running containers could just be with containerd. Would need to be able to pass env vars and mount storage devices.
 
 Could use this: https://github.com/firecracker-microvm/firecracker-containerd on the host. Just need to coordinate getting the images etc. to this daemon
+
+DBs would run in different ways:
+
+- Inside microVMs
+- 1 DB for 1 host
+
+Then different types:
+
+- Sqlite standalone
+- Sqlite with Litestream
+- Postgresql standalone
+- Postgresql with HA
+
+Wireguard for inter-host traffic where required for e.g. DB replication. Management layer done with SSH. SSHFP records pulled from the host via puppet and updated on some other system so that DNS can be updated. Then when management box connects to hosts it can use DNS for host validation.
+
+Install fluent bit and maybe other monitoring plugins within the microVM.
