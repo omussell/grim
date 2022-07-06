@@ -106,6 +106,11 @@ Uncertain:
 - Fabric could use PuppetDB for inventory
 - BUBO workers could be long running firecracker VMs configured with puppet and controlled via fabric
 - Dont run Puppet agent as a service. Only run it when the human wants to. The VMs should never change unless a human invokes changes to happen.
+- Ubuntu as host isnt the most preferred, because its quite messy. Alpine is preferred but has many limitations.
+- Metadata server needs to have internal DNS and maybe a way of authenticating host identities (SSH host keys / SSHFP?)
+
+- Ansible instead of Puppet+Fabric? 
+- Maybe have bubo create full fledged uVM instead of just parts? 
 
 
 Deploy process:
@@ -133,7 +138,7 @@ Deploy process:
 
 - Dont be like k8s with magical autoscaling. Have it show how much CPU/RAM/Disk is available. Group hosts together for hosts with similar properties. Small number with low CPU/RAM, small number with high CPU/RAM, large number with low CPU etc. Then you can let the humans decide which Group they want the VMs to be running on. It figures out if there is capacity and distributes across nodes, and if over provisioned, warns but lets you do it if you want. 
 
-- Storage for VMs, dont use ZFS because it has its own problems. Look at Ext4 with LVM per VM.
+- Storage for VMs, ZFS has its own problems. Look at Ext4 with LVM per VM. ZFS works well but can be annoying with memory and having to mess about with kernel params. LVM is also a mess about.
 
 - Networking and routing, Go app runs metadata service too, so VMs can query it via DNS and find other VMs. Firewall rules etc. needs figuring out.
 
@@ -141,7 +146,7 @@ I've got the basic firecracker setup figured out. Need to figure out how to get 
 
 Once jailer is working, you should have all the commands required to start/stop microVMs. Then need to figure out:
 
-- Running docker containers inside the VMs
+- Running ansible inside the uVM
 - Networking
 - Storage
 
