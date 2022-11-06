@@ -1,3 +1,3 @@
 - Get alpine uVM creation figured out
 - Figure out how to run uVM's using the jailer
-- Create Python script for creating and removing uVM's by interacting with the socket API and creating the necessary files. Want this working with the jailer.
+- Figure out creating and removing uVM's by interacting with the socket API and creating the necessary files. Want this working with the jailer.

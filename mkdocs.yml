@@ -16,9 +16,6 @@ nav:
     - Design: design.md
     - GRIM: grim.md
 
-plugins:
-  - mkdocstrings
-
 markdown_extensions:
   - toc:
       permalink: True
