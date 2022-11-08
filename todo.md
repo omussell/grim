@@ -1,3 +1,4 @@
-- Get alpine uVM creation figured out
+- Document steps to start a uVM
+- Document steps to stop a uVM
 - Figure out how to run uVM's using the jailer
-- Figure out creating and removing uVM's by interacting with the socket API and creating the necessary files. Want this working with the jailer.
+- Figure out creating and removing uVM's by interacting with the socket API, creating the necessary files and working with the jailer.
