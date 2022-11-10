@@ -96,3 +96,77 @@ https://github.com/firecracker-microvm/firecracker/blob/main/docs/network-setup.
 
 On host, need to create tap interface for each microvm then set up NAT using iptables. Could/should we use nftables?
 https://github.com/google/nftables
+
+
+
+
+
+
+
+
+The created /srv/jailer/firecracker/$UUID/root directory is the chroot dir, not roots home directory. So the kernel and rootfs files need to be copied into there, and referred to like current directory "./vmlinux.bin" etc.
+
+curl --unix-socket /srv/jailer/firecracker/551e7604-e35c-42b3-b825-416853441234/root/run/firecracker.socket -i \
+  -X PUT 'http://localhost/boot-source'   \
+  -H 'Accept: application/json'           \
+  -H 'Content-Type: application/json'     \
+  -d "{
+        \"kernel_image_path\": \"./vmlinux.bin\",
+        \"boot_args\": \"console=ttyS0 reboot=k panic=1 pci=off\"
+   }"
+
+set the rootfs
+
+curl --unix-socket /srv/jailer/firecracker/551e7604-e35c-42b3-b825-416853441234/root/run/firecracker.socket -i \
+  -X PUT 'http://localhost/drives/rootfs' \
+  -H 'Accept: application/json'           \
+  -H 'Content-Type: application/json'     \
+  -d "{
+        \"drive_id\": \"rootfs\",
+        \"path_on_host\": \"./rootfs.ext4\",
+        \"is_root_device\": true,
+        \"is_read_only\": false
+   }"
+
+start the vm
+
+curl --unix-socket /srv/jailer/firecracker/551e7604-e35c-42b3-b825-416853441234/root/run/firecracker.socket -i \
+  -X PUT 'http://localhost/actions'       \
+  -H  'Accept: application/json'          \
+  -H  'Content-Type: application/json'    \
+  -d '{
+      "action_type": "InstanceStart"
+   }'
+
+stop the vm
+
+curl --unix-socket /srv/jailer/firecracker/551e7604-e35c-42b3-b825-416853441234/root/run/firecracker.socket -i \
+  -X PUT 'http://localhost/actions'       \
+  -H  'Accept: application/json'          \
+  -H  'Content-Type: application/json'    \
+  -d '{
+      "action_type": "SendCtrlAltDel"
+   }'
+
+Sending ctrl+alt+del will trigger restart/reboot, which kills the VM. Also kills the jailer process. But doesnt clean up after itself.
+
+get status
+
+curl --unix-socket /srv/jailer/firecracker/551e7604-e35c-42b3-b825-416853441234/root/run/firecracker.socket -i \
+  -X GET 'http://localhost/'       \
+  -H  'Accept: application/json'          \
+  -H  'Content-Type: application/json'    
+
+get config
+
+curl --unix-socket /tmp/firecracker.socket -i \
+  -X GET 'http://localhost/vm/config' \
+  -H  'Accept: application/json' \
+  -H  'Content-Type: application/json'
+
+
+Networking setup
+https://github.com/firecracker-microvm/firecracker/blob/main/docs/network-setup.md
+
+On host, need to create tap interface for each microvm then set up NAT using iptables. Could/should we use nftables?
+https://github.com/google/nftables

@@ -1,7 +1,8 @@
-/usr/bin/jailer --id 551e7604-e35c-42b3-b825-416853441234
---cgroup cpuset.mems=0 --cgroup cpuset.cpus=$(cat /sys/devices/system/node/node0/cpulist)
---exec-file /usr/bin/firecracker --uid 123 --gid 100 \
---netns /var/run/netns/my_netns --daemonize
+/usr/bin/jailer --id 551e7604-e35c-42b3-b825-416853441234 --cgroup cpuset.mems=0 --cgroup cpuset.cpus=$(cat /sys/devices/system/node/node0/cpulist) --exec-file /usr/bin/firecracker --uid 123 --gid 100 --netns /var/run/netns/my_netns --daemonize
+
+/usr/bin/jailer --id 551e7604-e35c-42b3-b825-416853441234 --cgroup cpuset.mems=0 --cgroup cpuset.cpus=$(cat /sys/devices/system/node/node0/cpulist) --exec-file /usr/bin/firecracker --uid 1001 --gid 1111 --netns /var/run/netns/my_netns --daemonize
+
+/usr/bin/jailer --id 551e7604 --exec-file /usr/bin/firecracker --daemonize
 
 Defaults to /srv/jailer for storing chroots
 Firecracker bin gets copied to /srv/jailer/firecracker/551e7604-e35c-42b3-b825-416853441234/root/firecracker
