@@ -39,6 +39,8 @@ Then after running the following firecracker commands, the VM starts, albeit wit
 
 firecracker --api-sock /tmp/firecracker.socket
 
+NOTE: This is setting the config by curling the API socket, you can alternatively pass a config.json file to the firecracker binary.
+
 set the guest kernel
 
 kernel_path=$(pwd)"/vmlinux.bin"
