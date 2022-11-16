@@ -15,6 +15,7 @@ curl -fsSL -o $dest_kernel $kernel
 
 But replace kernel with 5.10:
 https://s3.amazonaws.com/spec.ccfc.min/ci-artifacts/kernels/x86_64/vmlinux-5.10.bin
+need to better understand/document how this kernel file is created. Their CI builds it so it must be in the CI config.
 
 and follow steps here to get an alpine rootfs
 https://github.com/firecracker-microvm/firecracker/blob/main/docs/rootfs-and-kernel-setup.md
@@ -100,6 +101,9 @@ On host, need to create tap interface for each microvm then set up NAT using ipt
 https://github.com/google/nftables
 
 
+Do we need to use the MMDS service? Can be used for passing basic metadata to the uvm.
+https://github.com/firecracker-microvm/firecracker/blob/main/docs/mmds/mmds-user-guide.md
+
 
 
 
@@ -129,6 +133,17 @@ curl --unix-socket /srv/jailer/firecracker/551e7604-e35c-42b3-b825-416853441234/
         \"is_root_device\": true,
         \"is_read_only\": false
    }"
+
+NOT WORKING YET
+Add tap interface into uvm
+curl --unix-socket /srv/jailer/firecracker/551e7604-e35c-42b3-b825-416853441234/root/run/firecracker.socket -i \
+  -X PUT 'http://localhost/network-interfaces/eth0' \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "iface_id": "eth0",
+      "host_dev_name": "tap0"
+    }'
 
 start the vm
 

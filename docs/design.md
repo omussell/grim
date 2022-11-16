@@ -1,5 +1,10 @@
 - Do proof of concept first by manually setting all this stuff and running through it all.
-- Do multipass on Gen10
+
+
+
+The current basic firecracker config lets me create a new jailed uvm and with a working network interface. But I cant get inside the uvm. If we can build the filesystem externally like doing a docker image build, and then transfer it to the machine and run it, is that what we want? Or do we want them to be provisioned on each machine independently?
+
+Maybe have it be barebones configured to run SSHD on start, and have a way of injecting an SSH key, maybe have grim-uvm do that on boot. This could be the initial version, and then its conducive to prog lang specific runtimes. So it is specific to python, and we provide the python code to run from a zip file.
 
 
 
